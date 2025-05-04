@@ -7,14 +7,14 @@ public class RegistroDeColecciones {
 
   private static List<Coleccion> coleccionesDisponibles = new ArrayList<>();
 
-  private static List<Coleccion> coleccionesNodisponibles = new ArrayList<>();
+  private static List<Hecho> hechosNodisponibles = new ArrayList<>();
 
   public static List<Coleccion> getColeccionesDisponibles() {
     return new ArrayList<>(coleccionesDisponibles);  // Devuelves una copia de la lista
   }
 
-  public static List<Coleccion> getColeccionesNodisponibles() {
-    return new ArrayList<>(coleccionesNodisponibles);  // Devuelves una copia de la lista
+  public static List<Hecho> getHechosNodisponibles() {
+    return new ArrayList<>(hechosNodisponibles);  // Devuelves una copia de la lista
   }
 
   public static void agregarColeccion(Coleccion unaColeccicon) {
