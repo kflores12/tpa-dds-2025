@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.dominio;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Administrador {
+public class Administrador extends Visualizador {
 
   //private List<SolicitudDeEliminacion> solicitudesPrndientes;
 

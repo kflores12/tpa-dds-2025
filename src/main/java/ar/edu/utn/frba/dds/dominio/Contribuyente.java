@@ -4,6 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Contribuyente {
+public abstract class Contribuyente extends Visualizador {
 
 }

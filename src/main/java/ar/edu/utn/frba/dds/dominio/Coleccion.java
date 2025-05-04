@@ -2,8 +2,10 @@ package ar.edu.utn.frba.dds.dominio;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Coleccion {
   private String titulo;
@@ -38,6 +40,13 @@ public class Coleccion {
   public String getFuente() {
     return fuente;
   }
+
+  public List<Hecho> visualizarHechos(Filtro filtro) {
+    return listaHechos.stream().filter(hecho -> (filtro.aplicarFiltro(hecho))).collect(Collectors.toList());
+  }
+
+
+
   /*
   public List<Hecho> getListaHechos() {
     return listaHechos;

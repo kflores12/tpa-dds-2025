@@ -1,13 +1,12 @@
 package ar.edu.utn.frba.dds.dominio;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-
 public class Visualizador {
 
-  public void visualizarHecho() {
-   //deberiamos pensar como los busca y los filtra
+  // hechosExtraidos = new manejoDeHechos();
+
+  public List<Hecho> visualizarHechos(Filtro filtro, Coleccion coleccion) {
+   return coleccion.visualizarHechos(filtro);
   }
 
   //suponemos que uno visualizador no va a filtrar por tipo de fuente de carga
@@ -33,8 +32,22 @@ public class Visualizador {
 
     // lo mismo para todos los otros filtros
 
-
   }
    */
-
 }
+
+//Visualizador (Poder obtener los hechos y filtrarlos.)
+//Los Filtros.
+//Como hacer que cada uno visualice.
+
+//Como modelamos las Categorias (Strings Admin).
+//Solicitud de eliminacion del contribuyente y Administrador
+
+
+//Colleccion "De hechos no visible"
+
+
+
+
+//Interfaz con los metodos para navegar hechos y solicitar la eliminacion de un hecho(esta serviria para visualizador)
+//Segunda interfaz que haga extends de la anterior y agregue el metodo subirHecho(esta serviria para contribuyente y administrador)
