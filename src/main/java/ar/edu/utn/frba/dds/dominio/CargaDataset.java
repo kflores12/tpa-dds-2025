@@ -38,12 +38,10 @@ public class CargaDataset {
         Fuente origen = Fuente.DATASET;
         Categoria categoria = Categoria.valueOf(categoriaStr);
         Contribuyente contribuyente = null;
-        Boolean estado = Boolean.TRUE;
         TipoDeHecho tipo = TipoDeHecho.TEXTO;
 
         Hecho nuevoHecho = new Hecho(titulo, descripcion, categoria, latitud,
-            longitud, fechaHecho, LocalDate.now(), origen, contribuyente,
-            estado, tipo);
+            longitud, fechaHecho, LocalDate.now(), origen, contribuyente, tipo);
 
         hechosExtraidos.add(nuevoHecho);
       }
