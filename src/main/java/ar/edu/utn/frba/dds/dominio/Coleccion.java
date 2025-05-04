@@ -42,7 +42,11 @@ public class Coleccion {
   }
 
   public List<Hecho> visualizarHechos(Filtro filtro) {
-    return listaHechos.stream().filter(hecho -> (filtro.aplicarFiltro(hecho))).collect(Collectors.toList());
+    return listaHechos.stream().filter(filtro::aplicarFiltro).collect(Collectors.toList());
+    /*
+    return listaHechos.stream().filter(hecho ->
+        (filtro.aplicarFiltro(hecho))).collect(Collectors.toList());
+     */
   }
 
 

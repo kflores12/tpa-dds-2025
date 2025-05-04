@@ -2,9 +2,9 @@ package ar.edu.utn.frba.dds.dominio;
 
 public class FiltroCategoria implements Filtro {
 
-  Categoria categoria;
+  Etiqueta categoria;
 
-  public FiltroCategoria(Categoria categoria) {
+  public FiltroCategoria(Etiqueta categoria) {
 
     this.categoria = categoria;
   }
