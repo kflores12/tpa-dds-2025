@@ -63,9 +63,9 @@ public class Administrador extends Visualizador implements CargaHecho {
 //    repositorio.obtenerSolicitudesPendientes()
 //  }
 
-
   @Override
   public void cargarHecho(Hecho hecho, Coleccion coleccion) {
-
+  
   }
+  
 }
