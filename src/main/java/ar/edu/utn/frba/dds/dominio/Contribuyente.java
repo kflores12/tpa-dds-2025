@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.dominio;
 
+import static java.util.Objects.requireNonNull;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,8 @@ public class Contribuyente extends Visualizador implements CargaHecho {
   }
 
   public Contribuyente(String nombre, String apellido, Integer edad) {
-    this.nombre = nombre;
+    this.nombre = requireNonNull(nombre,
+        "El contribuyente registrado debe ingresa su nombre");
     this.apellido = apellido;
     this.edad = edad;
   }

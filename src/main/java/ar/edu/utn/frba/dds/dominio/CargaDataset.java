@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.dominio;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -20,8 +21,10 @@ public class CargaDataset {
         new InputStreamReader(new FileInputStream(rutaArchivo), StandardCharsets.UTF_8))) {
 
       String linea;
+      boolean archivoVacio = true;
 
       while ((linea = br.readLine()) != null) {
+        archivoVacio = false;
         String[] campos = linea.split(",", -1);
 
         if (campos.length < 6) {
@@ -45,8 +48,11 @@ public class CargaDataset {
 
         hechosExtraidos.add(nuevoHecho);
       }
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+      if (archivoVacio) {
+        throw new RuntimeException("El archivo CSV está vacío.");
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Error al leer el archivo CSV: " + e.getMessage(), e);
     }
 
     return hechosExtraidos;
