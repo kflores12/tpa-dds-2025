@@ -44,7 +44,7 @@ public class Administrador extends Visualizador implements CargaHecho {
 
     RepositorioDeColecciones.agregarColeccion(nuevaColeccion);
 
-    System.out.println("Se extrajeron corrctamente los dados desde el archivo CSV");
+    //System.out.println("Se extrajeron corrctamente los dados desde el archivo CSV");
 
   }
 

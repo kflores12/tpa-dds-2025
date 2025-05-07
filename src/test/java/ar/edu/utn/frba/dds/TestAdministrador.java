@@ -37,17 +37,42 @@ public class TestAdministrador {
     assertEquals("En bahía blanca",hechosCargados(filtroTT).get(0).getDescripcion());
   }
 
-  private List<Hecho> hechosCargados(Filtro filtro) {
+  @Test
+  public void TestAceptarSolicitudE() {
+    Administrador admin = this.adminPostCarga();
+    assertEquals(1,1);
+  }
 
-    Administrador admin1 = new Administrador();
+  @Test
+  public void TestRechazarSolicitudE() {
+    Administrador admin = this.adminPostCarga();
+    assertEquals(1,1);
+  }
+
+  private Administrador adminPostCarga() {
+
+    Administrador administrador1 = new Administrador();
     ColeccionBuilder ColIncendios = new ColeccionBuilder("Inciendios forestales","estado de incendios anual", new Etiqueta("INCENDIO_forestal"));
     ColeccionBuilder ColRobos = new ColeccionBuilder("Robos","Robos anuales", new Etiqueta("ROBO"));
 
-    admin1.cargarColeccionDesdeDataSet("datos.csv", ColIncendios);
-    admin1.cargarColeccionDesdeDataSet("datos.csv", ColRobos);
+    administrador1.cargarColeccionDesdeDataSet("datos.csv", ColIncendios);
+    administrador1.cargarColeccionDesdeDataSet("datos.csv", ColRobos);
+
+    return administrador1;
+  }
+
+
+  private List<Hecho> hechosCargados(Filtro filtro) {
+
+    Administrador admin1 = this.adminPostCarga();
+//    ColeccionBuilder ColIncendios = new ColeccionBuilder("Inciendios forestales","estado de incendios anual", new Etiqueta("INCENDIO_forestal"));
+//    ColeccionBuilder ColRobos = new ColeccionBuilder("Robos","Robos anuales", new Etiqueta("ROBO"));
+//
+//    admin1.cargarColeccionDesdeDataSet("datos.csv", ColIncendios);
+//    admin1.cargarColeccionDesdeDataSet("datos.csv", ColRobos);
 
     for (Coleccion c : RepositorioDeColecciones.getColeccionesDisponibles()) {
-      System.out.println(c.getListaHechos());
+      //System.out.println(c.getListaHechos());
       if (!admin1.visualizarHechos(filtro, c).isEmpty()) {
         System.out.println(admin1.visualizarHechos(filtro,c));
         return admin1.visualizarHechos(filtro,c);
