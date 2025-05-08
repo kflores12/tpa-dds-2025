@@ -60,7 +60,9 @@ public class TestVisualizador {
     LocalDate fechaHecho = LocalDate.of(2024, 5, 9);
     LocalDate fechasCarga = LocalDate.of(2025, 5, 1);
     RepositorioSolicitudes repoSolicitudes = new RepositorioSolicitudes();
-    Hecho h1 = new Hecho("Incendio uno","Descripcion Incendio uno",eti,20.2,21.1,fechaHecho,fechasCarga,CONTRIBUYENTE,new Contribuyente(), TipoDeHecho.TEXTO);
+    Hecho h1 = new Hecho("Incendio uno","Descripcion Incendio uno",
+        eti,20.2,21.1, fechaHecho, fechasCarga,
+        CONTRIBUYENTE,new Contribuyente(), TipoDeHecho.TEXTO);
 
     v.solicitarEliminacionhecho(h1, "Deseo borrarla", repoSolicitudes );
     assertEquals("Descripcion Incendio uno",repoSolicitudes.obtenerSolicitudesPendientes().get(0).getHecho().getDescripcion());

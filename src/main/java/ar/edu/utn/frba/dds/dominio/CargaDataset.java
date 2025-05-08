@@ -47,7 +47,6 @@ public class CargaDataset {
 
         Hecho nuevoHecho = new Hecho(titulo, descripcion, categoria, latitud,
             longitud, fechaHecho, LocalDate.now(), origen, contribuyente, tipo);
-
         hechosExtraidos.add(nuevoHecho);
       }
       if (archivoVacio) {
