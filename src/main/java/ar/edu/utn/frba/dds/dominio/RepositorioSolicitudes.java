@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RepositorioSolicitudes {
-  private final List<SolicitudDeEliminacion> solicitudes = new ArrayList<>();
+  private static List<SolicitudDeEliminacion> solicitudes = new ArrayList<>();
 
   public void agregarSolicitud(SolicitudDeEliminacion solicitud) {
     solicitudes.add(solicitud);

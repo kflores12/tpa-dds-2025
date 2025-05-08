@@ -53,7 +53,7 @@ public class Coleccion {
   public List<Hecho> visualizarMultiplesfiltros(List<Filtro> filtros) {
     return listaHechos.stream()
         .filter(hecho -> filtros.stream()
-            .allMatch(filtro -> filtro.aplicarFiltro(hecho))).toList();
+            .anyMatch(filtro -> filtro.aplicarFiltro(hecho))).toList();
   }
 
   public List<Hecho> getListaHechos() {
@@ -62,5 +62,9 @@ public class Coleccion {
 
   public Etiqueta getCriterioPertenencia() {
     return criterioPertenencia;
+  }
+
+  public void agregarHecho(Hecho h) {
+    listaHechos.add(h);
   }
 }

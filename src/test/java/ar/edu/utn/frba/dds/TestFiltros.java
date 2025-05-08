@@ -29,10 +29,6 @@ import static org.junit.jupiter.api.Assertions.*;
       FiltroBase filtroB = new FiltroBase();
       List<String> resultadoEsperado = List.of("Incendio en Bariloche","Incendio en pehuen");
       List<String> hechos = hechosCargados(filtroB).stream().map(hecho -> hecho.getTitulo()).toList();
-
-//      System.out.println(resultadoEsperado);
-//      System.out.println(hechos);
-
       assertTrue(hechos.containsAll(resultadoEsperado));
     }
 
@@ -86,9 +82,9 @@ import static org.junit.jupiter.api.Assertions.*;
       Administrador admin1 = this.adminPostCarga();
 
       for (Coleccion c : RepositorioDeColecciones.getColeccionesDisponibles()) {
-        System.out.println(admin1.visualizarHechos(filtro,c));
+        //System.out.println(admin1.visualizarHechos(filtro,c));
         if (!admin1.visualizarHechos(filtro, c).isEmpty()) {
-          System.out.println(admin1.visualizarHechos(filtro,c));
+          //System.out.println(admin1.visualizarHechos(filtro,c));
           return admin1.visualizarHechos(filtro,c);
         }
       }
