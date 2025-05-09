@@ -32,13 +32,13 @@ import static org.junit.jupiter.api.Assertions.*;
       assertTrue(hechos.containsAll(resultadoEsperado));
     }
 
-//    @Test
-//    public void TestFiltroCategoria() {
-//      Etiqueta eti = new Etiqueta("INCENDIO_FORESTAL");
-//      FiltroCategoria filtroC = new FiltroCategoria(eti);
-//      hechosCargados(filtroC);
-//      //assertEquals("Incendio en pehuen",hechosCargados(filtroC).get(0).getTitulo());
-//    }
+    @Test
+    public void TestFiltroCategoria() {
+      Etiqueta eti = new Etiqueta("INCENDIO_FORESTAL");
+      FiltroCategoria filtroC = new FiltroCategoria(eti);
+      List<Hecho> hechos = hechosCargados(filtroC);
+     assertTrue((hechos.stream().map(Hecho::getCategoria).distinct().count()) < 1);
+    }
 
     @Test
     public void TestFiltroDescricion() {
