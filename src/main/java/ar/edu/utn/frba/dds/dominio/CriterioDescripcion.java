@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.dominio;
 
-public class FiltroDescripcion implements Filtro {
+public class CriterioDescripcion implements Criterio {
 
   String descripcion;
 
-  public FiltroDescripcion(String descripcion) {
+  public CriterioDescripcion(String descripcion) {
     this.descripcion = descripcion;
   }
 

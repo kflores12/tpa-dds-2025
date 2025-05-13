@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.dominio;
 
 import static java.util.Objects.requireNonNull;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,19 +9,23 @@ import java.util.stream.Collectors;
 public class Coleccion {
   private String titulo;
   private String descripcion;
-  private Fuente fuenteTipo;
-  private Etiqueta criterioPertenencia;
+  private Fuente fuente;
+  private List<Criterio> criterioPertenencia;
   private List<Hecho> listaHechos;
-  private String fuente;
 
-  public Coleccion(String titulo, String descripcion, Fuente fuenteTipo,
-                   Etiqueta criterioPertenencia, List<Hecho> listaHechos, String fuente) {
+  public Coleccion(String titulo, String descripcion, Fuente fuente,
+                   List<Criterio> criterioPertenencia, List<Hecho> listaHechos) {
     this.titulo = requireNonNull(titulo);
     this.descripcion = requireNonNull(descripcion);
-    this.fuenteTipo = requireNonNull(fuenteTipo);
-    this.criterioPertenencia = requireNonNull(criterioPertenencia);
-    this.listaHechos = new ArrayList<>(listaHechos);
-    this.fuente = fuente;
+    this.fuente = requireNonNull(fuente);
+    List<Criterio> criterios = new ArrayList<>(requireNonNull(criterioPertenencia));
+    if (criterios.isEmpty()) {
+      criterios.add(new CriterioBase());
+    } else {
+      criterios.removeIf(c -> c instanceof CriterioBase);
+    }
+    this.criterioPertenencia = criterios;
+    this.listaHechos = new ArrayList<>(requireNonNull(listaHechos));
   }
 
   public String getTitulo() {
@@ -33,38 +36,21 @@ public class Coleccion {
     return descripcion;
   }
 
-  public Fuente getFuenteTipo() {
-    return fuenteTipo;
-  }
-
-  public String getFuente() {
-    return fuente;
+  public void setListaHechos(List<Hecho> listaHechos) {
+    this.listaHechos = new ArrayList<>(requireNonNull(listaHechos));
   }
 
   public List<Hecho> getListaHechos() {
     return new ArrayList<>(listaHechos);
   }
 
-  public Etiqueta getCriterioPertenencia() {
-    return criterioPertenencia;
+  public List<Hecho> obtenerHechos() {
+    this.setListaHechos(fuente.importarHechos(criterioPertenencia));
+    return this.getListaHechos();
   }
 
-  public void removerHecho(Hecho h) {
-    listaHechos.removeIf(hecho -> hecho.equals(h));
-  }
-
-  public List<Hecho> visualizarHechos(Filtro filtro) {
-    return listaHechos.stream().filter(hecho ->
-        (filtro.aplicarFiltro(hecho))).collect(Collectors.toList());
-  }
-
-  public List<Hecho> visualizarMultiplesfiltros(List<Filtro> filtros) {
-    return listaHechos.stream()
-        .filter(hecho -> filtros.stream()
-            .anyMatch(filtro -> filtro.aplicarFiltro(hecho))).toList();
-  }
-
-  public void agregarHecho(Hecho h) {
-    listaHechos.add(h);
+  public List<Hecho> listarHechos() {
+    List<Hecho> hechos =  new ArrayList<>(listaHechos);
+    return hechos.stream().filter(Hecho::getDisponibilidad).toList();
   }
 }

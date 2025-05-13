@@ -7,33 +7,31 @@ import java.time.LocalDate;
 public class Hecho {
   private String titulo;
   private String descripcion;
-  private Etiqueta categoria;
+  private String categoria;
   private Double latitud;
   private Double longitud;
   private LocalDate fechaAcontecimiento;
-
   private LocalDate fechaDeCarga;
-  private Fuente origen;
+  private TipoFuente origen;
   private Contribuyente contribuyente;
   private TipoDeHecho tipoDeHecho;
+  private Boolean disponibilidad = Boolean.TRUE;
 
-  //deberiamos pensar como nos conviene construir los hechos
-  //lo hice asi de forma providional porque no tenemos especificaciones
-  public Hecho(String titulo, String descripcion, Etiqueta categoria,
-               Double latitud, Double longitud, LocalDate fechaAcontecimiento,
-               LocalDate fechaDeCarga, Fuente origen, Contribuyente contribuyente,
-               TipoDeHecho tipoDeHecho) {
-
+  public Hecho(String titulo, String descripcion, String categoria, Double latitud,
+               Double longitud, LocalDate fechaAcontecimiento, LocalDate fechaDeCarga,
+               TipoFuente origen, Contribuyente contribuyente, TipoDeHecho tipoDeHecho,
+               Boolean disponibilidad) {
     this.titulo = requireNonNull(titulo);
     this.descripcion = requireNonNull(descripcion);
-    this.fechaAcontecimiento = requireNonNull(fechaAcontecimiento);
+    this.categoria = requireNonNull(categoria);
     this.latitud = requireNonNull(latitud);
     this.longitud = requireNonNull(longitud);
+    this.fechaAcontecimiento = requireNonNull(fechaAcontecimiento);
     this.fechaDeCarga = requireNonNull(fechaDeCarga);
     this.origen = requireNonNull(origen);
-    this.categoria = requireNonNull(categoria);
     this.contribuyente = contribuyente;
     this.tipoDeHecho = requireNonNull(tipoDeHecho);
+    this.disponibilidad = requireNonNull(disponibilidad);
   }
 
   public String getTitulo() {
@@ -44,44 +42,43 @@ public class Hecho {
     return descripcion;
   }
 
-  public Double getLatitud() {
-    return latitud;
+  public String getCategoria() {
+    return categoria;
   }
 
-  public Double getLongitud() {
-    return longitud;
+  public Double getLatitud() {
+    return latitud;
   }
 
   public LocalDate getFechaAcontecimiento() {
     return fechaAcontecimiento;
   }
 
+  public Double getLongitud() {
+    return longitud;
+  }
+
   public LocalDate getFechaDeCarga() {
     return fechaDeCarga;
   }
 
-
-  public Fuente getOrigen() {
+  public TipoFuente getOrigen() {
     return origen;
   }
 
-  public Etiqueta getCategoria() {
-    return categoria;
+  public Contribuyente getContribuyente() {
+    return contribuyente;
   }
 
-  @Override
-  public String toString() {
-    return "Hecho{"
-        + "titulo='" + titulo + '\''
-        + ", descripcion='" + descripcion + '\''
-        + ", categoria=" + categoria
-        + ", latitud=" + latitud
-        + ", longitud=" + longitud
-        + ", fechaAcontecimiento=" + fechaAcontecimiento
-        + ", fechaDeCarga=" + fechaDeCarga
-        + ", origen=" + origen
-        + ", contribuyente=" + contribuyente
-        + ", tipoDeHecho=" + tipoDeHecho
-        + '}';
+  public TipoDeHecho getTipoDeHecho() {
+    return tipoDeHecho;
+  }
+
+  public Boolean getDisponibilidad() {
+    return disponibilidad;
+  }
+
+  public void setDisponibilidad(Boolean disponibilidad) {
+    this.disponibilidad = disponibilidad;
   }
 }

@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.dominio;
 
 import java.time.LocalDate;
 
-public class FiltroFecha implements Filtro {
+public class CriterioFecha implements Criterio {
   LocalDate fecha;
 
   public boolean aplicarFiltro(Hecho hecho) {
@@ -10,7 +10,7 @@ public class FiltroFecha implements Filtro {
     return hecho.getFechaAcontecimiento().equals(fecha);
   }
 
-  public FiltroFecha(LocalDate fecha) {
+  public CriterioFecha(LocalDate fecha) {
     this.fecha = fecha;
   }
 }

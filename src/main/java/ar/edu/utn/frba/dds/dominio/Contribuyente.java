@@ -6,28 +6,26 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contribuyente extends Visualizador implements CargaHecho {
+public class Contribuyente {
   private String nombre;
   private String apellido;
   private Integer edad;
 
-  public Contribuyente() {
-    //para contribuyente anonimo
-  }
-
-  public Contribuyente(String nombre, String apellido, Integer edad) {
-    this.nombre = requireNonNull(nombre,
-        "El contribuyente registrado debe ingresa su nombre");
-    this.apellido = apellido;
+  public Contribuyente(String nombre, Integer edad, String apellido) {
+    this.nombre = nombre;
     this.edad = edad;
+    this.apellido = apellido;
   }
 
-  public boolean esContribuyenteAnonimo() {
-    return nombre == null && apellido == null && edad == null;
+  public String getNombre() {
+    return nombre;
   }
 
-  @Override
-  public void cargarHecho(Hecho hecho, Coleccion coleccion) {
+  public String getApellido() {
+    return apellido;
+  }
 
+  public Integer getEdad() {
+    return edad;
   }
 }

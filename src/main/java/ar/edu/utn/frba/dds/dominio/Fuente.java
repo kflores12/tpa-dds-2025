@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.dominio;
 
-public enum Fuente {
-  EXTERNA, DATASET, CONTRIBUYENTE
+import java.util.List;
+
+public interface Fuente {
+  List<Hecho> importarHechos(List<Criterio> criterios);
 }

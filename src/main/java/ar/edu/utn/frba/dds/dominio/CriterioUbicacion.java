@@ -1,8 +1,6 @@
 package ar.edu.utn.frba.dds.dominio;
 
-import java.time.LocalDate;
-
-public class FiltroUbicacion implements Filtro {
+public class CriterioUbicacion implements Criterio {
   private final Double latitud;
   private final Double longitud;
 
@@ -10,7 +8,7 @@ public class FiltroUbicacion implements Filtro {
     return hecho.getLatitud().equals(latitud) && hecho.getLongitud().equals(longitud);
   }
 
-  public FiltroUbicacion(Double latitud, Double longitud) {
+  public CriterioUbicacion(Double latitud, Double longitud) {
     this.latitud = latitud;
     this.longitud = longitud;
   }

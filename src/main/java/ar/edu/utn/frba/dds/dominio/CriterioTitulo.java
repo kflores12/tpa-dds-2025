@@ -1,13 +1,10 @@
 package ar.edu.utn.frba.dds.dominio;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-
-public class FiltroTitulo implements Filtro {
+public class CriterioTitulo implements Criterio {
 
   String titulo;
 
-  public FiltroTitulo(String titulo) {
+  public CriterioTitulo(String titulo) {
     this.titulo = titulo;
   }
 
