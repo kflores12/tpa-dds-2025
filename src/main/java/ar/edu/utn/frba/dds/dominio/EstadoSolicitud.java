@@ -1,7 +1,5 @@
 package ar.edu.utn.frba.dds.dominio;
 
-public enum EstadoSolicitud {
-  PENDIENTE,
-  RECHAZADA,
-  ACEPTADA
+public interface EstadoSolicitud {
+  public void establecerDisponibilidadHecho(Hecho hecho);
 }

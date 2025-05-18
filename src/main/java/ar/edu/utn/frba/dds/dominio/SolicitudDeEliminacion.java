@@ -5,7 +5,11 @@ import static java.util.Objects.requireNonNull;
 public class SolicitudDeEliminacion {
   private Hecho hecho;
   private String motivo;
-  private EstadoSolicitud estado = EstadoSolicitud.PENDIENTE;
+  private EstadoSolicitud estado = new SolicitudPendiente();
+
+  public void setEstado(EstadoSolicitud estado) {
+    this.estado = estado;
+  }
 
   public SolicitudDeEliminacion(Hecho hecho, String motivo) {
     this.hecho = requireNonNull(hecho);
@@ -16,14 +20,17 @@ public class SolicitudDeEliminacion {
     RepositorioSolicitudes.agregarSolicitud(this);
   }
 
-  //el usuario establece si acepta o rechaza la solicitud
-  //si la acepta se setea el estado del hecho en no disponible
-  public void evaluar(EstadoSolicitud evaluacion) {
-    this.estado = evaluacion;
-    if (estado == EstadoSolicitud.ACEPTADA) {
-      hecho.setDisponibilidad(false);
-    }
+  public boolean estaPendiente() {
+    return estado instanceof SolicitudPendiente;
   }
 
+
+  public void evaluarSolicitud(EstadoSolicitud evaluacion) {
+    if (!estaPendiente()) {
+      throw new IllegalStateException("La solicitud ya fue evaluada.");
+    }
+    evaluacion.establecerDisponibilidadHecho(hecho);
+    this.estado = requireNonNull(evaluacion);
+  }
 
 }
