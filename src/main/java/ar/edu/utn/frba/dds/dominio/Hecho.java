@@ -13,14 +13,12 @@ public class Hecho {
   private LocalDate fechaAcontecimiento;
   private LocalDate fechaDeCarga;
   private TipoFuente origen;
-  private Contribuyente contribuyente;
-  private TipoDeHecho tipoDeHecho;
+  private String multimedia;
   private Boolean disponibilidad = Boolean.TRUE;
 
   public Hecho(String titulo, String descripcion, String categoria, Double latitud,
                Double longitud, LocalDate fechaAcontecimiento, LocalDate fechaDeCarga,
-               TipoFuente origen, Contribuyente contribuyente, TipoDeHecho tipoDeHecho,
-               Boolean disponibilidad) {
+               TipoFuente origen, String multimedia, Boolean disponibilidad) {
     this.titulo = requireNonNull(titulo);
     this.descripcion = requireNonNull(descripcion);
     this.categoria = requireNonNull(categoria);
@@ -29,8 +27,7 @@ public class Hecho {
     this.fechaAcontecimiento = requireNonNull(fechaAcontecimiento);
     this.fechaDeCarga = requireNonNull(fechaDeCarga);
     this.origen = requireNonNull(origen);
-    this.contribuyente = contribuyente;
-    this.tipoDeHecho = requireNonNull(tipoDeHecho);
+    this.multimedia = multimedia;
     this.disponibilidad = requireNonNull(disponibilidad);
   }
 
@@ -66,14 +63,6 @@ public class Hecho {
     return origen;
   }
 
-  public Contribuyente getContribuyente() {
-    return contribuyente;
-  }
-
-  public TipoDeHecho getTipoDeHecho() {
-    return tipoDeHecho;
-  }
-
   public Boolean getDisponibilidad() {
     return disponibilidad;
   }
@@ -81,6 +70,5 @@ public class Hecho {
   public void setDisponibilidad(Boolean disponibilidad) {
     this.disponibilidad = disponibilidad;
   }
-
 
 }

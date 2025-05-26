@@ -19,13 +19,14 @@ public class RepositorioSolicitudes {
 
   public static List<SolicitudDeEliminacion> obtenerPendientes() {
     return obtenerTodas().stream()
-        .filter(SolicitudDeEliminacion::estaPendiente)
+        .filter(solicitud ->
+            solicitud.getEstado().equals(EstadoSolicitud.PENDIENTE))
         .toList();
   }
 
   public static List<SolicitudDeEliminacion> obtenerAtendidas() {
     return obtenerTodas().stream()
-        .filter(s -> !s.estaPendiente())
+        .filter(s -> !s.getEstado().equals(EstadoSolicitud.PENDIENTE))
         .toList();
   }
 }

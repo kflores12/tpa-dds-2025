@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 public class SolicitudDeEliminacion {
   private Hecho hecho;
   private String motivo;
-  private EstadoSolicitud estado = new SolicitudPendiente();
+  private EstadoSolicitud estado;
 
   public void setEstado(EstadoSolicitud estado) {
     this.estado = estado;
@@ -17,20 +17,22 @@ public class SolicitudDeEliminacion {
       throw new RuntimeException("El motivo es demasiado extenso.");
     }
     this.motivo = requireNonNull(motivo);
+    this.estado = EstadoSolicitud.PENDIENTE;
     RepositorioSolicitudes.agregarSolicitud(this);
   }
 
-  public boolean estaPendiente() {
-    return estado instanceof SolicitudPendiente;
+  public EstadoSolicitud getEstado() {
+    return estado;
   }
 
-
   public void evaluarSolicitud(EstadoSolicitud evaluacion) {
-    if (!estaPendiente()) {
+    if (!estado.equals(EstadoSolicitud.PENDIENTE)) {
       throw new IllegalStateException("La solicitud ya fue evaluada.");
     }
-    evaluacion.establecerDisponibilidadHecho(hecho);
-    this.estado = requireNonNull(evaluacion);
+    this.estado = evaluacion;
+    if (estado.equals(EstadoSolicitud.ACETADA)) {
+      hecho.setDisponibilidad(Boolean.FALSE);
+    }
   }
 
 }

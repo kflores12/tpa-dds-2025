@@ -50,7 +50,7 @@ public class FuenteDataSet implements Fuente {
 
         Hecho hecho = new Hecho(titulo, desc, categoria, latitud, longitud,
             fechaAcontecimiento, LocalDate.now(), TipoFuente.DATASET, null,
-            new HechoTexto(), Boolean.TRUE);
+            Boolean.TRUE);
         hechos.add(hecho);
 
       }
