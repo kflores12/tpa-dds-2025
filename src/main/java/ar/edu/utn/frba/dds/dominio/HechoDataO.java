@@ -19,10 +19,6 @@ public class HechoDataO {
   @CsvBindByName
   private String multimedia;
 
-  private LocalDate fechaDeCarga;
-  private TipoFuente origen;
-  private Boolean disponibilidad = Boolean.TRUE;
-
   public String getTitulo() {
     return this.titulo;
   }
