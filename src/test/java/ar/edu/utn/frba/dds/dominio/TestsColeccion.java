@@ -28,35 +28,41 @@ public class TestsColeccion {
 
   @Test
   public void importarDesdeDataset() {
+    GeneradorHandleUUID generador = new GeneradorHandleUUID();
     Coleccion coleccion = new Coleccion("incendios forestales",
-        "incendios en la patagonia", dataset, criterios);
+        "incendios en la patagonia",
+        dataset, criterios, generador.generar());
 
     List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
 
     Assertions.assertEquals(2, hechos.size());
   }
 
-  //TODO testear que rompe con archivo vacio
-  /*
-  @Test
-  public void importarDesdeDatasetVacio() {
-    Coleccion coleccion = new Coleccion("incendios forestales",
-        "incendios en la patagonia", datavacio, criterios);
-
-    List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
-  }
-
-   */
-
-  //TODO testear y validar casos excepcionales del archivo csv
 
   @Test
   public void listaHechosDisponibles() {
+    GeneradorHandleUUID generador = new GeneradorHandleUUID();
     Coleccion coleccion = new Coleccion("incendios forestales",
-        "incendios en la patagonia", dataset, criterios);
+        "incendios en la patagonia",
+        dataset, criterios, generador.generar());
 
     List<Hecho> hechos = coleccion.listarHechosDisponibles();
 
     Assertions.assertEquals(2, hechos.size());
+  }
+
+  @Test
+  public void elHandleDebeSerValidoYUnico() {
+    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+
+    Coleccion coleccion1 = new Coleccion("Colección A", "desc A", dataset, criterios, generador.generar());
+    Coleccion coleccion2 = new Coleccion("Colección A", "desc A", dataset, criterios, generador.generar());
+
+    String handle1 = coleccion1.getHandler();
+    String handle2 = coleccion2.getHandler();
+
+    Assertions.assertNotNull(handle1);
+    Assertions.assertTrue(handle1.matches("[a-z0-9]+"), "El handle no tiene formato válido");
+    Assertions.assertNotEquals(handle1, handle2, "Los handles deberían ser distintos incluso con el mismo título");
   }
 }
