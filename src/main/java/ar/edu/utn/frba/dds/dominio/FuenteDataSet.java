@@ -26,6 +26,7 @@ public class FuenteDataSet implements Fuente {
 
   @Override
   public List<Hecho> importarHechos(List<Criterio> criterios) {
+
     List<Hecho> hechos = new ArrayList<>();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 

@@ -6,18 +6,19 @@ import static java.util.Objects.requireNonNull;
 public class SolicitudDeEliminacion {
   private Hecho hecho;
   private String motivo;
-  private EstadoSolicitud estado = EstadoSolicitud.PENDIENTE;
+  private EstadoSolicitud estado;
 
   public void setEstado(EstadoSolicitud estado) {
     this.estado = estado;
   }
 
-  public SolicitudDeEliminacion(Hecho hecho, String motivo) {
+  public SolicitudDeEliminacion(Hecho hecho, String motivo, EstadoSolicitud estado) {
     if (motivo.length() > 500) {
       throw new RuntimeException("El motivo es demasiado extenso.");
     }
     this.hecho = new Hecho(hecho);
     this.motivo = requireNonNull(motivo);
+    this.estado = requireNonNull(estado);
     RepositorioSolicitudes.agregarSolicitud(this);
   }
 
