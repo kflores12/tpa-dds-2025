@@ -38,6 +38,7 @@ public class TestFuenteDinamica {
 
   @Test
   public void importarHechosSinRegistrarme() {
+    GeneradorHandleUUID generador = new GeneradorHandleUUID();
     solicitudDeCargaPrimera = new SolicitudDeCarga(hechoPrimero,Boolean.TRUE,repoHechos,repoSolicitudes);
     solicitudDeCargaSegunda = new SolicitudDeCarga(hechoSegundo,Boolean.FALSE,repoHechos,repoSolicitudes);
     //Admin aprueba solicitudes.
@@ -45,7 +46,7 @@ public class TestFuenteDinamica {
     solicitudDeCargaSegunda.evaluarSolicitud(EstadoSolicitud.ACEPTADA);
     //Traigo del repositorio.
     Coleccion coleccion = new Coleccion("Cortes",
-        "Cortes en Argentina", fuenteDinamica, criterios);
+        "Cortes en Argentina", fuenteDinamica, criterios,generador.generar());
     List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
     //Reviso que los hechos esten bien cargados (Con sus titulos).
     System.out.printf(" %s \n", hechos.get(0).getTitulo());
@@ -56,13 +57,14 @@ public class TestFuenteDinamica {
 
   @Test
   public void importarHechosRegistrado() {
+    GeneradorHandleUUID generador = new GeneradorHandleUUID();
     solicitudDeCargaPrimera = new SolicitudDeCarga(hechoPrimero,Boolean.TRUE,repoHechos,repoSolicitudes);
     solicitudDeCargaSegunda = new SolicitudDeCarga(hechoSegundo,Boolean.FALSE,repoHechos,repoSolicitudes);
     solicitudDeCargaPrimera.evaluarSolicitud(EstadoSolicitud.ACEPTADA);
     solicitudDeCargaSegunda.evaluarSolicitud(EstadoSolicitud.ACEPTADA);
 
     Coleccion coleccion = new Coleccion("incendios forestales",
-        "incendios en la patagonia", fuenteDinamica, criterios);
+        "incendios en la patagonia", fuenteDinamica, criterios,generador.generar());
 
     List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
 

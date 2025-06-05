@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.lang.IllegalAccessException;
 
-public class SolicitudDeCarga{
+public class SolicitudDeCarga implements Solicitud{
   private Hecho hecho;
   private boolean registrado;
   private String sugerencia = "";

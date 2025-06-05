@@ -47,8 +47,9 @@ public class TestsFuenteDataSet {
 
   @Test
   public void importarDeArchivoGrande() {
+    GeneradorHandleUUID generador = new GeneradorHandleUUID();
     Coleccion coleccion = new Coleccion("Choques vehiculos",
-        "Choques en rutas", dataDesogranizada, criterios2);
+        "Choques en rutas", dataDesogranizada, criterios2,generador.generar());
 
     List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
 
