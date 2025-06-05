@@ -1,14 +1,16 @@
 package ar.edu.utn.frba.dds.dominio;
 
-
 import java.net.URL;
-import java.util.Map;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public interface Conexion {
 
-  Map<String, Object> siguienteHecho(URL url, LocalDateTime fechaUltimaConmsulta) throws Exception;
+  /**
+   * Devuelve un mapa con los atributos de un hecho, indexados por nombre de
+   * atributo. Si el método retorna null, significa que no hay nuevos hechos
+   * por ahora. La fecha es opcional
+   */
+  Map<String, Object> siguienteHecho(URL url, LocalDateTime fechaUltimaConsulta);
 
-  ///  Excepción de que no se encontró la url +
-  /// pensar como actualizar la fecha de consulta cuando se concrete correctamente la
-  }
+}
