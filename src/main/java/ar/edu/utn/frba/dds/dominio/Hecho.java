@@ -45,6 +45,19 @@ public class Hecho {
     this.disponibilidad = otro.disponibilidad;
   }
 
+  public void modificar(Hecho otro) {
+    this.titulo = otro.titulo;
+    this.descripcion = otro.descripcion;
+    this.categoria = otro.categoria;
+    this.latitud = otro.latitud;
+    this.longitud = otro.longitud;
+    this.fechaAcontecimiento = otro.fechaAcontecimiento;
+    //this.fechaDeCarga = otro.fechaDeCarga;
+    this.origen = otro.origen;
+    this.multimedia = otro.multimedia;
+    this.disponibilidad = otro.disponibilidad;
+  }
+
 
   public String getTitulo() {
     return titulo;

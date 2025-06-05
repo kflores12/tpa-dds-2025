@@ -7,25 +7,34 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RepositorioSolicitudes {
-  private static List<SolicitudDeEliminacion> solicitudes = new ArrayList<>();
-
-  public static void agregarSolicitud(SolicitudDeEliminacion solicitud) {
-    solicitudes.add(requireNonNull(solicitud));
+  private static final List<SolicitudDeEliminacion> solicitudesEliminacion = new ArrayList<>();
+  private static final List<SolicitudDeCarga> solicitudesCarga = new ArrayList<>();
+  
+  public static void agregarSolicitudDeEliminacion(SolicitudDeEliminacion solicitud) {
+    solicitudesEliminacion.add(requireNonNull(solicitud));
   }
 
-  public static List<SolicitudDeEliminacion> obtenerTodas() {
-    return new ArrayList<>(solicitudes);
+  public static void agregarSolicitudDeCarga(SolicitudDeCarga solicitud) {
+    solicitudesCarga.add(requireNonNull(solicitud));
+  }
+
+  public static List<SolicitudDeEliminacion> obtenerTodasDeEliminacion() {
+    return new ArrayList<>(solicitudesEliminacion);
+  }
+
+  public static List<SolicitudDeCarga> obtenerTodasDeCarga() {
+    return new ArrayList<>(solicitudesCarga);
   }
 
   public static List<SolicitudDeEliminacion> obtenerPendientes() {
-    return obtenerTodas().stream()
+    return obtenerTodasDeEliminacion().stream()
         .filter(solicitud ->
             solicitud.getEstado().equals(EstadoSolicitud.PENDIENTE))
         .toList();
   }
 
   public static List<SolicitudDeEliminacion> obtenerAtendidas() {
-    return obtenerTodas().stream()
+    return obtenerTodasDeEliminacion().stream()
         .filter(s -> !s.getEstado().equals(EstadoSolicitud.PENDIENTE))
         .toList();
   }
