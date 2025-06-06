@@ -29,7 +29,7 @@ public class FuenteAPI implements Fuente {
         try {
             Response<List<Hecho>> response = criterios.isEmpty() 
                 ? apiService.getTodosLosHechos().execute()
-                : apiService.getHechosDeUnaColeccion(CriterioConverter.toQuery(criterios)).execute();
+                : apiService.getTodosLosHechos(CriterioConverter.toQuery(criterios)).execute();
 
             if (response.isSuccessful()) {
                 System.out.println("Datos obtenidos exitosamente. Código: " + response.code());
@@ -44,11 +44,11 @@ public class FuenteAPI implements Fuente {
         }
     }
 
-    public List<Hecho> importarHechosDeColeccion(List<Criterio> criterios, string handler) {
+    public List<Hecho> importarHechosDeColeccion(List<Criterio> criterios, String handler) {
         try {
             Response<List<Hecho>> response = criterios.isEmpty() 
-                ? apiService.getTodosLosHechosDeUnaColeccion(handler).execute()
-                : apiService.getTodosLosHechosDeUnaColeccion(CriterioConverter.toQuery(criterios), handler).execute();
+                ? apiService.getHechosDeUnaColeccion(handler).execute()
+                : apiService.getHechosDeUnaColeccion(CriterioConverter.toQuery(criterios), handler).execute();
 
             if (response.isSuccessful()) {
                 System.out.println("Datos obtenidos exitosamente. Código: " + response.code());

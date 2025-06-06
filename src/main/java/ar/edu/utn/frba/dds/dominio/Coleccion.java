@@ -43,7 +43,7 @@ public class Coleccion {
   }
 
   public List<Hecho> obtenerHechosDeUnaColeccion() {
-    return fuente.importarHechosDeColeccion(criterios, handler);
+    return fuente.importarHechosDeColeccion(criterioPertenencia, handler);
   }
 
   public List<Hecho> listarHechosDisponibles() {
