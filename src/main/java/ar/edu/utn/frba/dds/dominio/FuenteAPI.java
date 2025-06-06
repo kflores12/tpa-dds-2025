@@ -12,8 +12,9 @@ import retrofit2.Response;
 
 public class FuenteAPI implements Fuente {
     private final ApiService apiService;
+    private final String handler;
 
-    public FuenteAPI(String baseUrl) {
+    public FuenteAPI(String baseUrl, String handler) {
         Gson gson = Converters.registerAll(new GsonBuilder()).create();
         
         Retrofit retrofit = new Retrofit.Builder()
@@ -22,43 +23,28 @@ public class FuenteAPI implements Fuente {
             .build();
         
         this.apiService = retrofit.create(ApiService.class);
+        this.handler = handler;
     }
 
     @Override
     public List<Hecho> importarHechos(List<Criterio> criterios) {
         try {
-            Response<List<Hecho>> response = criterios.isEmpty() 
-                ? apiService.getTodosLosHechos().execute()
-                : apiService.getTodosLosHechos(CriterioConverter.toQuery(criterios)).execute();
-
-            if (response.isSuccessful()) {
-                System.out.println("Datos obtenidos exitosamente. Código: " + response.code());
-                return response.body();
+            Response<List<Hecho>> response;
+            
+            if (handler != null) {
+                response = criterios.isEmpty() 
+                    ? apiService.getHechosDeUnaColeccion(handler).execute()
+                    : apiService.getHechosDeUnaColeccion(
+                        CriterioConverter.toQuery(criterios), handler).execute();
             } else {
-                System.err.println("Error al obtener datos. Código: " + response.code());
-                return Collections.emptyList();
+                response = criterios.isEmpty() 
+                    ? apiService.getTodosLosHechos().execute()
+                    : apiService.getTodosLosHechos(CriterioConverter.toQuery(criterios)).execute();
             }
-        } catch (IOException e) {
-            System.err.println("Error de red al importar hechos: " + e.getMessage());
-            return Collections.emptyList();
-        }
-    }
 
-    public List<Hecho> importarHechosDeColeccion(List<Criterio> criterios, String handler) {
-        try {
-            Response<List<Hecho>> response = criterios.isEmpty() 
-                ? apiService.getHechosDeUnaColeccion(handler).execute()
-                : apiService.getHechosDeUnaColeccion(CriterioConverter.toQuery(criterios), handler).execute();
-
-            if (response.isSuccessful()) {
-                System.out.println("Datos obtenidos exitosamente. Código: " + response.code());
-                return response.body();
-            } else {
-                System.err.println("Error al obtener datos. Código: " + response.code());
-                return Collections.emptyList();
-            }
+            return response.isSuccessful() ? response.body() : Collections.emptyList();
         } catch (IOException e) {
-            System.err.println("Error de red al importar hechos: " + e.getMessage());
+            System.err.println("Error de red: " + e.getMessage());
             return Collections.emptyList();
         }
     }
