@@ -1,23 +1,23 @@
 package ar.edu.utn.frba.dds.dominio;
 
-import okhttp3.mockwebserver.MockWebServer;
+import java.util.ArrayList;
+import java.util.List;
 import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.List;
-import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FuenteAPITest {
     private MockWebServer mockWebServer;
-    private FuenteAPI fuenteAPI;
+    private FuenteApi fuenteApi;
 
     @BeforeEach
     void setUp() throws Exception {
         mockWebServer = new MockWebServer();
         mockWebServer.start();
-        fuenteAPI = new FuenteAPI(mockWebServer.url("/").toString(), null);
+        fuenteApi = new FuenteApi(mockWebServer.url("/").toString(), null);
     }
 
     @AfterEach
@@ -59,7 +59,7 @@ public class FuenteAPITest {
             .setBody(jsonResponse)
             .addHeader("Content-Type", "application/json"));
 
-        List<Hecho> hechos = fuenteAPI.importarHechos(new ArrayList<>());
+        List<Hecho> hechos = fuenteApi.importarHechos(new ArrayList<>());
 
         assertEquals(2, hechos.size());
         assertEquals("Incendio en reserva natural", hechos.get(0).getTitulo());
@@ -70,7 +70,7 @@ public class FuenteAPITest {
     void testObtenerHechos2() throws Exception {
         List<Criterio> criterios = new ArrayList<Criterio>();
         criterios.add(new CriterioCategoria("desastre natural"));
-        Coleccion coleccion = new Coleccion("abc","abc",fuenteAPI,criterios,"1");
+        Coleccion coleccion = new Coleccion("abc","abc",fuenteApi,criterios,"1");
         String jsonResponse = """
         [
             {

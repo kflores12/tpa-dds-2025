@@ -49,11 +49,11 @@ public class HechoDataO {
 
   public boolean contieneTodosLosCampos() {
     return
-            (titulo != null && titulo != "")
+            (titulo != null && !titulo.isEmpty())
             &&
-            (descripcion != null && descripcion != "")
+            (descripcion != null && !descripcion.isEmpty())
             &&
-            (categoria != null && categoria != "")
+            (categoria != null && !categoria.isEmpty())
             &&
             latitud != null
             &&

@@ -50,17 +50,14 @@ public class FuenteDataSet implements Fuente {
          CSVReader csvReader = new CSVReaderBuilder(inputReader)
              .withCSVParser(parser)
              .build()
-    )
-    {
+    ) {
       HeaderColumnNameMappingStrategy<HechoDataO> strategy =
           new HeaderColumnNameMappingStrategy<>();
       strategy.setType(HechoDataO.class);
-
       CsvToBean<HechoDataO> csvToBean = new CsvToBeanBuilder<HechoDataO>(csvReader)
           .withMappingStrategy(strategy)
           .withIgnoreLeadingWhiteSpace(true)
           .build();
-
       for (HechoDataO hechodto : csvToBean) {
         if (!hechodto.contieneTodosLosCampos()) {
           throw new RuntimeException("Faltan valores en alguna linea");
@@ -81,25 +78,18 @@ public class FuenteDataSet implements Fuente {
 
         hechos.add(hecho);
       }
-
       if (hechos.isEmpty()) {
         throw new RuntimeException("El archivo está vacío o no contiene hechos válidos");
       }
-
-    }
-    catch (IOException e)
-    {
+    } catch (IOException e) {
       throw new RuntimeException("Error al leer el archivo CSV: " + ruta, e);
-    }
-    catch (RuntimeException e)
-    {
+    } catch (RuntimeException e) {
       throw new RuntimeException("Error al procesar los datos del CSV: " + ruta, e);
     }
 
     if (criterios == null || criterios.isEmpty()) {
       return new ArrayList<>(this.filtrarDuplicados(hechos).values());
     }
-
     List<Hecho> filtrados = hechos.stream().filter(h -> criterios.stream()
         .allMatch(c -> c.aplicarFiltro(h))).toList();
 
@@ -113,5 +103,4 @@ public class FuenteDataSet implements Fuente {
     }
     return hechosUnicos;
   }
-
 }

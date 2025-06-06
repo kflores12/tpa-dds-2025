@@ -2,9 +2,8 @@ package ar.edu.utn.frba.dds.dominio;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.lang.IllegalAccessException;
 
-public class SolicitudDeCarga implements Solicitud{
+public class SolicitudDeCarga implements Solicitud {
   private Hecho hecho;
   private boolean registrado;
   private String sugerencia = "";
@@ -12,8 +11,9 @@ public class SolicitudDeCarga implements Solicitud{
   private RepositorioHechos repositorioH;
   private RepositorioSolicitudes repositorioS;
 
-  public SolicitudDeCarga(Hecho h,boolean registerBoolean, RepositorioHechos rh,RepositorioSolicitudes rs) {
-    this.hecho = h;
+  public SolicitudDeCarga(Hecho h, boolean registerBoolean,
+                          RepositorioHechos rh, RepositorioSolicitudes rs) {
+    this.hecho = new Hecho(h);
     this.registrado = registerBoolean;
     this.repositorioH = rh;
     this.repositorioS = rs;
@@ -43,13 +43,14 @@ public class SolicitudDeCarga implements Solicitud{
 
     this.estado = evaluacion;
     if (estado.equals(EstadoSolicitud.ACEPTADA)) {
-      repositorioH.CargarHecho(hecho);
+      repositorioH.cargarHecho(hecho);
     }
 
   }
 
   public void modificarHecho(Hecho hechoModificador) {
-    if (estado.equals(EstadoSolicitud.ACEPTADA) && registrado && (ChronoUnit.DAYS.between(hecho.getFechaDeCarga(),LocalDate.now())) <= 7 ) {
+    if (estado.equals(EstadoSolicitud.ACEPTADA) && registrado
+        && (ChronoUnit.DAYS.between(hecho.getFechaDeCarga(), LocalDate.now())) <= 7) {
       hecho.modificar(hechoModificador);
     } else {
       throw new RuntimeException("No se puede modificar este hecho");

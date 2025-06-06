@@ -43,7 +43,7 @@ public class TestsFuenteDataSet {
 
   @Test
   public void elHandleDebeSerValidoYUnico() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
 
     Coleccion coleccion1 = new Coleccion("Colección A", "desc A", dataset, criterios, generador.generar());
     Coleccion coleccion2 = new Coleccion("Colección A", "desc A", dataset, criterios, generador.generar());
@@ -58,7 +58,7 @@ public class TestsFuenteDataSet {
 
   @Test
   public void importarDesdeDatasetConUnFormato() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     Coleccion coleccion = new Coleccion("incendios forestales",
         "incendios en la patagonia",
         dataset, criterios, generador.generar());
@@ -72,7 +72,7 @@ public class TestsFuenteDataSet {
 
   @Test
   public void importarDeArchivoConOtroFormatoDesordenado() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     Coleccion coleccion = new Coleccion("Choques vehiculos",
         "Choques en rutas", dataDesogranizada, criterios2,generador.generar());
 
@@ -88,7 +88,7 @@ public class TestsFuenteDataSet {
 
   @Test
   public void importarDeArchivoConColumnaMandatoriaFaltante() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     Coleccion coleccion = new Coleccion("Choques vehiculos",
         "Choques en rutas", dataFaltanColumnas, criterios2,generador.generar());
 
@@ -101,7 +101,7 @@ public class TestsFuenteDataSet {
 
   @Test
   public void importarDeArchivoConColumnaRota() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     Coleccion coleccion = new Coleccion("Choques vehiculos",
         "Choques en rutas", dataColumnasRotas, criterios2,generador.generar());
 
@@ -114,7 +114,7 @@ public class TestsFuenteDataSet {
 
   @Test
   public void importarDeArchivoConColumnaVacia() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     Coleccion coleccion = new Coleccion("Choques vehiculos",
         "Choques en rutas", dataColumnaVacia, criterios2,generador.generar());
 
@@ -127,7 +127,7 @@ public class TestsFuenteDataSet {
 
   @Test
   public void importarDeArchivoInexistente() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     Coleccion coleccion = new Coleccion("Choques vehiculos",
         "Choques en rutas", dataNoExiste, criterios2,generador.generar());
 
@@ -140,7 +140,7 @@ public class TestsFuenteDataSet {
 
   @Test
   public void importarDesdeDatasetVacio() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     Coleccion coleccion = new Coleccion("incendios forestales",
         "incendios en la patagonia", datavacio, criterios,generador.generar());
 
@@ -153,7 +153,7 @@ public class TestsFuenteDataSet {
 
   @Test
   public void listaHechosDisponibles() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     Coleccion coleccion = new Coleccion("incendios forestales",
         "incendios en la patagonia",
         dataset, criterios, generador.generar());

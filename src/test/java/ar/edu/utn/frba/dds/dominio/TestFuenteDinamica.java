@@ -6,7 +6,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class TestFuenteDinamica {
 
   @Test
   public void importarHechos() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     solicitudDeCargaPrimera = new SolicitudDeCarga(hechoPrimero,Boolean.TRUE,repoHechos,repoSolicitudes);
     solicitudDeCargaSegunda = new SolicitudDeCarga(hechoSegundo,Boolean.FALSE,repoHechos,repoSolicitudes);
     //Tomar solicitud.
@@ -63,7 +62,7 @@ public class TestFuenteDinamica {
 
   @Test
   public void importarHechosSoloAceptoUno() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     solicitudDeCargaPrimera = new SolicitudDeCarga(hechoPrimero,Boolean.TRUE,repoHechos,repoSolicitudes);
     solicitudDeCargaSegunda = new SolicitudDeCarga(hechoSegundo,Boolean.FALSE,repoHechos,repoSolicitudes);
     //Tomar solicitud.
@@ -80,7 +79,7 @@ public class TestFuenteDinamica {
 
   @Test
   public void importarHechosRegistradoYRechazar() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     solicitudDeCargaPrimera = new SolicitudDeCarga(hechoPrimero,Boolean.TRUE,repoHechos,repoSolicitudes);
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
@@ -95,7 +94,7 @@ public class TestFuenteDinamica {
 
   @Test
   public void importarHechosRegistradoYAceptar() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     solicitudDeCargaPrimera = new SolicitudDeCarga(hechoPrimero,Boolean.TRUE,repoHechos,repoSolicitudes);
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
@@ -111,7 +110,7 @@ public class TestFuenteDinamica {
 
   @Test
   public void importarHechosRegistradoYModificar() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     solicitudDeCargaPrimera = new SolicitudDeCarga(hechoPrimero,Boolean.TRUE,repoHechos,repoSolicitudes);
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
@@ -128,7 +127,7 @@ public class TestFuenteDinamica {
 
   @Test
   public void importarHechosRegistradoYModificarFailNoRegistrado() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     solicitudDeCargaPrimera = new SolicitudDeCarga(hechoPrimero,Boolean.FALSE,repoHechos,repoSolicitudes);
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
@@ -149,7 +148,7 @@ public class TestFuenteDinamica {
 
   @Test
   public void importarHechosRegistradoYModificarFailSolicitudNoAceptada() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     solicitudDeCargaPrimera = new SolicitudDeCarga(hechoPrimero,Boolean.TRUE,repoHechos,repoSolicitudes);
 
     RuntimeException exception = assertThrows(RuntimeException.class, () -> {
@@ -160,7 +159,7 @@ public class TestFuenteDinamica {
 
   @Test
   public void importarHechosRegistradoYModificarFailFechaCargaMayorA7() {
-    GeneradorHandleUUID generador = new GeneradorHandleUUID();
+    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     solicitudDeCargaPrimera = new SolicitudDeCarga(hechoCargaVieja,Boolean.TRUE,repoHechos,repoSolicitudes);
 
     //Tomar solicitud.

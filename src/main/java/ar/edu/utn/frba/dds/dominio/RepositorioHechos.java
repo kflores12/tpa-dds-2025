@@ -1,35 +1,37 @@
 package ar.edu.utn.frba.dds.dominio;
 
 import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class RepositorioHechos {
-  private static List<Hecho> BaseDeHechos = new ArrayList<Hecho>();
+  private List<Hecho> baseDeHechos; ///= new ArrayList<Hecho>();
 
-
-  public void CargarHecho(Hecho hecho){
-    BaseDeHechos.add(requireNonNull(hecho));
+  public RepositorioHechos() {
+    this.baseDeHechos = new ArrayList<Hecho>();
   }
 
-  public void BorrarHecho(Hecho hecho){
-    BaseDeHechos.remove(hecho);
+  public void cargarHecho(Hecho hecho) {
+    baseDeHechos.add(requireNonNull(hecho));
   }
 
-  public static List<Hecho> obtenerTodos() {
-    return new ArrayList<>(BaseDeHechos);
+  public void borrarHecho(Hecho hecho) {
+    baseDeHechos.remove(hecho);
   }
 
-  public static Hecho buscarHecho(Hecho hecho) {
-    return BaseDeHechos.stream().anyMatch(h -> h.equals(hecho)) ? hecho : null;
+  public  List<Hecho> obtenerTodos() {
+    return new ArrayList<>(baseDeHechos);
+  }
+
+  public  Hecho buscarHecho(Hecho hecho) {
+    return baseDeHechos.stream().anyMatch(h -> h.equals(hecho)) ? hecho : null;
   }
 
   public void limpiarBaseDeHechos() {
-    BaseDeHechos.clear();
+    baseDeHechos.clear();
   }
-//  Ver si se modifica aca o en la solicitud de carga
-//  public void modificarHecho(Hecho hecho){
-//  }
+
 
 }
