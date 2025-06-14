@@ -12,4 +12,8 @@ public class CriterioUbicacion implements Criterio {
     this.latitud = latitud;
     this.longitud = longitud;
   }
+
+  public String toQuery() {
+    return "latitud=" + latitud + "&longitud=" + longitud;
+  }
 }

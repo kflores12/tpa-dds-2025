@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -35,17 +36,22 @@ public class FuenteApi implements Fuente {
         response = criterios.isEmpty()
           ? apiService.getHechosDeUnaColeccion(handler).execute()
           : apiService.getHechosDeUnaColeccion(
-          CriterioConverter.toQuery(criterios), handler).execute();
+          listToQuery(criterios), handler).execute();
       } else {
         response = criterios.isEmpty()
           ? apiService.getTodosLosHechos().execute()
-          : apiService.getTodosLosHechos(CriterioConverter.toQuery(criterios)).execute();
+          : apiService.getTodosLosHechos(listToQuery(criterios)).execute();
       }
 
       return response.isSuccessful() ? response.body() : Collections.emptyList();
+    
     } catch (IOException e) {
       System.err.println("Error de red: " + e.getMessage());
       return Collections.emptyList();
     }
+  }
+
+  public String listToQuery(List<Criterio> criterios) {
+    return criterios.stream().map(Criterio::toQuery).collect(Collectors.joining("&"));
   }
 }

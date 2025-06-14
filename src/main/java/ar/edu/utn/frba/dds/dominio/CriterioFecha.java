@@ -13,4 +13,8 @@ public class CriterioFecha implements Criterio {
   public CriterioFecha(LocalDate fecha) {
     this.fecha = fecha;
   }
+
+  public String toQuery() {
+    return "fecha=" + fecha;
+  }
 }

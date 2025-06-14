@@ -8,6 +8,10 @@ public class CriterioBase implements Criterio {
   public boolean aplicarFiltro(Hecho hecho) {
     return hecho.getDisponibilidad();
   }
+
+  public String toQuery() { 
+    return "";
+  }
 }
 
 
