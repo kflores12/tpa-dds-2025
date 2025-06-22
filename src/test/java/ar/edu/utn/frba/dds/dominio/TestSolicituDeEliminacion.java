@@ -55,7 +55,7 @@ public class TestSolicituDeEliminacion {
         EstadoSolicitud.PENDIENTE
     );
 
-    solicitud.evaluarSolicitud(EstadoSolicitud.ACEPTADA);
+    solicitud.cambiarEstado(EstadoSolicitud.ACEPTADA);
 
     assertEquals(EstadoSolicitud.ACEPTADA, solicitud.getEstado());
   }
@@ -68,7 +68,7 @@ public class TestSolicituDeEliminacion {
         EstadoSolicitud.PENDIENTE
     );
 
-    solicitud.evaluarSolicitud(EstadoSolicitud.RECHAZADA);
+    solicitud.cambiarEstado(EstadoSolicitud.RECHAZADA);
 
     assertEquals(EstadoSolicitud.RECHAZADA, solicitud.getEstado());
     assertTrue(hechoEjemplo.getDisponibilidad()); // No se desactiva
@@ -82,10 +82,10 @@ public class TestSolicituDeEliminacion {
         EstadoSolicitud.PENDIENTE
     );
 
-    solicitud.evaluarSolicitud(EstadoSolicitud.ACEPTADA);
+    solicitud.cambiarEstado(EstadoSolicitud.ACEPTADA);
 
     assertThrows(IllegalStateException.class, () -> {
-      solicitud.evaluarSolicitud(EstadoSolicitud.RECHAZADA);
+      solicitud.cambiarEstado(EstadoSolicitud.RECHAZADA);
     });
   }
 }

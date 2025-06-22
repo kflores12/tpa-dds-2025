@@ -28,7 +28,7 @@ public class FuenteApi implements Fuente {
   }
 
   @Override
-  public List<Hecho> importarHechos(List<Criterio> criterios) {
+  public List<Hecho> getHechos(List<Criterio> criterios) {
     try {
       Response<List<Hecho>> response;
 

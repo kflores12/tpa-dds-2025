@@ -16,7 +16,7 @@ public class SolicitudDeEliminacion implements Solicitud {
     if (motivo.length() > 500) {
       throw new RuntimeException("El motivo es demasiado extenso.");
     }
-    this.hecho = new Hecho(hecho);
+    this.hecho = hecho;
     this.motivo = requireNonNull(motivo);
     this.estado = requireNonNull(estado);
     RepositorioSolicitudes.agregarSolicitudDeEliminacion(this);
@@ -32,7 +32,7 @@ public class SolicitudDeEliminacion implements Solicitud {
 
 
   @Override
-  public void evaluarSolicitud(EstadoSolicitud evaluacion) {
+  public void cambiarEstado(EstadoSolicitud evaluacion) {
     if (!estado.equals(EstadoSolicitud.PENDIENTE)) {
       throw new IllegalStateException("La solicitud ya fue evaluada.");
     }

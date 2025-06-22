@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Coleccion {
   private final String titulo;
@@ -18,7 +17,7 @@ public class Coleccion {
     this.titulo = requireNonNull(titulo);
     this.descripcion = requireNonNull(descripcion);
     this.fuente = requireNonNull(fuente);
-    this.criterioPertenencia = new ArrayList<>(criterioPertenencia);
+    this.criterioPertenencia = new ArrayList<>(requireNonNull(criterioPertenencia));
 
     if (!handler.matches("[a-zA-Z0-9]+")) {
       throw new IllegalArgumentException("El handle debe ser alfanumérico o con guiones.");
@@ -39,7 +38,7 @@ public class Coleccion {
   }
 
   public List<Hecho> obtenerTodosLosHechos() {
-    return fuente.importarHechos(criterioPertenencia);
+    return fuente.getHechos(criterioPertenencia);
   }
 
   public List<Hecho> listarHechosDisponibles() {

@@ -36,7 +36,7 @@ public class SolicitudDeCarga implements Solicitud {
     this.sugerencia = s;
   }
 
-  public void evaluarSolicitud(EstadoSolicitud evaluacion) {
+  public void cambiarEstado(EstadoSolicitud evaluacion) {
     if (!estado.equals(EstadoSolicitud.PENDIENTE)) {
       throw new IllegalStateException("La solicitud ya fue evaluada.");
     }

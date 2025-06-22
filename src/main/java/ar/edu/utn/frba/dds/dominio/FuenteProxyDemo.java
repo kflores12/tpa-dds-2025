@@ -25,7 +25,7 @@ public class FuenteProxyDemo implements Fuente {
     this.repositorioDeHechos = repositorio;
   }
 
-  public List<Hecho> importarHechos(List<Criterio> criterios) {
+  public List<Hecho> getHechos(List<Criterio> criterios) {
     if (criterios == null || criterios.isEmpty()) {
       return new ArrayList<>(this.filtrarDuplicados(repositorioDeHechos.obtenerTodos()).values());
     }

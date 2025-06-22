@@ -34,7 +34,7 @@ public class FuenteDataSet implements Fuente {
   }
 
   @Override
-  public List<Hecho> importarHechos(List<Criterio> criterios) {
+  public List<Hecho> getHechos(List<Criterio> criterios) {
 
     List<Hecho> hechos = new ArrayList<>();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.formatoFecha);
@@ -78,16 +78,12 @@ public class FuenteDataSet implements Fuente {
 
         hechos.add(hecho);
       }
-      if (hechos.isEmpty()) {
-        throw new RuntimeException("El archivo está vacío o no contiene hechos válidos");
-      }
+
     } catch (IOException e) {
-      throw new RuntimeException("Error al leer el archivo CSV: " + ruta, e);
-    } catch (RuntimeException e) {
-      throw new RuntimeException("Error al procesar los datos del CSV: " + ruta, e);
+      throw new RuntimeException();
     }
 
-    if (criterios == null || criterios.isEmpty()) {
+    if (criterios.isEmpty()) {
       return new ArrayList<>(this.filtrarDuplicados(hechos).values());
     }
     List<Hecho> filtrados = hechos.stream().filter(h -> criterios.stream()

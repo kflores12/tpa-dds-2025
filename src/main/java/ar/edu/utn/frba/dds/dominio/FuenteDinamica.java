@@ -13,7 +13,7 @@ public class FuenteDinamica implements Fuente {
   }
 
   @Override
-  public List<Hecho> importarHechos(List<Criterio> criterios) {
+  public List<Hecho> getHechos(List<Criterio> criterios) {
     if (criterios == null || criterios.isEmpty()) {
       return new ArrayList<>(this.filtrarDuplicados(repositorioDeHechos.obtenerTodos()).values());
     }

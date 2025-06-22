@@ -48,8 +48,8 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).evaluarSolicitud(EstadoSolicitud.ACEPTADA);
-    solicitudes.get(1).evaluarSolicitud(EstadoSolicitud.ACEPTADA);
+    solicitudes.get(0).cambiarEstado(EstadoSolicitud.ACEPTADA);
+    solicitudes.get(1).cambiarEstado(EstadoSolicitud.ACEPTADA);
     //Cargo la Solicitud.
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica, criterios,generador.generar());
@@ -68,7 +68,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(1).evaluarSolicitud(EstadoSolicitud.ACEPTADA);
+    solicitudes.get(1).cambiarEstado(EstadoSolicitud.ACEPTADA);
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica, criterios,generador.generar());
     List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
@@ -84,7 +84,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).evaluarSolicitud(EstadoSolicitud.RECHAZADA);
+    solicitudes.get(0).cambiarEstado(EstadoSolicitud.RECHAZADA);
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica, criterios,generador.generar());
     List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
@@ -99,7 +99,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).evaluarSolicitud(EstadoSolicitud.ACEPTADA);
+    solicitudes.get(0).cambiarEstado(EstadoSolicitud.ACEPTADA);
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica, criterios,generador.generar());
     List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
@@ -115,7 +115,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).evaluarSolicitud(EstadoSolicitud.ACEPTADA);
+    solicitudes.get(0).cambiarEstado(EstadoSolicitud.ACEPTADA);
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica, criterios,generador.generar());
     List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
@@ -132,7 +132,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).evaluarSolicitud(EstadoSolicitud.ACEPTADA);
+    solicitudes.get(0).cambiarEstado(EstadoSolicitud.ACEPTADA);
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica, criterios,generador.generar());
     List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
@@ -165,7 +165,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).evaluarSolicitud(EstadoSolicitud.ACEPTADA);
+    solicitudes.get(0).cambiarEstado(EstadoSolicitud.ACEPTADA);
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica, criterios,generador.generar());
     List<Hecho> hechos = coleccion.obtenerTodosLosHechos();
