@@ -34,7 +34,7 @@ public class FuenteDataSet implements Fuente {
   }
 
   @Override
-  public List<Hecho> getHechos(List<Criterio> criterios) {
+  public List<Hecho> getHechos() {
 
     List<Hecho> hechos = new ArrayList<>();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.formatoFecha);
@@ -82,21 +82,8 @@ public class FuenteDataSet implements Fuente {
     } catch (IOException e) {
       throw new RuntimeException();
     }
-
-    if (criterios.isEmpty()) {
-      return new ArrayList<>(this.filtrarDuplicados(hechos).values());
-    }
-    List<Hecho> filtrados = hechos.stream().filter(h -> criterios.stream()
-        .allMatch(c -> c.aplicarFiltro(h))).toList();
-
-    return new ArrayList<>(filtrarDuplicados(filtrados).values());
+    
+    return new ArrayList<>(hechos);
   }
-
-  public Map<String, Hecho> filtrarDuplicados(List<Hecho> duplicados) {
-    Map<String, Hecho> hechosUnicos = new HashMap<>();
-    for (Hecho hecho : duplicados) {
-      hechosUnicos.put(hecho.getTitulo(), hecho);
-    }
-    return hechosUnicos;
-  }
+  
 }

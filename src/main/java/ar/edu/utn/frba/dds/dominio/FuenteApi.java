@@ -28,6 +28,27 @@ public class FuenteApi implements Fuente {
   }
 
   @Override
+  public List<Hecho> getHechos() { // Ya no recibe criterios
+    try {
+      Response<List<Hecho>> response;
+
+      if (handler != null) {
+        // Obtener todos los hechos de una colección específica
+        response = apiService.getHechosDeUnaColeccion(handler).execute();
+      } else {
+        // Obtener todos los hechos sin filtro
+        response = apiService.getTodosLosHechos().execute();
+      }
+
+      return response.isSuccessful() ? response.body() : Collections.emptyList();
+
+    } catch (IOException e) {
+      System.err.println("Error de red: " + e.getMessage());
+      return Collections.emptyList();
+    }
+  }
+  /*
+  @Override
   public List<Hecho> getHechos(List<Criterio> criterios) {
     try {
       Response<List<Hecho>> response;
@@ -54,4 +75,6 @@ public class FuenteApi implements Fuente {
   public String listToQuery(List<Criterio> criterios) {
     return criterios.stream().map(Criterio::toQuery).collect(Collectors.joining("&"));
   }
+
+   */
 }

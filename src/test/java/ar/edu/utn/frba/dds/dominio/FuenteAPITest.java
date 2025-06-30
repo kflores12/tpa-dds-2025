@@ -59,7 +59,7 @@ public class FuenteAPITest {
             .setBody(jsonResponse)
             .addHeader("Content-Type", "application/json"));
 
-        List<Hecho> hechos = fuenteApi.getHechos(new ArrayList<>());
+        List<Hecho> hechos = fuenteApi.getHechos();
 
         assertEquals(2, hechos.size());
         assertEquals("Incendio en reserva natural", hechos.get(0).getTitulo());

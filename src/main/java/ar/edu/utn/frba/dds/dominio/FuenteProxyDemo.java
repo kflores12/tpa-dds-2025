@@ -25,22 +25,11 @@ public class FuenteProxyDemo implements Fuente {
     this.repositorioDeHechos = repositorio;
   }
 
-  public List<Hecho> getHechos(List<Criterio> criterios) {
-    if (criterios.isEmpty()) {
-      return new ArrayList<>(this.filtrarDuplicados(repositorioDeHechos.obtenerTodos()).values());
-    }
+  public List<Hecho> getHechos() {
 
-    return repositorioDeHechos.obtenerTodos().stream().filter(h -> criterios.stream()
-        .allMatch(c -> c.aplicarFiltro(h))).toList();
+    return repositorioDeHechos.obtenerTodos();
   }
 
-  public Map<String, Hecho> filtrarDuplicados(List<Hecho> duplicados) {
-    Map<String, Hecho> hechosUnicos = new HashMap<>();
-    for (Hecho hecho : duplicados) {
-      hechosUnicos.put(hecho.getTitulo(), hecho);
-    }
-    return hechosUnicos;
-  }
 
   public void obtenerHechos() throws Exception {
     if (this.verificarHora()) {
