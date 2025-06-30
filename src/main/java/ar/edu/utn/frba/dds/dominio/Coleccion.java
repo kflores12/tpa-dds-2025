@@ -7,18 +7,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Coleccion {
+public class Coleccion implements Fuente{
   private final String titulo;
   private final String descripcion;
   private final Fuente fuente;
+  private final  Agregador agregador;
   private final List<Criterio> criterioPertenencia;
   private final String handler;
 
-  public Coleccion(String titulo, String descripcion, Fuente fuente,
+  public Coleccion(String titulo, String descripcion, Fuente fuente, Agregador agregador,
                    List<Criterio> criterioPertenencia, String handler) {
     this.titulo = requireNonNull(titulo);
     this.descripcion = requireNonNull(descripcion);
     this.fuente = requireNonNull(fuente);
+    this.agregador = requireNonNull(agregador);
     this.criterioPertenencia = new ArrayList<>(requireNonNull(criterioPertenencia));
 
     if (!handler.matches("[a-zA-Z0-9]+")) {
@@ -39,8 +41,9 @@ public class Coleccion {
     return handler;
   }
 
-  public List<Hecho> obtenerTodosLosHechos() {
-    return fuente.getHechos();
+  @Override
+  public List<Hecho> getHechos() {
+    return this.filtrarPorCriteriosColeccion(fuente.getHechos());
   }
 
   private List<Hecho> filtrarPorCriteriosColeccion(List<Hecho> hechos) {
@@ -62,7 +65,7 @@ public class Coleccion {
   }
 
   public List<Hecho> listarHechosDisponibles(List<Criterio> criteriosUsuario) {
-    List<Hecho> filtradosColeccion = this.obtenerTodosLosHechos()
+    List<Hecho> filtradosColeccion = this.getHechos()
         .stream()
         .filter(Hecho::getDisponibilidad)
         .toList();
