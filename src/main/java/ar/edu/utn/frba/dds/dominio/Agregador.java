@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Agregador implements  Fuente {
-  private final List<Fuente> fuentes;
-  private final List<Hecho> copiaLocal;
+  private final RepositorioFuentes repositorio;
+  private final List<Class<?>> tiposFuente;
+  private final List<Hecho> copiaLocal = new ArrayList<>();
 
-  public Agregador(List<Fuente> fuentes) {
-    this.fuentes =  requireNonNull(fuentes);
-    this.copiaLocal = new ArrayList<>();
+  public Agregador(RepositorioFuentes repositorio, List<Class<?>> tiposFuente) {
+    this.repositorio = requireNonNull(repositorio);
+    this.tiposFuente =  tiposFuente;
   }
+
 
   @Override
   public List<Hecho> getHechos() {
@@ -20,7 +22,9 @@ public class Agregador implements  Fuente {
   }
 
   public void agregarHechos() {
-    List<Hecho> hechosDeFuentes = fuentes.stream()
+    List<Fuente> fuentesSeleccionadas = repositorio.buscarFuentes(tiposFuente);
+
+    List<Hecho> hechosDeFuentes = fuentesSeleccionadas.stream()
         .flatMap(f -> f.getHechos().stream())
         .toList();
 

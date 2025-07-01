@@ -24,7 +24,7 @@ public class TestsFuenteDataSet {
   Criterio titulo;
   Criterio CCategoria;
   List<Criterio> criteriosUsuario;
-  private List<Fuente> fuentes;
+  private RepositorioFuentes fuentesRepo;
   private Agregador agregador;
 
   @BeforeEach
@@ -42,8 +42,10 @@ public class TestsFuenteDataSet {
     CCategoria = new CriterioCategoria("Ruta Provincial");
     criterios = new ArrayList<>(Arrays.asList(titulo,rango));
     criterios2 = new ArrayList<>(Arrays.asList(CCategoria));
-    fuentes = new ArrayList<>();
-    agregador = new Agregador(fuentes);
+    fuentesRepo = new RepositorioFuentes();
+    fuentesRepo.registrarFuente(dataset);
+    List<Class<?>> tipos = List.of(FuenteApi.class);
+    agregador = new Agregador(fuentesRepo, tipos);
   }
 
   @Test

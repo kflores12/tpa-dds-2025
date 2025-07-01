@@ -26,7 +26,7 @@ public class TestFuenteDinamica {
   Hecho hechoSegundo;
   Hecho hechoModificador;
   Hecho hechoCargaVieja;
-  private List<Fuente> fuentes;
+  private RepositorioFuentes fuentesRepo;
   private Agregador agregador;
 
   @BeforeEach
@@ -40,8 +40,10 @@ public class TestFuenteDinamica {
      repoHechos = new RepositorioHechos();
      repoSolicitudes = new RepositorioSolicitudes();
      fuenteDinamica = new FuenteDinamica(repoHechos);
-    fuentes = new ArrayList<>();
-    agregador = new Agregador(fuentes);
+    fuentesRepo = new RepositorioFuentes();
+    fuentesRepo.registrarFuente(fuenteDinamica);
+    List<Class<?>> tipos = List.of(FuenteApi.class);
+    agregador = new Agregador(fuentesRepo, tipos);
   }
 
   @Test

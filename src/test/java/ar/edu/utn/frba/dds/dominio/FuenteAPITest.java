@@ -12,7 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FuenteAPITest {
     private MockWebServer mockWebServer;
     private FuenteApi fuenteApi;
-    private List<Fuente> fuentes;
+
+    private RepositorioFuentes fuentesRepo;
     private Agregador agregador;
 
     @BeforeEach
@@ -20,8 +21,11 @@ public class FuenteAPITest {
         mockWebServer = new MockWebServer();
         mockWebServer.start();
         fuenteApi = new FuenteApi(mockWebServer.url("/").toString(), null);
-        fuentes = new ArrayList<>();
-        agregador = new Agregador(fuentes);
+
+        fuentesRepo = new RepositorioFuentes();
+        fuentesRepo.registrarFuente(fuenteApi);
+        List<Class<?>> tipos = List.of(FuenteApi.class);
+        agregador = new Agregador(fuentesRepo, tipos);
     }
 
     @AfterEach

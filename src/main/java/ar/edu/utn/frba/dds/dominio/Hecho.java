@@ -99,6 +99,10 @@ public class Hecho {
     return disponibilidad;
   }
 
+  public TipoFuente getFuente() {
+    return origen;
+  }
+
   public void setDisponibilidad(Boolean disponibilidad) {
     this.disponibilidad = disponibilidad;
   }
