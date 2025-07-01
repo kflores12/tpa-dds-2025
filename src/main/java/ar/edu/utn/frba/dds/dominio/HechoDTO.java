@@ -1,9 +1,8 @@
 package ar.edu.utn.frba.dds.dominio;
 
 import com.opencsv.bean.CsvBindByName;
-import java.time.LocalDate;
 
-public class HechoDataO {
+public class HechoDTO {
   @CsvBindByName
   private String titulo;
   @CsvBindByName

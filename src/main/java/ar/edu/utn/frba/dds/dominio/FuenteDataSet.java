@@ -17,9 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FuenteDataSet implements Fuente {
 
@@ -51,14 +49,14 @@ public class FuenteDataSet implements Fuente {
              .withCSVParser(parser)
              .build()
     ) {
-      HeaderColumnNameMappingStrategy<HechoDataO> strategy =
+      HeaderColumnNameMappingStrategy<HechoDTO> strategy =
           new HeaderColumnNameMappingStrategy<>();
-      strategy.setType(HechoDataO.class);
-      CsvToBean<HechoDataO> csvToBean = new CsvToBeanBuilder<HechoDataO>(csvReader)
+      strategy.setType(HechoDTO.class);
+      CsvToBean<HechoDTO> csvToBean = new CsvToBeanBuilder<HechoDTO>(csvReader)
           .withMappingStrategy(strategy)
           .withIgnoreLeadingWhiteSpace(true)
           .build();
-      for (HechoDataO hechodto : csvToBean) {
+      for (HechoDTO hechodto : csvToBean) {
         if (!hechodto.contieneTodosLosCampos()) {
           throw new RuntimeException("Faltan valores en alguna linea");
         }
