@@ -44,8 +44,9 @@ public class TestsFuenteDataSet {
     criterios2 = new ArrayList<>(Arrays.asList(CCategoria));
     fuentesRepo = new RepositorioFuentes();
     fuentesRepo.registrarFuente(dataset);
-    List<Class<?>> tipos = List.of(FuenteApi.class);
-    agregador = new Agregador(fuentesRepo, tipos);
+    FiltroAgregador filtroPorTipo =
+        new FiltroPorTipo(List.of(FuenteApi.class));
+    agregador = new Agregador(fuentesRepo, filtroPorTipo);
   }
 
   @Test

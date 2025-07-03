@@ -57,7 +57,10 @@ public class TestAgregador {
     cBase = new CriterioBase();
     criterios = new ArrayList<>(Arrays.asList(cBase));
 
-    hechoPrimero = new Hecho("Corte de luz Dinamica","Corte de luz en zona sur","cortes",21.2,12.8, LocalDate.of(2025,1,1),LocalDate.now(),TipoFuente.DINAMICA,"",Boolean.TRUE);
+    hechoPrimero = new Hecho("Corte de luz Dinamica",
+        "Corte de luz en zona sur","cortes",21.2,
+        12.8, LocalDate.of(2025,1,1),
+        LocalDate.now(),TipoFuente.DINAMICA,"",Boolean.TRUE);
     //REPO PARA FUENTE DINAMICA
     repoHechos = new RepositorioHechos();
     repoSolicitudes = new RepositorioSolicitudes();
@@ -73,13 +76,14 @@ public class TestAgregador {
     fuenteDataSet = new FuenteDataSet("datos.csv","yyyy-MM-dd",',');
     fuenteDinamica = new FuenteDinamica(repoHechos);
     fuenteApi = new FuenteApi(mockWebServer.url("/").toString(), null);
-    fuenteProxyDemo = new FuenteProxyDemo(conexion, url, repositorioDeProxy, LocalDateTime.now().minusHours(2));
+    fuenteProxyDemo = new FuenteProxyDemo(conexion, url, repositorioDeProxy);
 
     //REPOSITORIO DE FUENTES
     fuentesRepo = new RepositorioFuentes();
     //AGREGADOR
-    List<Class<?>> tipos = List.of(Fuente.class);
-    agregador = new Agregador(fuentesRepo, tipos);
+    FiltroAgregador filtroPorTipo =
+        new FiltroPorTipo(List.of(Fuente.class));
+    agregador = new Agregador(fuentesRepo, filtroPorTipo);
 
     //CARGAR FUENTES
     //DINAMICA
@@ -253,8 +257,9 @@ public class TestAgregador {
     //FUENTEAPI
     fuentesRepo.registrarFuente(fuenteApi);
 
-    List<Class<?>> tipos = List.of( FuenteDataSet.class,FuenteDinamica.class);
-    Agregador agregador_solo_Dinamico_DataSet = new Agregador(fuentesRepo, tipos);
+    FiltroAgregador filtroPorTipo =
+        new FiltroPorTipo(List.of(fuenteDinamica.getClass(), fuenteDataSet.getClass()));
+    Agregador agregador_solo_Dinamico_DataSet = new Agregador(fuentesRepo, filtroPorTipo);
 
     agregador_solo_Dinamico_DataSet.agregarHechos();
     List<Hecho> hechos = agregador_solo_Dinamico_DataSet.getHechos();

@@ -24,8 +24,9 @@ public class FuenteAPITest {
 
         fuentesRepo = new RepositorioFuentes();
         fuentesRepo.registrarFuente(fuenteApi);
-        List<Class<?>> tipos = List.of(FuenteApi.class);
-        agregador = new Agregador(fuentesRepo, tipos);
+        FiltroAgregador filtroPorTipo =
+            new FiltroPorTipo(List.of(FuenteApi.class));
+        agregador = new Agregador(fuentesRepo, filtroPorTipo);
     }
 
     @AfterEach

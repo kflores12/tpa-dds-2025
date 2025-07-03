@@ -14,11 +14,10 @@ public class RepositorioFuentes {
     fuentes.remove(fuente);
   }
 
-  public List<Fuente> buscarFuentes(List<Class<?>> tiposFuente) {
+  public List<Fuente> buscarFuentes(FiltroAgregador filtro) {
     return fuentes.stream()
-        .filter(f -> tiposFuente.stream().anyMatch(t -> t.isInstance(f)))
+        .filter(filtro::cumple)
         .toList();
   }
-
 
 }

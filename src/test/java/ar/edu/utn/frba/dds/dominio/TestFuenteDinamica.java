@@ -42,8 +42,9 @@ public class TestFuenteDinamica {
      fuenteDinamica = new FuenteDinamica(repoHechos);
     fuentesRepo = new RepositorioFuentes();
     fuentesRepo.registrarFuente(fuenteDinamica);
-    List<Class<?>> tipos = List.of(FuenteApi.class);
-    agregador = new Agregador(fuentesRepo, tipos);
+    FiltroAgregador filtroPorTipo =
+        new FiltroPorTipo(List.of(FuenteApi.class));
+    agregador = new Agregador(fuentesRepo, filtroPorTipo);
   }
 
   @Test
