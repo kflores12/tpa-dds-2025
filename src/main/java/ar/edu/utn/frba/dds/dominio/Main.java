@@ -1,31 +1,28 @@
 package ar.edu.utn.frba.dds.dominio;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 
-/*
+
 public class Main {
-   
     public static void main(String[] args) {
 
-         Falta implementacion concreta de conexión.
+        System.out.println("INICIO: Ejecución iniciada a las " + LocalDateTime.now());
 
         try {
-            
-            Conexion conexion = new Conexion();
-            URL url = new URL("https://prueba.url");
+            ConexionMock conexion = new ConexionMock();
+            URL url = new URL("http://mock.url");
             RepositorioHechos repo = new RepositorioHechos();
 
-          
             FuenteProxyDemo fuente = new FuenteProxyDemo(conexion, url, repo);
             fuente.obtenerHechos();
 
-           
-            System.out.println(java.time.LocalDateTime.now() + " Proceso completado");
+            System.out.println("EXITO: Hechos procesados: " + repo.obtenerTodos().size());
         } catch (Exception e) {
-            System.err.println(java.time.LocalDateTime.now() + " ERROR: " + e.getMessage());
-            e.printStackTrace();
-            System.exit(1); 
+            System.err.println("ERROR: " + e.getMessage());
         } 
-         
-        }
-}*/
+
+            System.out.println("FIN: Ejecución finalizada a las " + LocalDateTime.now());
+    }
+}
+

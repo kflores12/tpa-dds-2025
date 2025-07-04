@@ -117,40 +117,12 @@
              <archive>
                  <!-- Esto indica cual será el punto de entrada de nuestro ejecutable -->
                  <manifest>
-                     <mainClass>ar.edu.utn.frba.dds.Main</mainClass>
+                     <mainClass>ar.edu.utn.frba.dds.dominio.Main</mainClass>
                  </manifest>
              </archive>
         </configuration>
       </plugin>
 
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.6.0</version>
-        <configuration>
-          <!-- descriptor predefinido que incluye todas las dependencias -->
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          <archive>
-            <manifest>
-              <!-- mismo mainClass dentro del jar-fat -->
-              <mainClass>ar.edu.utn.frba.dds.dominio.Sistema</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <!-- se engancha al empaquetado -->
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
 
       <plugin>
         <groupId>org.springframework.boot</groupId>
