@@ -37,32 +37,32 @@ public class FuenteAPITest {
     @Test
     void testObtenerHechos() throws Exception {
         String jsonResponse = """
-        [
-            {
-                "titulo": "Incendio en reserva natural",
-                "descripcion": "Fuego activo en la reserva de Calamuchita",
-                "categoria": "desastre natural",
-                "latitud": -32.192,
-                "longitud": -64.3936,
-                "fechaAcontecimiento": "2023-11-05",
-                "fechaDeCarga": "2023-11-06",
-                "origen": "METAMAPA",
-                "multimedia": null,
-                "disponibilidad": true
-            },
-            {
-                "titulo": "choque entre tres autos",
-                "descripcion": "accidente vehicular termina con la vida de 10 personas",
-                "categoria": "accidente de transito",
-                "latitud": -32.192,
-                "longitud": -64.3936,
-                "fechaAcontecimiento": "2023-11-05",
-                "fechaDeCarga": "2023-11-06",
-                "origen": "METAMAPA",
-                "multimedia": null,
-                "disponibilidad": true
-            }
-        ]""";
+            [
+                {
+                    "titulo": "Incendio en reserva natural",
+                    "descripcion": "Fuego activo en la reserva de Calamuchita",
+                    "categoria": "desastre natural",
+                    "latitud": -32.192,
+                    "longitud": -64.3936,
+                    "fechaAcontecimiento": "2023-11-05",
+                    "fechaDeCarga": "2023-11-06",
+                    "origen": "METAMAPA",
+                    "multimedia": null,
+                    "disponibilidad": true
+                },
+                {
+                    "titulo": "choque entre tres autos",
+                    "descripcion": "accidente vehicular termina con la vida de 10 personas",
+                    "categoria": "accidente de transito",
+                    "latitud": -32.192,
+                    "longitud": -64.3936,
+                    "fechaAcontecimiento": "2023-11-05",
+                    "fechaDeCarga": "2023-11-06",
+                    "origen": "METAMAPA",
+                    "multimedia": null,
+                    "disponibilidad": true
+                }
+            ]""";
 
         mockWebServer.enqueue(new MockResponse()
             .setBody(jsonResponse)

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestMultiplesMenciones {
 
-  private final AMultiplesMeciones algoritmo = new AMultiplesMeciones();
+  private final AmultiplesMeciones algoritmo = new AmultiplesMeciones();
 
   private Hecho crearHecho(String titulo, String descripcion, TipoFuente fuente) {
     return new Hecho(titulo, descripcion, "Categoria", 1.0, 1.0,

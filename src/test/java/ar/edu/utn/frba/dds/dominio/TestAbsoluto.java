@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAbsoluto{
 
-  private final AAbsoluta algoritmo = new AAbsoluta();
+  private final Aabsoluta algoritmo = new Aabsoluta();
 
   private Hecho hecho(String titulo, TipoFuente fuente) {
     return new Hecho(titulo, "desc", "cat", 0.0, 0.0,

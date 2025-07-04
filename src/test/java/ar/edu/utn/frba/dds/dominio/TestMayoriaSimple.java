@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestMayoriaSimple{
 
-  private final AMayoriaSimple algoritmo = new AMayoriaSimple();
+  private final AmayoriaSimple algoritmo = new AmayoriaSimple();
 
   private Hecho hecho(String titulo, TipoFuente fuente) {
     return new Hecho(titulo, "desc", "cat", 0.0, 0.0,

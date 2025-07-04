@@ -1,8 +1,9 @@
 package ar.edu.utn.frba.dds.dominio;
+
 import java.util.List;
 import java.util.Objects;
 
-public class AMultiplesMeciones implements AlgoritmoDeConsenso{
+public class AmultiplesMeciones implements AlgoritmoDeConsenso {
 
   @Override
   public boolean estaConsensuado(Hecho hecho, List<Hecho> hechosNodo) {
@@ -15,24 +16,33 @@ public class AMultiplesMeciones implements AlgoritmoDeConsenso{
 
     return igualesDeOtrasFuentes.size() >= 1  && !hayConflictoDeTitulos;
   }
-  private static boolean sonIguales(Hecho a, Hecho b) {
-    if (a == b) return true;
-    if (a == null || b == null) return false;
 
-    return Objects.equals(a.getTitulo(), b.getTitulo()) &&
-        Objects.equals(a.getDescripcion(), b.getDescripcion()) &&
-        Objects.equals(a.getCategoria(), b.getCategoria()) &&
-        Objects.equals(a.getLatitud(), b.getLatitud()) &&
-        Objects.equals(a.getLongitud(), b.getLongitud()) &&
-        Objects.equals(a.getFechaAcontecimiento(), b.getFechaAcontecimiento()) &&
-        Objects.equals(a.getFechaDeCarga(), b.getFechaDeCarga()) &&
-        Objects.equals(a.getMultimedia(), b.getMultimedia()) &&
-        Objects.equals(a.getDisponibilidad(), b.getDisponibilidad());
+  private static boolean sonIguales(Hecho a, Hecho b) {
+    if (a == b) {
+      return true;
+    }
+    if (a == null || b == null) {
+      return false;
+    }
+
+    return Objects.equals(a.getTitulo(), b.getTitulo())
+        && Objects.equals(a.getDescripcion(), b.getDescripcion())
+        && Objects.equals(a.getCategoria(), b.getCategoria())
+        && Objects.equals(a.getLatitud(), b.getLatitud())
+        && Objects.equals(a.getLongitud(), b.getLongitud())
+        && Objects.equals(a.getFechaAcontecimiento(), b.getFechaAcontecimiento())
+        && Objects.equals(a.getFechaDeCarga(), b.getFechaDeCarga())
+        && Objects.equals(a.getMultimedia(), b.getMultimedia())
+        && Objects.equals(a.getDisponibilidad(), b.getDisponibilidad());
   }
 
   private static boolean mismoTitulo(Hecho a, Hecho b) {
-    if (a == b) return true;
-    if (a == null || b == null) return false;
+    if (a == b) {
+      return true;
+    }
+    if (a == null || b == null) {
+      return false;
+    }
 
     return Objects.equals(a.getTitulo(), b.getTitulo()) && !sonIguales(a, b);
   }

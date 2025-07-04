@@ -16,8 +16,12 @@ public class Coleccion implements Fuente {
   private final AlgoritmoDeConsenso algoritmo;
   private final List<Hecho> hechosConsensuados = new ArrayList<Hecho>();
 
-  public Coleccion(String titulo, String descripcion, Fuente fuente,
-                   List<Criterio> criterioPertenencia, String handler , AlgoritmoDeConsenso algoritmo) {
+  public Coleccion(String titulo,
+                   String descripcion,
+                   Fuente fuente,
+                   List<Criterio> criterioPertenencia,
+                   String handler,
+                   AlgoritmoDeConsenso algoritmo) {
     this.titulo = requireNonNull(titulo);
     this.descripcion = requireNonNull(descripcion);
     this.fuente = requireNonNull(fuente);
@@ -27,9 +31,9 @@ public class Coleccion implements Fuente {
       throw new IllegalArgumentException("El handle debe ser alfanumérico o con guiones.");
     }
     this.handler = handler;
-    if(algoritmo == null){
-      navegacionIrrestricta(fuente.getHechos());
-    }
+    //if (algoritmo == null) {
+    //  navegacionIrrestricta(fuente.getHechos());
+    //}
     this.algoritmo = algoritmo;
   }
 
@@ -47,7 +51,7 @@ public class Coleccion implements Fuente {
 
   @Override
   public List<Hecho> getHechos() {
-    List<Hecho> hechosAgregados = fuente.getHechos();
+    List<Hecho> hechosAgregados = new ArrayList<>();
     hechosAgregados.addAll(fuente.getHechos());
     return this.filtrarPorCriteriosColeccion(hechosAgregados);
   }
@@ -81,8 +85,8 @@ public class Coleccion implements Fuente {
         .allMatch(c -> c.aplicarFiltro(h)))
         .toList();
   }
-  public void actualizarHechosConsensuados(List<Hecho> hechosNodo) {
 
+  public void actualizarHechosConsensuados(List<Hecho> hechosNodo) {
     if (this.algoritmo == null) {
       navegacionIrrestricta(this.fuente.getHechos());
     } else {
@@ -93,7 +97,8 @@ public class Coleccion implements Fuente {
       }
     }
   }
-  private void navegacionIrrestricta(List<Hecho> hechos ){
+
+  private void navegacionIrrestricta(List<Hecho> hechos) {
     this.hechosConsensuados.addAll(hechos);
   }
 }

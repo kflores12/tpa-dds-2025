@@ -16,7 +16,7 @@ public class SolicitudDeEliminacion implements Solicitud {
     if (motivo.length() > 500) {
       throw new RuntimeException("El motivo es demasiado extenso.");
     }
-    this.hecho = hecho;
+    this.hecho = new Hecho(hecho);
     this.motivo = requireNonNull(motivo);
     this.estado = requireNonNull(estado);
   }

@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.dominio;
-import java.util.Objects;
+
 import java.util.List;
+import java.util.Objects;
 
 public interface AlgoritmoDeConsenso {
 

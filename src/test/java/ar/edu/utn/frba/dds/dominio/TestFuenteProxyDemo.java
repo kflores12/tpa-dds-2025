@@ -1,4 +1,4 @@
-/* package ar.edu.utn.frba.dds.dominio;
+package ar.edu.utn.frba.dds.dominio;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
