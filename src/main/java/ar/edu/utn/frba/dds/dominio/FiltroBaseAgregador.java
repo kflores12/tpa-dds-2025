@@ -4,7 +4,7 @@ public class FiltroBaseAgregador implements FiltroAgregador {
 
 
   @Override
-  public boolean cumple(Fuente fuente) {
+  public boolean filtrar(Fuente fuente) {
     return true;
   }
 }

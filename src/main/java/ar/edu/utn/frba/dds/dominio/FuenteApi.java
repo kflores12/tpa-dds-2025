@@ -47,34 +47,5 @@ public class FuenteApi implements Fuente {
       return Collections.emptyList();
     }
   }
-  /*
-  @Override
-  public List<Hecho> getHechos(List<Criterio> criterios) {
-    try {
-      Response<List<Hecho>> response;
 
-      if (handler != null) {
-        response = criterios.isEmpty()
-          ? apiService.getHechosDeUnaColeccion(handler).execute()
-          : apiService.getHechosDeUnaColeccion(
-          listToQuery(criterios), handler).execute();
-      } else {
-        response = criterios.isEmpty()
-          ? apiService.getTodosLosHechos().execute()
-          : apiService.getTodosLosHechos(listToQuery(criterios)).execute();
-      }
-
-      return response.isSuccessful() ? response.body() : Collections.emptyList();
-    
-    } catch (IOException e) {
-      System.err.println("Error de red: " + e.getMessage());
-      return Collections.emptyList();
-    }
-  }
-
-  public String listToQuery(List<Criterio> criterios) {
-    return criterios.stream().map(Criterio::toQuery).collect(Collectors.joining("&"));
-  }
-
-   */
 }

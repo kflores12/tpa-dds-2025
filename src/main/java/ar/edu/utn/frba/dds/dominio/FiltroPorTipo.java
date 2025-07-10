@@ -10,7 +10,7 @@ public class FiltroPorTipo implements FiltroAgregador {
   }
 
   @Override
-  public boolean cumple(Fuente fuente) {
+  public boolean filtrar(Fuente fuente) {
     return tiposPermitidos.stream().anyMatch(t -> t.isInstance(fuente));
   }
 }

@@ -16,7 +16,7 @@ public class RepositorioFuentes {
 
   public List<Fuente> buscarFuentes(FiltroAgregador filtro) {
     return fuentes.stream()
-        .filter(filtro::cumple)
+        .filter(filtro::filtrar)
         .toList();
   }
 
