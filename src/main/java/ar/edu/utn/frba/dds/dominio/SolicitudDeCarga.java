@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.dominio;
 
+import static java.util.Objects.requireNonNull;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -21,6 +23,8 @@ public class SolicitudDeCarga implements Solicitud {
   private String sugerencia = "";
   private EstadoSolicitud estado = EstadoSolicitud.PENDIENTE;
   private RepositorioHechos repositorioH;
+  private String evaluador;
+
 
   public SolicitudDeCarga(String titulo,
                           String descripcion,
@@ -59,12 +63,16 @@ public class SolicitudDeCarga implements Solicitud {
     this.sugerencia = s;
   }
 
+  public String getEvaluador() {
+    return evaluador;
+  }
+
   //unicamente para test
   public void setFechaCargaOriginal(LocalDate fechaCargaMock) {
     this.fechaCargaOriginal = fechaCargaMock;
   }
 
-  public void aprobar() {
+  public void aprobar(String evaluador) {
     if (estado.equals(EstadoSolicitud.ACEPTADA)) {
 
       throw new IllegalStateException("La solicitud ya fue evaluada.");
@@ -72,7 +80,9 @@ public class SolicitudDeCarga implements Solicitud {
 
       this.fechaCargaOriginal = LocalDate.now();
       this.estado = EstadoSolicitud.ACEPTADA;
-
+      this.evaluador = requireNonNull(evaluador);
+      //cuando pensemos en la persistencia de hechos modificados
+      //por trazabilidad aca podria ser guardado el hecho original
       repositorioH.cargarHecho(
           new Hecho(this.titulo,
               this.descripcion,
@@ -88,16 +98,16 @@ public class SolicitudDeCarga implements Solicitud {
     }
   }
 
-  public void rechazar() {
-
+  public void rechazar(String evaluador) {
     this.estado = EstadoSolicitud.RECHAZADA;
+    this.evaluador = requireNonNull(evaluador);
   }
 
   public void sugerir(String sugerencia) {
     this.sugerencia = sugerencia;
   }
 
-  public void cambiarEstado(EstadoSolicitud evaluacion) {
+  public void cambiarEstado(EstadoSolicitud evaluacion, String evaluador) {
   }
 
   public boolean puedeModificar() {
@@ -131,7 +141,9 @@ public class SolicitudDeCarga implements Solicitud {
   }
 
   public void modificarHecho(Hecho h) {
-    encontrarHecho().modificar(h);
+    Hecho original = encontrarHecho();
+    original.modificar(h);
   }
+
 
 }

@@ -91,7 +91,7 @@ public class TestAgregador {
         ,"cortes",21.2,12.8, LocalDate.of(2025,1,1),"",Boolean.TRUE,repoHechos);
     repoSolicitudes.agregarSolicitudDeCarga(solicitudDeCargaPrimera);
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
-    solicitudes.get(0).aprobar();
+    solicitudes.get(0).aprobar("unEvaluador");
     //PROXYDEMO
     Map<String, Object> hecho1 = new HashMap<>();
     hecho1.put("titulo", "Hecho 1 Proxy");

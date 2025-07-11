@@ -61,7 +61,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).aprobar();
+    solicitudes.get(0).aprobar("unEvaluador");
     //Cargo la Solicitud.
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
@@ -82,7 +82,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(1).aprobar();
+    solicitudes.get(1).aprobar("unEvaluador");
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(),null);
@@ -99,7 +99,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).rechazar();
+    solicitudes.get(0).rechazar("unEvaluador");
     solicitudes.get(0).sugerir("Cambia el titulo");
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
@@ -118,7 +118,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).aprobar();
+    solicitudes.get(0).aprobar("unEvaluador");
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(),null);
@@ -135,7 +135,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).aprobar();
+    solicitudes.get(0).aprobar("unEvaluador");
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(),null);
@@ -153,7 +153,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).aprobar();
+    solicitudes.get(0).aprobar("unEvaluador");
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(),null);
@@ -187,7 +187,7 @@ public class TestFuenteDinamica {
     //Tomar solicitud.
     List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
     //Admin toma y aprueba solicitudes.
-    solicitudes.get(0).aprobar();
+    solicitudes.get(0).aprobar("unEvaluador");
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(),null);

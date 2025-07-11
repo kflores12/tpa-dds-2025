@@ -23,7 +23,7 @@ public class Main2 {
           "",
           Boolean.TRUE,
           repositorioDeHechos2);
-      solicitudDeCargaPrimera.aprobar();
+      solicitudDeCargaPrimera.aprobar("unEvaluador");
       FuenteDinamica fuenteDinamica = new FuenteDinamica(repositorioDeHechos2);
       RepositorioFuentes repositorioDeFuentes = new RepositorioFuentes();
       ConexionMock conexion = new ConexionMock();
