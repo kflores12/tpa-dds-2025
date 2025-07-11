@@ -62,10 +62,12 @@ public class SolicitudDeEliminacion implements Solicitud {
     if (motivoApelacion == null || motivoApelacion.isBlank()) {
       throw new IllegalArgumentException("Debe indicar un motivo de apelación.");
     }
-    this.estado = EstadoSolicitud.APELADA;
+    if (motivoApelacion.length() > 500) {
+      throw new RuntimeException("El motivo es demasiado extenso.");
+    }
+    this.estado = EstadoSolicitud.PENDIENTE;
     this.motivoApelacion = motivoApelacion;
   }
-
 
 
 }
