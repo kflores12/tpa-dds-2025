@@ -1,18 +1,18 @@
 package ar.edu.utn.frba.dds.dominio;
 
 import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AmayoriaSimple;
-import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroBaseAgregador;
 import ar.edu.utn.frba.dds.dominio.fuentes.Agregador;
 import ar.edu.utn.frba.dds.dominio.fuentes.ConexionMock;
+import ar.edu.utn.frba.dds.dominio.fuentes.Fuente;
 import ar.edu.utn.frba.dds.dominio.fuentes.FuenteDataSet;
 import ar.edu.utn.frba.dds.dominio.fuentes.FuenteDinamica;
 import ar.edu.utn.frba.dds.dominio.fuentes.FuenteProxyDemo;
-import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioFuentes;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
 import ar.edu.utn.frba.dds.dominio.solicitudes.SolicitudDeCarga;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -32,23 +32,22 @@ public class Main {
           Boolean.TRUE,
           repositorioDeHechos2);
       solicitudDeCargaPrimera.aprobar("unEvaluador");
-      FuenteDataSet fuenteDataSet = new FuenteDataSet("/home/utnso/tpa-2025-05/EjHechos.csv",
-          "d/M/yyyy",
-          ';');
       FuenteDinamica fuenteDinamica = new FuenteDinamica(repositorioDeHechos2);
-      RepositorioFuentes repositorioDeFuentes = new RepositorioFuentes();
       ConexionMock conexion = new ConexionMock();
       URL url = new URL("http://mock.url");
       FuenteProxyDemo fuenteProxy = new FuenteProxyDemo(conexion, url, repositorioDeHechos);
       fuenteProxy.obtenerHechos();
-      repositorioDeFuentes.registrarFuente(fuenteDinamica);
-      repositorioDeFuentes.registrarFuente(fuenteDataSet);
-      repositorioDeFuentes.registrarFuente(fuenteProxy);
-
+      FuenteDataSet fuenteDataSet = new FuenteDataSet("/home/utnso/tpa-2025-05/EjHechos.csv",
+              "d/M/yyyy",
+              ';');
+      List<Fuente> lista = new ArrayList<>();
+      lista.add(fuenteDinamica);
+      lista.add(fuenteProxy);
+      lista.add(fuenteDataSet);
       if ("consensuarHechos".equals(args[0])) {
-        consensuarHechos(repositorioDeFuentes);
+        consensuarHechos(lista);
       } else if ("ejecutarAgregador".equals(args[0])) {
-        ejecutarAgregador(repositorioDeFuentes);
+        ejecutarAgregador(lista);
       }
     } catch (Exception e) {
       System.err.println("ERROR: " + e.getMessage());
@@ -56,10 +55,9 @@ public class Main {
     System.out.println("FIN: Ejecución finalizada a las " + LocalDateTime.now());
   }
 
-  private static void consensuarHechos(RepositorioFuentes repositorioDeFuentes) throws Exception {
-    var filtroBase = new FiltroBaseAgregador();
-    Agregador agregador = new Agregador(repositorioDeFuentes, filtroBase);
-    agregador.agregarHechos();
+  private static void consensuarHechos(List<Fuente> lista) throws Exception {
+    Agregador agregador = new Agregador(lista);
+    agregador.actualizarHechos();
     List<Hecho> hechos = agregador.getHechos();
     FuenteDataSet fuenteDataSet = new FuenteDataSet("/home/utnso/tpa-2025-05/EjHechos.csv",
           "d/M/yyyy",
@@ -73,10 +71,9 @@ public class Main {
     coleccion.actualizarHechosConsensuados(hechos);
   }
 
-  private static void ejecutarAgregador(RepositorioFuentes repositorioDeFuentes) throws Exception {
-    FiltroBaseAgregador filtroBase = new FiltroBaseAgregador();
-    Agregador agregador = new Agregador(repositorioDeFuentes, filtroBase);
-    agregador.agregarHechos();
+  private static void ejecutarAgregador(List<Fuente> lista) throws Exception {
+    Agregador agregador = new Agregador(lista);
+    agregador.actualizarHechos();
     List<Hecho> hechos = agregador.getHechos();
     System.out.println("Cantidad de hechos: " + hechos.size());
   }

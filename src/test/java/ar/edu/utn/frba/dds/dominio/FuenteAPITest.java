@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.dominio.criterios.CriterioCategoria;
 import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroAgregador;
 import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroPorTipo;
 import ar.edu.utn.frba.dds.dominio.fuentes.Agregador;
+import ar.edu.utn.frba.dds.dominio.fuentes.Fuente;
 import ar.edu.utn.frba.dds.dominio.fuentes.FuenteApi;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioFuentes;
 import okhttp3.mockwebserver.MockResponse;
@@ -21,20 +22,15 @@ public class FuenteAPITest {
     private MockWebServer mockWebServer;
     private FuenteApi fuenteApi;
 
-    private RepositorioFuentes fuentesRepo;
-    private Agregador agregador;
-
     @BeforeEach
     void setUp() throws Exception {
         mockWebServer = new MockWebServer();
         mockWebServer.start();
         fuenteApi = new FuenteApi(mockWebServer.url("/").toString(), null);
 
-        fuentesRepo = new RepositorioFuentes();
-        fuentesRepo.registrarFuente(fuenteApi);
-        FiltroAgregador filtroPorTipo =
-            new FiltroPorTipo(List.of(FuenteApi.class));
-        agregador = new Agregador(fuentesRepo, filtroPorTipo);
+
+        List<Fuente> lista = new ArrayList<>();
+        lista.add(fuenteApi);
     }
 
     @AfterEach
@@ -109,7 +105,7 @@ public class FuenteAPITest {
             .setBody(jsonResponse)
             .addHeader("Content-Type", "application/json"));
 
-        List<Hecho> hechos = coleccion.getHechos();
+        List<Hecho> hechos = coleccion.obtnerHechos();
 
         assertEquals(1, hechos.size());
         assertEquals("Incendio en reserva natural", hechos.get(0).getTitulo());

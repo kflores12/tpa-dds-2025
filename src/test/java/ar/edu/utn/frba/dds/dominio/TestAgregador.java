@@ -37,6 +37,7 @@ public class TestAgregador {
   Fuente fuenteDinamica;
   Fuente fuenteDataSet;
   Fuente fuenteApi;
+  List<Fuente> listaAgregador;
 
   //DINAMICA
   RepositorioHechos repoHechos;
@@ -91,9 +92,8 @@ public class TestAgregador {
     //REPOSITORIO DE FUENTES
     fuentesRepo = new RepositorioFuentes();
     //AGREGADOR
-    FiltroAgregador FiltroBaseAgregador =
-        new FiltroBaseAgregador();
-    agregador = new Agregador(fuentesRepo, FiltroBaseAgregador);
+    listaAgregador = new ArrayList<>();
+    agregador = new Agregador(listaAgregador);
 
     //CARGAR FUENTES
     //DINAMICA
@@ -155,28 +155,28 @@ public class TestAgregador {
 
   @Test
   public void cargarDeUnaFuente() {
-    fuentesRepo.registrarFuente(fuenteDinamica);
+    agregador.registrarFuente(fuenteDinamica);
     //agregador
-    agregador.agregarHechos();
+    agregador.actualizarHechos();
     List<Hecho> hechos = agregador.getHechos();
     //Reviso que los hechos esten bien cargados (Con sus titulos).
 
-    Assertions.assertEquals(hechos.get(0).getTitulo(),"Corte de luz Dinamica");
+    Assertions.assertEquals("Corte de luz Dinamica", hechos.get(0).getTitulo());
     Assertions.assertEquals(1,hechos.size());
   }
 
   @Test
   public void cargarDeCuatroFuentesDiferentes() throws Exception {
     //DINAMICA
-    fuentesRepo.registrarFuente(fuenteDinamica);
+    agregador.registrarFuente(fuenteDinamica);
     //DATASET
-    fuentesRepo.registrarFuente(fuenteDataSet);
+    agregador.registrarFuente(fuenteDataSet);
     //PROXYDEMO
-    fuentesRepo.registrarFuente(fuenteProxyDemo);
+    agregador.registrarFuente(fuenteProxyDemo);
     //FUENTEAPI
-    fuentesRepo.registrarFuente(fuenteApi);
+    agregador.registrarFuente(fuenteApi);
 
-    agregador.agregarHechos();
+    agregador.actualizarHechos();
     List<Hecho> hechos = agregador.getHechos();
 
     Assertions.assertEquals("Corte de luz Dinamica",hechos.get(0).getTitulo());
@@ -194,18 +194,18 @@ public class TestAgregador {
   @Test
   public void cargarDe2FuentesDspsAgregoUna() throws Exception {
     //DINAMICA
-    fuentesRepo.registrarFuente(fuenteDinamica);
+    agregador.registrarFuente(fuenteDinamica);
     //PROXYDEMO
-    fuentesRepo.registrarFuente(fuenteProxyDemo);
+    agregador.registrarFuente(fuenteProxyDemo);
 
-    agregador.agregarHechos();
+    agregador.actualizarHechos();
     List<Hecho> hechos_2_fuentes = agregador.getHechos();
 
     //Parte 2
     //DATASET
-    fuentesRepo.registrarFuente(fuenteDataSet);
+    agregador.registrarFuente(fuenteDataSet);
 
-    agregador.agregarHechos();
+    agregador.actualizarHechos();
     List<Hecho> hechos_3_fuentes = agregador.getHechos();
 
     Assertions.assertEquals("Corte de luz Dinamica",hechos_2_fuentes.get(0).getTitulo());
@@ -225,20 +225,20 @@ public class TestAgregador {
   @Test
   public void cargarDe3FuentesDspsSacoUna() throws Exception {
     //DINAMICA
-    fuentesRepo.registrarFuente(fuenteDinamica);
+    agregador.registrarFuente(fuenteDinamica);
     //PROXYDEMO
-    fuentesRepo.registrarFuente(fuenteProxyDemo);
+    agregador.registrarFuente(fuenteProxyDemo);
 
     //DATASET
-    fuentesRepo.registrarFuente(fuenteDataSet);
+    agregador.registrarFuente(fuenteDataSet);
 
-    agregador.agregarHechos();
+    agregador.actualizarHechos();
     List<Hecho> hechos_3_fuentes = agregador.getHechos();
 
     //Parte 2
-    fuentesRepo.eliminarFuente(fuenteDinamica);
+    agregador.eliminarFuente(fuenteDinamica);
 
-    agregador.agregarHechos();
+    agregador.actualizarHechos();
     List<Hecho> hechos_2_fuentes = agregador.getHechos();
 
     Assertions.assertEquals("Corte de luz Dinamica",hechos_3_fuentes.get(0).getTitulo());
@@ -257,31 +257,6 @@ public class TestAgregador {
     Assertions.assertEquals(4,hechos_2_fuentes.size());
   }
 
-  @Test
-  public void filtrarDosFuentes() throws Exception {
-    //DINAMICA
-    fuentesRepo.registrarFuente(fuenteDinamica);
-    //DATASET
-    fuentesRepo.registrarFuente(fuenteDataSet);
-    //PROXYDEMO
-    fuentesRepo.registrarFuente(fuenteProxyDemo);
-    //FUENTEAPI
-    fuentesRepo.registrarFuente(fuenteApi);
-
-    FiltroAgregador filtroPorTipo =
-        new FiltroPorTipo(List.of(fuenteDinamica.getClass(), fuenteDataSet.getClass()));
-    Agregador agregador_solo_Dinamico_DataSet = new Agregador(fuentesRepo, filtroPorTipo);
-
-    agregador_solo_Dinamico_DataSet.agregarHechos();
-    List<Hecho> hechos = agregador_solo_Dinamico_DataSet.getHechos();
-
-    Assertions.assertEquals("Corte de luz Dinamica",hechos.get(0).getTitulo());
-    Assertions.assertEquals("Incendio en Bariloche",hechos.get(1).getTitulo());
-    Assertions.assertEquals("Tiroteo",hechos.get(2).getTitulo());
-    Assertions.assertEquals("Incendio en pehuen",hechos.get(3).getTitulo());
-
-    Assertions.assertEquals(4,hechos.size());
-  }
 
   @AfterEach
   void limpiarValores() throws IOException {

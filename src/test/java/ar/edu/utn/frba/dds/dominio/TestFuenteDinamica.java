@@ -39,6 +39,7 @@ public class TestFuenteDinamica {
   Hecho hechoCargaVieja;
   private RepositorioFuentes fuentesRepo;
   private Agregador agregador;
+  List<Fuente> fuentesAgregador;
 
   @BeforeEach
   public void prepImportacionDinamica() {
@@ -49,10 +50,9 @@ public class TestFuenteDinamica {
      repoSolicitudes = new RepositorioSolicitudes();
      fuenteDinamica = new FuenteDinamica(repoHechos);
     fuentesRepo = new RepositorioFuentes();
-    fuentesRepo.registrarFuente(fuenteDinamica);
-    FiltroAgregador filtroPorTipo =
-        new FiltroPorTipo(List.of(FuenteApi.class));
-    agregador = new Agregador(fuentesRepo, filtroPorTipo);
+    fuentesAgregador = new ArrayList<>();
+    fuentesAgregador.add(fuenteDinamica);
+    agregador = new Agregador(fuentesAgregador);
 
     solicitudDeCargaPrimera = new SolicitudDeCarga("Corte de luz","Corte de luz en zona sur"
         ,"cortes",21.2,12.8, LocalDate.of(2025,1,1),"",Boolean.TRUE,repoHechos);
@@ -76,7 +76,7 @@ public class TestFuenteDinamica {
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(), null);
-    List<Hecho> hechos = coleccion.getHechos();
+    List<Hecho> hechos = coleccion.obtnerHechos();
     //Reviso que los hechos esten bien cargados (Con sus titulos).
 
     Assertions.assertEquals("Corte de luz",hechos.get(0).getTitulo());
@@ -96,7 +96,7 @@ public class TestFuenteDinamica {
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(),null);
-    List<Hecho> hechos = coleccion.getHechos();
+    List<Hecho> hechos = coleccion.obtnerHechos();
 
     Assertions.assertEquals(hechos.get(0).getTitulo(),"Corte de agua");
     Assertions.assertEquals(1, hechos.size());
@@ -114,7 +114,7 @@ public class TestFuenteDinamica {
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios, generador.generar(),null);
-    List<Hecho> hechos = coleccion.getHechos();
+    List<Hecho> hechos = coleccion.obtnerHechos();
 
     Assertions.assertEquals("Cambia el titulo", solicitudDeCargaPrimera.getSugerencia());
     Assertions.assertEquals(EstadoSolicitud.RECHAZADA, solicitudDeCargaPrimera.getEstado());
@@ -132,7 +132,7 @@ public class TestFuenteDinamica {
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(),null);
-    List<Hecho> hechos = coleccion.getHechos();
+    List<Hecho> hechos = coleccion.obtnerHechos();
 
     Assertions.assertEquals(hechos.get(0).getTitulo(),"Corte de luz");
     Assertions.assertEquals(1, hechos.size());
@@ -149,7 +149,7 @@ public class TestFuenteDinamica {
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(),null);
-    List<Hecho> hechos = coleccion.getHechos();
+    List<Hecho> hechos = coleccion.obtnerHechos();
 
     Assertions.assertEquals(hechos.get(0).getTitulo(),"Corte de luz");
     solicitudes.get(0).modificarHecho(hechoModificador);
@@ -167,7 +167,7 @@ public class TestFuenteDinamica {
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(),null);
-    List<Hecho> hechos = coleccion.getHechos();
+    List<Hecho> hechos = coleccion.obtnerHechos();
 
     Assertions.assertEquals(hechos.get(0).getTitulo(),"Corte de luz");
 
@@ -201,7 +201,7 @@ public class TestFuenteDinamica {
     Coleccion coleccion = new Coleccion("cortes",
         "cortes en Argentina", fuenteDinamica,
         criterios,generador.generar(),null);
-    List<Hecho> hechos = coleccion.getHechos();
+    List<Hecho> hechos = coleccion.obtnerHechos();
 
     //Simulo la fecha de carga del hecho en la solicitud
     solicitudDeCargaPrimera.setFechaCargaOriginal(LocalDate.of(2025,2,18));

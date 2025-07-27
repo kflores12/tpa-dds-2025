@@ -10,11 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Coleccion implements Fuente {
+public class Coleccion {
   private final String titulo;
   private final String descripcion;
   private final Fuente fuente;
-  private final List<Criterio> criterioPertenencia;
+  private final List<Criterio> criteriosPertenencia;
   private final String handler;
   private final AlgoritmoDeConsenso algoritmo;
   private final List<Hecho> hechosConsensuados = new ArrayList<Hecho>();
@@ -28,7 +28,7 @@ public class Coleccion implements Fuente {
     this.titulo = requireNonNull(titulo);
     this.descripcion = requireNonNull(descripcion);
     this.fuente = requireNonNull(fuente);
-    this.criterioPertenencia = new ArrayList<>(requireNonNull(criterioPertenencia));
+    this.criteriosPertenencia = new ArrayList<>(requireNonNull(criterioPertenencia));
 
     if (!handler.matches("[a-zA-Z0-9]+")) {
       throw new IllegalArgumentException("El handle debe ser alfanumérico o con guiones.");
@@ -52,18 +52,17 @@ public class Coleccion implements Fuente {
     return handler;
   }
 
-  @Override
-  public List<Hecho> getHechos() {
+  public List<Hecho> obtnerHechos() {
     List<Hecho> hechosAgregados = new ArrayList<>();
     hechosAgregados.addAll(fuente.getHechos());
     return this.filtrarPorCriteriosColeccion(hechosAgregados);
   }
 
   private List<Hecho> filtrarPorCriteriosColeccion(List<Hecho> hechos) {
-    if (criterioPertenencia.isEmpty()) {
+    if (criteriosPertenencia.isEmpty()) {
       return new ArrayList<>(this.filtrarDuplicados(hechos).values());
     }
-    List<Hecho> filtrados = hechos.stream().filter(h -> criterioPertenencia.stream()
+    List<Hecho> filtrados = hechos.stream().filter(h -> criteriosPertenencia.stream()
         .allMatch(c -> c.aplicarFiltro(h))).toList();
 
     return new ArrayList<>(filtrarDuplicados(filtrados).values());
@@ -78,7 +77,7 @@ public class Coleccion implements Fuente {
   }
 
   public List<Hecho> listarHechosDisponibles(List<Criterio> criteriosUsuario) {
-    List<Hecho> filtradosColeccion = this.getHechos()
+    List<Hecho> filtradosColeccion = this.obtnerHechos()
         .stream()
         .filter(Hecho::getDisponibilidad)
         .toList();

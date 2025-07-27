@@ -37,6 +37,7 @@ public class TestsFuenteDataSet {
   List<Criterio> criteriosUsuario;
   private RepositorioFuentes fuentesRepo;
   private Agregador agregador;
+  List<Fuente> listaAgregador;
 
   @BeforeEach
   public void fixtureColeccion() {
@@ -54,10 +55,11 @@ public class TestsFuenteDataSet {
     criterios = new ArrayList<>(Arrays.asList(titulo,rango));
     criterios2 = new ArrayList<>(Arrays.asList(CCategoria));
     fuentesRepo = new RepositorioFuentes();
-    fuentesRepo.registrarFuente(dataset);
-    FiltroAgregador filtroPorTipo =
-        new FiltroPorTipo(List.of(FuenteApi.class));
-    agregador = new Agregador(fuentesRepo, filtroPorTipo);
+    listaAgregador = new ArrayList<>();
+    listaAgregador.add(dataset);
+    listaAgregador.add(dataset);
+
+    agregador = new Agregador(listaAgregador);
   }
 
   @Test
@@ -84,7 +86,7 @@ public class TestsFuenteDataSet {
         "incendios en la patagonia",
         dataset, criterios, generador.generar(),null);
 
-    List<Hecho> hechos = coleccion.getHechos();
+    List<Hecho> hechos = coleccion.obtnerHechos();
 
     Assertions.assertEquals("Incendio en pehuen", hechos.get(0).getTitulo());
     Assertions.assertEquals("Incendio en Bariloche", hechos.get(1).getTitulo());
@@ -98,7 +100,7 @@ public class TestsFuenteDataSet {
         "Choques en rutas", dataDesogranizada,
         criterios2,generador.generar(),null);
 
-    List<Hecho> hechos = coleccion.getHechos();
+    List<Hecho> hechos = coleccion.obtnerHechos();
 
     Assertions.assertEquals("RUTA PROVINCIAL 7", hechos.get(0).getTitulo());
     Assertions.assertEquals("RUTA PROVINCIAL 42", hechos.get(1).getTitulo());
@@ -116,7 +118,7 @@ public class TestsFuenteDataSet {
         "Choques en rutas", dataFaltanColumnas,
         criterios2,generador.generar(), null);
 
-    Assertions.assertEquals(hechos_vacios , coleccion.getHechos());
+    Assertions.assertEquals(hechos_vacios , coleccion.obtnerHechos());
   }
 
   @Test
@@ -127,7 +129,7 @@ public class TestsFuenteDataSet {
         "Choques en rutas", dataColumnasRotas,
         criterios2,generador.generar(), null);
 
-    Assertions.assertEquals(hechos_vacios , coleccion.getHechos()); // VER
+    Assertions.assertEquals(hechos_vacios , coleccion.obtnerHechos()); // VER
   }
 
   @Test
@@ -138,7 +140,7 @@ public class TestsFuenteDataSet {
         "Choques en rutas", dataColumnaVacia,
         criterios2,generador.generar(), null);
 
-    Assertions.assertEquals(hechos_vacios , coleccion.getHechos()); //VER
+    Assertions.assertEquals(hechos_vacios , coleccion.obtnerHechos()); //VER
   }
 
   @Test
@@ -148,7 +150,7 @@ public class TestsFuenteDataSet {
     Coleccion coleccion = new Coleccion("Choques vehiculos",
         "Choques en rutas", dataNoExiste, criterios2,generador.generar(), null);
 
-    Assertions.assertEquals(hechos_vacios , coleccion.getHechos());
+    Assertions.assertEquals(hechos_vacios , coleccion.obtnerHechos());
   }
 
 
@@ -160,7 +162,7 @@ public class TestsFuenteDataSet {
         "incendios en la patagonia", datavacio,
         criterios,generador.generar(), null);
 
-    Assertions.assertEquals( hechos_vacios, coleccion.getHechos());
+    Assertions.assertEquals( hechos_vacios, coleccion.obtnerHechos());
   }
 
   @Test
