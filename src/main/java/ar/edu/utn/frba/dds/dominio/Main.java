@@ -1,5 +1,15 @@
 package ar.edu.utn.frba.dds.dominio;
 
+import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AmayoriaSimple;
+import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroBaseAgregador;
+import ar.edu.utn.frba.dds.dominio.fuentes.Agregador;
+import ar.edu.utn.frba.dds.dominio.fuentes.ConexionMock;
+import ar.edu.utn.frba.dds.dominio.fuentes.FuenteDataSet;
+import ar.edu.utn.frba.dds.dominio.fuentes.FuenteDinamica;
+import ar.edu.utn.frba.dds.dominio.fuentes.FuenteProxyDemo;
+import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioFuentes;
+import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
+import ar.edu.utn.frba.dds.dominio.solicitudes.SolicitudDeCarga;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

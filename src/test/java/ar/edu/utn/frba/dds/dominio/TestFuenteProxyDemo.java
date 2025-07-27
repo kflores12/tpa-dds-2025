@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.dominio;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import ar.edu.utn.frba.dds.dominio.fuentes.Conexion;
+import ar.edu.utn.frba.dds.dominio.fuentes.FuenteProxyDemo;
+import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +11,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import javax.naming.CannotProceedException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

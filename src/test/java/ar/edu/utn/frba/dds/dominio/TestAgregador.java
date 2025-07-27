@@ -1,12 +1,22 @@
 package ar.edu.utn.frba.dds.dominio;
 
+import ar.edu.utn.frba.dds.dominio.criterios.Criterio;
+import ar.edu.utn.frba.dds.dominio.criterios.CriterioBase;
+import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroAgregador;
+import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroBaseAgregador;
+import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroPorTipo;
+import ar.edu.utn.frba.dds.dominio.fuentes.*;
+import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioFuentes;
+import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
+import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioSolicitudes;
+import ar.edu.utn.frba.dds.dominio.solicitudes.SolicitudDeCarga;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 

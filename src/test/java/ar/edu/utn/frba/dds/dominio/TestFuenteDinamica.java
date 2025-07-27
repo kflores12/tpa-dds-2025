@@ -2,6 +2,16 @@ package ar.edu.utn.frba.dds.dominio;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import ar.edu.utn.frba.dds.dominio.criterios.Criterio;
+import ar.edu.utn.frba.dds.dominio.criterios.CriterioBase;
+import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroAgregador;
+import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroPorTipo;
+import ar.edu.utn.frba.dds.dominio.fuentes.*;
+import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioFuentes;
+import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
+import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioSolicitudes;
+import ar.edu.utn.frba.dds.dominio.solicitudes.EstadoSolicitud;
+import ar.edu.utn.frba.dds.dominio.solicitudes.SolicitudDeCarga;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +42,7 @@ public class TestFuenteDinamica {
 
   @BeforeEach
   public void prepImportacionDinamica() {
-     hechoModificador = new Hecho("Corte de luz modificado","Corte de luz en zona oeste","cortes",22.6,29.3, LocalDate.of(2025,1,18),LocalDate.now(),TipoFuente.DINAMICA,"http://multimediavalue",Boolean.TRUE);
+     hechoModificador = new Hecho("Corte de luz modificado","Corte de luz en zona oeste","cortes",22.6,29.3, LocalDate.of(2025,1,18),LocalDate.now(), TipoFuente.DINAMICA,"http://multimediavalue",Boolean.TRUE);
      cBase = new CriterioBase();
      criterios = new ArrayList<>(Arrays.asList(cBase));
      repoHechos = new RepositorioHechos();

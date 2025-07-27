@@ -2,6 +2,9 @@ package ar.edu.utn.frba.dds.dominio;
 
 import static java.util.Objects.requireNonNull;
 
+import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AlgoritmoDeConsenso;
+import ar.edu.utn.frba.dds.dominio.criterios.Criterio;
+import ar.edu.utn.frba.dds.dominio.fuentes.Fuente;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

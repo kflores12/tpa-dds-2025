@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.dominio;
 
 
+import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AmayoriaSimple;
+import ar.edu.utn.frba.dds.dominio.fuentes.TipoFuente;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.List;

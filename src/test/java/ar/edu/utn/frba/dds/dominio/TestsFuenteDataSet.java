@@ -2,6 +2,17 @@ package ar.edu.utn.frba.dds.dominio;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import ar.edu.utn.frba.dds.dominio.criterios.Criterio;
+import ar.edu.utn.frba.dds.dominio.criterios.CriterioCategoria;
+import ar.edu.utn.frba.dds.dominio.criterios.CriterioRangoFechas;
+import ar.edu.utn.frba.dds.dominio.criterios.CriterioTitulo;
+import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroAgregador;
+import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroPorTipo;
+import ar.edu.utn.frba.dds.dominio.fuentes.Agregador;
+import ar.edu.utn.frba.dds.dominio.fuentes.Fuente;
+import ar.edu.utn.frba.dds.dominio.fuentes.FuenteApi;
+import ar.edu.utn.frba.dds.dominio.fuentes.FuenteDataSet;
+import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioFuentes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
