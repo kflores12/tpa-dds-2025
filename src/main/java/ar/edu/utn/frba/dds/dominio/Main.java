@@ -20,7 +20,7 @@ public class Main {
     System.out.println("INICIO: Ejecución iniciada a las " + LocalDateTime.now());
     try {
 
-      RepositorioHechos repositorioDeHechos = new RepositorioHechos();
+      List<Hecho> repositorioDeHechos = new ArrayList<>();
       RepositorioHechos repositorioDeHechos2 = new RepositorioHechos();
       SolicitudDeCarga solicitudDeCargaPrimera = new SolicitudDeCarga("Corte de luz",
           "Corte de luz en zona sur",

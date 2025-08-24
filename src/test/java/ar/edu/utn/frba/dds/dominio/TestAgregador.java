@@ -37,6 +37,7 @@ public class TestAgregador {
   Fuente fuenteDinamica;
   Fuente fuenteDataSet;
   Fuente fuenteApi;
+  FuenteProxyDemo fuenteProxyDemo;
   List<Fuente> listaAgregador;
 
   //DINAMICA
@@ -53,14 +54,11 @@ public class TestAgregador {
   //API
   private MockWebServer mockWebServer;
 
-  @InjectMocks
-  FuenteProxyDemo fuenteProxyDemo;
-
   @Mock
   Conexion conexion;
 
   //PROXY
-  private RepositorioHechos repositorioDeProxy;
+  private List<Hecho> repositorioDeProxy;
 
   @BeforeEach
   public void setUp() throws Exception {
@@ -81,7 +79,7 @@ public class TestAgregador {
     fuenteApi = new FuenteApi(mockWebServer.url("/").toString(), null);
     //PARA FUENTE PROXY
     MockitoAnnotations.openMocks(this);
-    repositorioDeProxy = new RepositorioHechos();
+    repositorioDeProxy = new ArrayList<>();
     URL url = new URL("http://demo.url");
     //FUENTES
     fuenteDataSet = new FuenteDataSet("datos.csv","yyyy-MM-dd",',');
@@ -262,7 +260,6 @@ public class TestAgregador {
   void limpiarValores() throws IOException {
     Hecho hechoPrimero = null;
     repoHechos.limpiarBaseDeHechos();
-    repositorioDeProxy.limpiarBaseDeHechos();
     repoSolicitudes.limpiarListas();
 
     mockWebServer.shutdown();

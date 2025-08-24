@@ -34,9 +34,6 @@ public class Coleccion {
       throw new IllegalArgumentException("El handle debe ser alfanumérico o con guiones.");
     }
     this.handler = handler;
-    //if (algoritmo == null) {
-    //  navegacionIrrestricta(fuente.getHechos());
-    //}
     this.algoritmo = algoritmo;
   }
 

@@ -3,38 +3,36 @@ import static org.mockito.Mockito.*;
 
 import ar.edu.utn.frba.dds.dominio.fuentes.Conexion;
 import ar.edu.utn.frba.dds.dominio.fuentes.FuenteProxyDemo;
-import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TestFuenteProxyDemo {
 
-  @InjectMocks
   FuenteProxyDemo fuente;
 
   @Mock
   Conexion conexion;
 
-  private RepositorioHechos repositorio;
+  private List<Hecho> listadoDeHechos;
 
   @BeforeEach
   public void setUp() throws Exception {
     MockitoAnnotations.openMocks(this);
-    repositorio = new RepositorioHechos();
+    listadoDeHechos = new ArrayList<>();
     URL url = new URL("http://demo.url");
 
-    fuente = new FuenteProxyDemo(conexion, url, repositorio);
+    fuente = new FuenteProxyDemo(conexion, url, listadoDeHechos);
 
   }
 
@@ -56,7 +54,7 @@ public class TestFuenteProxyDemo {
         .thenReturn(null);
 
     fuente.obtenerHechos();
-    List<Hecho> baseDeHechosActualizada = repositorio.obtenerTodos();
+    List<Hecho> baseDeHechosActualizada = fuente.getListadoDeHechos();
 
     Assertions.assertEquals(1, baseDeHechosActualizada.size());
   }
