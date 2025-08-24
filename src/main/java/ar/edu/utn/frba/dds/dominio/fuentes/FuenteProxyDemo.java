@@ -28,8 +28,8 @@ public class FuenteProxyDemo implements Fuente {
     return new ArrayList<>(listadoDeHechos);
   }
 
-  //Me parece que no tiene que lanzar la exception, queda cambiarlo
-  public void obtenerHechos() throws Exception {
+  @Override
+  public void actualizarHechos() {
     Map<String, Object> mapConexion = conexion.siguienteHecho(url, LocalDateTime.now());
 
     while (mapConexion != null) {

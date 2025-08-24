@@ -48,4 +48,9 @@ public class FuenteApi implements Fuente {
     }
   }
 
+  @Override
+  public void actualizarHechos() {
+
+  }
+
 }

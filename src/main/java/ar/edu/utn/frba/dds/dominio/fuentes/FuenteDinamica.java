@@ -16,4 +16,9 @@ public class FuenteDinamica implements Fuente {
     return repositorioDeHechos.obtenerTodos();
   }
 
+  @Override
+  public void actualizarHechos() {
+
+  }
+
 }
