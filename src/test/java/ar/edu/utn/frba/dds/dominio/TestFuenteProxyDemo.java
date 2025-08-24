@@ -53,7 +53,7 @@ public class TestFuenteProxyDemo {
         .thenReturn(hecho1)
         .thenReturn(null);
 
-    fuente.obtenerHechos();
+    fuente.actualizarHechos();
     List<Hecho> baseDeHechosActualizada = fuente.getListadoDeHechos();
 
     Assertions.assertEquals(1, baseDeHechosActualizada.size());

@@ -2,9 +2,6 @@ package ar.edu.utn.frba.dds.dominio;
 
 import ar.edu.utn.frba.dds.dominio.criterios.Criterio;
 import ar.edu.utn.frba.dds.dominio.criterios.CriterioBase;
-import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroAgregador;
-import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroBaseAgregador;
-import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroPorTipo;
 import ar.edu.utn.frba.dds.dominio.fuentes.*;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioFuentes;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
@@ -20,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
@@ -115,7 +111,7 @@ public class TestAgregador {
         .thenReturn(hecho1)
         .thenReturn(null);
 
-    fuenteProxyDemo.obtenerHechos();
+    fuenteProxyDemo.actualizarHechos();
     //FUENTEAPI
     String jsonResponse = """
         [

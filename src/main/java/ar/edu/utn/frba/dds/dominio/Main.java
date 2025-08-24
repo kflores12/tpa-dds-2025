@@ -36,7 +36,7 @@ public class Main {
       ConexionMock conexion = new ConexionMock();
       URL url = new URL("http://mock.url");
       FuenteProxyDemo fuenteProxy = new FuenteProxyDemo(conexion, url, repositorioDeHechos);
-      fuenteProxy.obtenerHechos();
+      fuenteProxy.actualizarHechos();
       FuenteDataSet fuenteDataSet = new FuenteDataSet("/home/utnso/tpa-2025-05/EjHechos.csv",
               "d/M/yyyy",
               ';');

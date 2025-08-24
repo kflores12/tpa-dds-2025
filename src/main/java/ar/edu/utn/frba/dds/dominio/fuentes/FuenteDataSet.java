@@ -88,5 +88,10 @@ public class FuenteDataSet implements Fuente {
     
     return new ArrayList<>(hechos);
   }
-  
+
+  @Override
+  public void actualizarHechos() {
+
+  }
+
 }

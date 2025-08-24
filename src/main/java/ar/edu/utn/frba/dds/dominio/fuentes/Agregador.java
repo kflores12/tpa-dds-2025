@@ -22,6 +22,7 @@ public class Agregador implements Fuente {
     return new ArrayList<>(copiaLocal);
   }
 
+  @Override
   public void actualizarHechos() {
 
     List<Hecho> hechosDeFuentes = fuentes.stream()
