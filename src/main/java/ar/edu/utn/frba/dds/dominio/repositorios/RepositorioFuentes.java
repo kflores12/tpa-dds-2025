@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.dominio.repositorios;
 
-import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroAgregador;
 import ar.edu.utn.frba.dds.dominio.fuentes.Fuente;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +15,7 @@ public class RepositorioFuentes {
     fuentes.remove(fuente);
   }
 
-  public List<Fuente> buscarFuentes(FiltroAgregador filtro) {
-    return fuentes.stream()
-        .filter(filtro::filtrar)
-        .toList();
+  public List<Fuente> getFuentes() {
+    return new ArrayList<>(fuentes);
   }
-
 }

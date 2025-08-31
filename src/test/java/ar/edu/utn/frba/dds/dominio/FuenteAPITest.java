@@ -5,8 +5,6 @@ import java.util.List;
 
 import ar.edu.utn.frba.dds.dominio.criterios.Criterio;
 import ar.edu.utn.frba.dds.dominio.criterios.CriterioCategoria;
-import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroAgregador;
-import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroPorTipo;
 import ar.edu.utn.frba.dds.dominio.fuentes.Agregador;
 import ar.edu.utn.frba.dds.dominio.fuentes.Fuente;
 import ar.edu.utn.frba.dds.dominio.fuentes.FuenteApi;

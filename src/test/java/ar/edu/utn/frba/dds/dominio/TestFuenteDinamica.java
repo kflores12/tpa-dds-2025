@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import ar.edu.utn.frba.dds.dominio.criterios.Criterio;
 import ar.edu.utn.frba.dds.dominio.criterios.CriterioBase;
-import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroAgregador;
-import ar.edu.utn.frba.dds.dominio.filtrosagregador.FiltroPorTipo;
 import ar.edu.utn.frba.dds.dominio.fuentes.*;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioFuentes;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;

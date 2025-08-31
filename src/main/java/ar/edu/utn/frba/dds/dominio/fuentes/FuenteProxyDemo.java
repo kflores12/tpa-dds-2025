@@ -13,19 +13,19 @@ import java.util.Map;
 
 public class FuenteProxyDemo implements Fuente {
   private final Conexion conexion;
-  private final List<Hecho> listadoDeHechos;
+  private final List<Hecho> hechos;
   private final URL url;
 
 
-  public FuenteProxyDemo(Conexion conexion, URL url, List<Hecho> listadoDeHechos) {
+  public FuenteProxyDemo(Conexion conexion, URL url, List<Hecho> hechos) {
     this.conexion = conexion;
     this.url = url;
-    this.listadoDeHechos = new ArrayList<>(listadoDeHechos);
+    this.hechos = new ArrayList<>(hechos);
   }
 
   @Override
   public List<Hecho> getHechos() {
-    return new ArrayList<>(listadoDeHechos);
+    return new ArrayList<>(hechos);
   }
 
   @Override
@@ -51,10 +51,7 @@ public class FuenteProxyDemo implements Fuente {
         (String) mapConexion.get("multimedia"),
         true
     );
-    listadoDeHechos.add(hecho);
+    hechos.add(hecho);
   }
 
-  public List<Hecho> getListadoDeHechos() {
-    return new ArrayList<>(listadoDeHechos);
-  }
 }
