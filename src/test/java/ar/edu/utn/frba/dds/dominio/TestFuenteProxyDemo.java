@@ -29,10 +29,10 @@ public class TestFuenteProxyDemo {
   @BeforeEach
   public void setUp() throws Exception {
     MockitoAnnotations.openMocks(this);
-    listadoDeHechos = new ArrayList<>();
+    //listadoDeHechos = new ArrayList<>();
     URL url = new URL("http://demo.url");
 
-    fuente = new FuenteProxyDemo(conexion, url, listadoDeHechos);
+    fuente = new FuenteProxyDemo(conexion, "http://demo.url", listadoDeHechos);
 
   }
 

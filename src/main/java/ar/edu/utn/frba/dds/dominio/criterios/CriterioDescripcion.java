@@ -1,10 +1,18 @@
 package ar.edu.utn.frba.dds.dominio.criterios;
 
 import ar.edu.utn.frba.dds.dominio.Hecho;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
-public class CriterioDescripcion implements Criterio {
-
+@Entity
+@DiscriminatorValue("DESC")
+public class CriterioDescripcion extends Criterio {
+  @Column
   String descripcion;
+
+  public CriterioDescripcion() {
+  }
 
   public CriterioDescripcion(String descripcion) {
     this.descripcion = descripcion.toLowerCase();

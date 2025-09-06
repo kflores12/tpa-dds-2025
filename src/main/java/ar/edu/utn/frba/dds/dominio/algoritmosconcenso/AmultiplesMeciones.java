@@ -3,8 +3,15 @@ package ar.edu.utn.frba.dds.dominio.algoritmosconcenso;
 import ar.edu.utn.frba.dds.dominio.Hecho;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
-public class AmultiplesMeciones implements AlgoritmoDeConsenso {
+@Entity
+@DiscriminatorValue("A_MULTIPLES_MENCIONES")
+public class AmultiplesMeciones extends AlgoritmoDeConsenso {
+
+  public AmultiplesMeciones() {
+  }
 
   @Override
   public boolean estaConsensuado(Hecho hecho, List<Hecho> hechosNodo) {

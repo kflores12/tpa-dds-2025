@@ -3,24 +3,38 @@ package ar.edu.utn.frba.dds.dominio.fuentes;
 import static ar.edu.utn.frba.dds.dominio.fuentes.TipoFuente.FUENTEPROXYDEMO;
 
 import ar.edu.utn.frba.dds.dominio.Hecho;
+
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name = "fuentes_proxy_demo")
+public class FuenteProxyDemo extends Fuente {
+  @Transient
+  private Conexion conexion;
+  @ManyToMany
+  private List<Hecho> hechos;
+  @Column
+  private String url;
 
 
-public class FuenteProxyDemo implements Fuente {
-  private final Conexion conexion;
-  private final List<Hecho> hechos;
-  private final URL url;
-
-
-  public FuenteProxyDemo(Conexion conexion, URL url, List<Hecho> hechos) {
+  public FuenteProxyDemo(Conexion conexion, String url, List<Hecho> hechos) {
     this.conexion = conexion;
     this.url = url;
     this.hechos = new ArrayList<>(hechos);
+  }
+
+  public FuenteProxyDemo() {
   }
 
   @Override
@@ -30,11 +44,16 @@ public class FuenteProxyDemo implements Fuente {
 
   @Override
   public void actualizarHechos() {
-    Map<String, Object> mapConexion = conexion.siguienteHecho(url, LocalDateTime.now());
+    try {
+      URL urlObj = new URL(this.url);
+      Map<String, Object> mapConexion = conexion.siguienteHecho(urlObj, LocalDateTime.now());
 
-    while (mapConexion != null) {
-      this.guardarHecho(mapConexion);
-      mapConexion = conexion.siguienteHecho(url, LocalDateTime.now());
+      while (mapConexion != null) {
+        this.guardarHecho(mapConexion);
+        mapConexion = conexion.siguienteHecho(urlObj, LocalDateTime.now());
+      }
+    } catch (MalformedURLException e) {
+      throw new RuntimeException("URL inválida: " + this.url, e);
     }
   }
 

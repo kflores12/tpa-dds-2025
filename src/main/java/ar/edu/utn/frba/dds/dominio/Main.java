@@ -32,10 +32,10 @@ public class Main {
           Boolean.TRUE,
           repositorioDeHechos2);
       solicitudDeCargaPrimera.aprobar("unEvaluador");
-      FuenteDinamica fuenteDinamica = new FuenteDinamica(repositorioDeHechos2);
+      FuenteDinamica fuenteDinamica = new FuenteDinamica();
       ConexionMock conexion = new ConexionMock();
-      URL url = new URL("http://mock.url");
-      FuenteProxyDemo fuenteProxy = new FuenteProxyDemo(conexion, url, repositorioDeHechos);
+      //URL url = new URL("http://mock.url");
+      FuenteProxyDemo fuenteProxy = new FuenteProxyDemo(conexion, "http://mock.url", repositorioDeHechos);
       fuenteProxy.actualizarHechos();
       FuenteDataSet fuenteDataSet = new FuenteDataSet("/home/utnso/tpa-2025-05/EjHechos.csv",
               "d/M/yyyy",

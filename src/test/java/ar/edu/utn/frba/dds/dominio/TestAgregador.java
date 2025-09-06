@@ -76,12 +76,12 @@ public class TestAgregador {
     //PARA FUENTE PROXY
     MockitoAnnotations.openMocks(this);
     repositorioDeProxy = new ArrayList<>();
-    URL url = new URL("http://demo.url");
+    //URL url = new URL("http://demo.url");
     //FUENTES
     fuenteDataSet = new FuenteDataSet("datos.csv","yyyy-MM-dd",',');
-    fuenteDinamica = new FuenteDinamica(repoHechos);
+    fuenteDinamica = new FuenteDinamica();
     fuenteApi = new FuenteApi(mockWebServer.url("/").toString(), null);
-    fuenteProxyDemo = new FuenteProxyDemo(conexion, url, repositorioDeProxy);
+    fuenteProxyDemo = new FuenteProxyDemo(conexion, "http://demo.url", repositorioDeProxy);
 
     //REPOSITORIO DE FUENTES
     fuentesRepo = new RepositorioFuentes();

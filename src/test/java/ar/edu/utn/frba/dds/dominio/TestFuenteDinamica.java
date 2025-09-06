@@ -46,7 +46,7 @@ public class TestFuenteDinamica {
      criterios = new ArrayList<>(Arrays.asList(cBase));
      repoHechos = new RepositorioHechos();
      repoSolicitudes = new RepositorioSolicitudes();
-     fuenteDinamica = new FuenteDinamica(repoHechos);
+     fuenteDinamica = new FuenteDinamica();
     fuentesRepo = new RepositorioFuentes();
     fuentesAgregador = new ArrayList<>();
     fuentesAgregador.add(fuenteDinamica);

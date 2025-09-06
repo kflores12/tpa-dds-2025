@@ -9,7 +9,6 @@ public class SolicitudDeEliminacion implements Solicitud {
   private String motivo;
   private EstadoSolicitud estado;
   private String evaluador;
-  private String motivoApelacion;
 
   public SolicitudDeEliminacion(Hecho hecho, String motivo, EstadoSolicitud estado) {
     if (motivo.length() > 500) {
@@ -36,10 +35,6 @@ public class SolicitudDeEliminacion implements Solicitud {
     return evaluador;
   }
 
-  public String getMotivoApelacion() {
-    return motivoApelacion;
-  }
-
   public Hecho getHecho() {
     return new Hecho(hecho);
   }
@@ -56,19 +51,6 @@ public class SolicitudDeEliminacion implements Solicitud {
     }
   }
 
-  public void apelar(String motivoApelacion) {
-    if (!estado.equals(EstadoSolicitud.RECHAZADA)) {
-      throw new IllegalStateException("Solo se puede apelar una solicitud rechazada.");
-    }
-    if (motivoApelacion == null || motivoApelacion.isBlank()) {
-      throw new IllegalArgumentException("Debe indicar un motivo de apelación.");
-    }
-    if (motivoApelacion.length() > 500) {
-      throw new RuntimeException("El motivo es demasiado extenso.");
-    }
-    this.estado = EstadoSolicitud.PENDIENTE;
-    this.motivoApelacion = motivoApelacion;
-  }
 
 
 }

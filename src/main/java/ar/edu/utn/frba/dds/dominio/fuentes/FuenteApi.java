@@ -7,12 +7,24 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FuenteApi implements Fuente {
-  private final ApiService apiService;
+@Entity
+@Table(name = "fuentes_api")
+public class FuenteApi extends Fuente {
+  @Column
+  private String nombre;
+  @Column
+  private String apellido;
+  @Transient
+  private ApiService apiService;
+  @Column
   private String handler;
 
   public FuenteApi(String baseUrl, String handler) {
@@ -25,6 +37,29 @@ public class FuenteApi implements Fuente {
 
     this.apiService = retrofit.create(ApiService.class);
     this.handler = handler;
+  }
+
+  public FuenteApi() {
+  }
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  public String getApellido() {
+    return apellido;
+  }
+
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
+
+  public void setApellido(String apellido) {
+    this.apellido = apellido;
+  }
+
+  public void setApiService(ApiService apiService) {
+    this.apiService = apiService;
   }
 
   @Override

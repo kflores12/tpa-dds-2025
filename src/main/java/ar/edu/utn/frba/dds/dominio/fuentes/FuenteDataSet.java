@@ -20,17 +20,43 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-public class FuenteDataSet implements Fuente {
-
-  private final String ruta; //Agrego final para que no pueda ser modificada post inicializacion.
-  private final String formatoFecha;
-  private final char separador;
+@Entity
+@Table(name = "fuentes_data_set")
+public class FuenteDataSet extends Fuente {
+  @Column
+  private String ruta; //Agrego final para que no pueda ser modificada post inicializacion.
+  @Column
+  private String formatoFecha;
+  @Column
+  private char separador;
 
   public FuenteDataSet(String ruta, String formatoFecha, char separador) {
     this.ruta = requireNonNull(ruta);
     this.formatoFecha = requireNonNull(formatoFecha);
     this.separador = separador;
+  }
+
+  public FuenteDataSet() {
+  }
+
+  public String getRuta() {
+    return ruta;
+  }
+
+  public void setRuta(String ruta) {
+    this.ruta = ruta;
+  }
+
+  public String getFormatoFecha() {
+    return formatoFecha;
+  }
+
+  public void setFormatoFecha(String formatoFecha) {
+    this.formatoFecha = formatoFecha;
   }
 
   @Override

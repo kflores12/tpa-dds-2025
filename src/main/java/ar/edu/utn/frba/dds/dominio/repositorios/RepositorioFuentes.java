@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RepositorioFuentes {
-  private final List<Fuente> fuentes = new ArrayList<>();
+  private List<Fuente> fuentes = new ArrayList<>();
 
   public void registrarFuente(Fuente fuente) {
     fuentes.add(fuente);

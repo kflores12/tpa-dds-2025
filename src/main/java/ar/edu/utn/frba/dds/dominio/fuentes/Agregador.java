@@ -5,17 +5,25 @@ import static java.util.Objects.requireNonNull;
 import ar.edu.utn.frba.dds.dominio.Hecho;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
-
-public class Agregador implements Fuente {
-  private final List<Fuente> fuentes;
-  private final List<Hecho> copiaLocal = new ArrayList<>();
+@Entity
+@Table(name = "agregadores")
+public class Agregador extends Fuente {
+  @ManyToMany
+  private List<Fuente> fuentes;
+  @ManyToMany
+  private List<Hecho> copiaLocal = new ArrayList<>();
 
   public Agregador(List<Fuente>  fuentes) {
     requireNonNull(fuentes);
     this.fuentes = new ArrayList<>(fuentes);
   }
 
+  public Agregador() {
+  }
 
   @Override
   public List<Hecho> getHechos() {

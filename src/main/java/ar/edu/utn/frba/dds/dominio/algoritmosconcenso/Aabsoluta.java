@@ -6,10 +6,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
+@Entity
+@DiscriminatorValue("A_ABSOLUTAS")
+public class Aabsoluta extends AlgoritmoDeConsenso {
+  public Aabsoluta() {
+  }
 
-
-public class Aabsoluta implements AlgoritmoDeConsenso {
   @Override
   public boolean estaConsensuado(Hecho hecho, List<Hecho> hechosNodo) {
 

@@ -9,15 +9,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "colecciones")
 public class Coleccion {
-  private final String titulo;
-  private final String descripcion;
-  private final Fuente fuente;
-  private final List<Criterio> criteriosPertenencia;
-  private final String handler;
-  private final AlgoritmoDeConsenso algoritmo;
-  private final List<Hecho> hechosConsensuados = new ArrayList<Hecho>();
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  @Column
+  private String titulo;
+  @Column
+  private String descripcion;
+  @ManyToOne
+  private Fuente fuente;
+  @ManyToMany
+  private List<Criterio> criteriosPertenencia;
+  @Column
+  private String handler;
+  @ManyToOne
+  private AlgoritmoDeConsenso algoritmo;
+  @ManyToMany
+  private List<Hecho> hechosConsensuados = new ArrayList<Hecho>();
 
   public Coleccion(String titulo,
                    String descripcion,
@@ -35,6 +55,9 @@ public class Coleccion {
     }
     this.handler = handler;
     this.algoritmo = algoritmo;
+  }
+
+  public Coleccion() {
   }
 
   public String getTitulo() {
