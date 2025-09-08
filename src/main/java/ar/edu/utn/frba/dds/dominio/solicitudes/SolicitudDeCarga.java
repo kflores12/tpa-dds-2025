@@ -27,7 +27,7 @@ public class SolicitudDeCarga implements Solicitud {
   private EstadoSolicitud estado = EstadoSolicitud.PENDIENTE;
   private RepositorioHechos repositorioH;
   private String evaluador;
-
+  private Hecho hechoCreado;
 
   public SolicitudDeCarga(String titulo,
                           String descripcion,
@@ -86,17 +86,18 @@ public class SolicitudDeCarga implements Solicitud {
       this.evaluador = requireNonNull(evaluador);
       //cuando pensemos en la persistencia de hechos modificados
       //por trazabilidad aca podria ser guardado el hecho original
-      repositorioH.cargarHecho(
-          new Hecho(this.titulo,
-              this.descripcion,
-              this.categoria,
-              this.latitud,
-              this.longitud,
-              this.fechaAcontecimiento,
-              fechaCargaOriginal,
-              this.origen,
-              this.multimedia,
-              this.disponibilidad));
+      this.hechoCreado = new Hecho(this.titulo,
+          this.descripcion,
+          this.categoria,
+          this.latitud,
+          this.longitud,
+          this.fechaAcontecimiento,
+          fechaCargaOriginal,
+          this.origen,
+          this.multimedia,
+          this.disponibilidad);
+
+      repositorioH.cargarHecho(this.hechoCreado);
 
     }
   }
@@ -118,7 +119,7 @@ public class SolicitudDeCarga implements Solicitud {
         && (ChronoUnit.DAYS.between(fechaCargaOriginal, LocalDate.now())) <= 7) {
       return true;
     } else {
-      throw new RuntimeException("No se puede modificar este hecho");
+      return false;
     }
   }
 
