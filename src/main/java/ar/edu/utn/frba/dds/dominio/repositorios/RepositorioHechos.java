@@ -16,27 +16,6 @@ public class RepositorioHechos implements WithSimplePersistenceUnit {
     this.baseDeHechos = new ArrayList<>();
   }
 
-  /*public void cargarHecho(Hecho hecho) {
-    baseDeHechos.add(requireNonNull(hecho));
-  }
-
-  public void borrarHecho(Hecho hecho) {
-    baseDeHechos.remove(hecho);
-  }
-
-  public List<Hecho> obtenerTodos() {
-    return new ArrayList<>(baseDeHechos);
-  }
-
-  public Hecho buscarHecho(Hecho hecho) {
-    return baseDeHechos.stream().anyMatch(h -> h.equals(hecho)) ? hecho : null;
-  }*/
-
-  public void limpiarBaseDeHechos() {
-    baseDeHechos.clear();
-  }
-
-
 //////////////////////////////////// metodos de base de datos:
 
   public void cargarHecho(Hecho hecho){
@@ -58,8 +37,8 @@ public class RepositorioHechos implements WithSimplePersistenceUnit {
     return h;
   }
 
-  public void modificarHecho(Hecho hecho) {
-    entityManager().merge(hecho);
+  public Hecho modificarHecho(Hecho hecho) {
+    return entityManager().merge(hecho);
   }
 
 }

@@ -102,9 +102,7 @@ public class SolicitudDeCarga extends Solicitud {
 
       this.fechaCargaOriginal = LocalDate.now();
       this.estado = EstadoSolicitud.ACEPTADA;
-      //this.evaluador = requireNonNull(evaluador);
-      //cuando pensemos en la persistencia de hechos modificados
-      //por trazabilidad aca podria ser guardado el hecho original
+
       this.hechoCreado = new Hecho(this.titulo,
           this.descripcion,
           this.categoria,
@@ -140,27 +138,26 @@ public class SolicitudDeCarga extends Solicitud {
     }
   }
 
-  /*
-  NO MAS NECESARIA AHORA BUSCA EL REPO.
-  public Hecho encontrarHecho() {
+  public void modificarHecho(Hecho h) {
     if (puedeModificar()) {
-      for (Hecho h : repositorioH.obtenerTodos()) {
-        if (
-            h.equals(this.hechoCreado)
-        ) {
-          return h;
-        }
+      if (!h.getId().equals(this.hechoCreado.getId())) {
+        throw new IllegalArgumentException("El hecho modificado no corresponde al registrado");
       }
-    }
-    throw new RuntimeException("No se puede modificar este hecho");
-  }*/
 
+      this.hechoCreado = repositorioH.modificarHecho(h);
+    } else {
+      throw new RuntimeException("No se puede modificar este hecho");
+    }
+  }
+
+
+  /*
   public void modificarHecho(Hecho h) {
     if (puedeModificar()) {
       repositorioH.modificarHecho(h);
       this.hechoCreado = h; //EVALUAR SI ESTO ES CORRECTO.
       //(ENTIENDO QUE HAY QUE ACTUALIZAR LA REFERENCIA QUE SE TIENE DEL HECHO UNA VEZ MODIFICADO)
-      //EN TODO CASO SE PUEDE VOLVER A BUSCAR A LA DATABASE.
+      //EN to do CASO SE PUEDE VOLVER A BUSCAR A LA DATABASE.
     }
     else {
       throw new RuntimeException("No se puede modificar este hecho");
@@ -169,6 +166,8 @@ public class SolicitudDeCarga extends Solicitud {
     //Hecho original = encontrarHecho();
     //original.modificar(h);
   }
+
+   */
 
   public void setFechaCargaOriginal (LocalDate fechaCargaOriginal) {
     this.fechaCargaOriginal = fechaCargaOriginal;

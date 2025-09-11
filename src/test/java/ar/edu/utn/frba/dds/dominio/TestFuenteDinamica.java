@@ -224,7 +224,7 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
     Hecho hechoSegundo = null;
     Hecho hechoModificador = null;
     Hecho hechoCargaVieja = null;
-    repoHechos.limpiarBaseDeHechos();
+    //repoHechos.limpiarBaseDeHechos();
     repoSolicitudes.limpiarListas();
   }
 }

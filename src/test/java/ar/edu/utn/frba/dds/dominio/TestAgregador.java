@@ -170,6 +170,7 @@ public class TestAgregador {
     List<Hecho> hechos = agregador.getHechos();
     //Reviso que los hechos esten bien cargados (Con sus titulos).
 
+
     Assertions.assertEquals("Corte de luz Dinamica", hechos.get(0).getTitulo());
     Assertions.assertEquals(1,hechos.size());
   }
@@ -270,7 +271,7 @@ public class TestAgregador {
   @AfterEach
   void limpiarValores() throws IOException {
     Hecho hechoPrimero = null;
-    repoHechos.limpiarBaseDeHechos();
+    //repoHechos.limpiarBaseDeHechos();
     repoSolicitudes.limpiarListas();
 
     mockWebServer.shutdown();

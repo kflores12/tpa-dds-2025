@@ -10,10 +10,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-//@Entity
-//@Table(name = "fuentes_dinamicas")
+@Entity
+@Table(name = "fuentes_dinamicas")
 public class FuenteDinamica extends Fuente {
-  //@ManyToMany
+  @Transient
   private RepositorioHechos repositorioDeHechos;
 
 
