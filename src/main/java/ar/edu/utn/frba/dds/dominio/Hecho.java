@@ -157,6 +157,11 @@ public class Hecho {
     this.longitud = longitud;
   }
 
+  //solo para testear
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   public void setFechaAcontecimiento(LocalDate fechaAcontecimiento) {
     this.fechaAcontecimiento = fechaAcontecimiento;
   }

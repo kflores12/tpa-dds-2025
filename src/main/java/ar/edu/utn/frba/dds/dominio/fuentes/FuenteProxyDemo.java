@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.dominio.fuentes;
 import static ar.edu.utn.frba.dds.dominio.fuentes.TipoFuente.FUENTEPROXYDEMO;
 
 import ar.edu.utn.frba.dds.dominio.Hecho;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;

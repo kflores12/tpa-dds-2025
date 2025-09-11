@@ -3,11 +3,14 @@ package ar.edu.utn.frba.dds.dominio.solicitudes;
 import static java.util.Objects.requireNonNull;
 
 import ar.edu.utn.frba.dds.dominio.Hecho;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 
-import javax.persistence.*;
 
 @Entity
-@DiscriminatorValue("ELIMINACION")
 public class SolicitudDeEliminacion extends Solicitud {
   @OneToOne
   private Hecho hecho;

@@ -1,24 +1,18 @@
 package ar.edu.utn.frba.dds.dominio.solicitudes;
 
-import static java.util.Objects.requireNonNull;
-
 import ar.edu.utn.frba.dds.dominio.Hecho;
 import ar.edu.utn.frba.dds.dominio.fuentes.TipoFuente;
-import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
 import javax.persistence.Entity;
-import javax.persistence.Transient;
-
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 
 @Entity
-@DiscriminatorValue("CARGA")
 public class SolicitudDeCarga extends Solicitud {
-  @Transient
+  @OneToOne
   private Hecho hechoCreado;
   //ATRIBUTOS DE UN HECHO A CREAR
   @Column
@@ -49,9 +43,6 @@ public class SolicitudDeCarga extends Solicitud {
   @Enumerated(EnumType.STRING)
   private EstadoSolicitud estado = EstadoSolicitud.PENDIENTE;
 
-  @Transient
-  private RepositorioHechos repositorioH;
-
   public SolicitudDeCarga(String titulo,
                           String descripcion,
                           String categoria,
@@ -59,8 +50,7 @@ public class SolicitudDeCarga extends Solicitud {
                           Double longitud,
                           LocalDate fechaAcontecimiento,
                           String multimedia,
-                          boolean registerBoolean,
-                          RepositorioHechos rh) {
+                          boolean registerBoolean) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.categoria = categoria;
@@ -70,7 +60,6 @@ public class SolicitudDeCarga extends Solicitud {
     this.origen = TipoFuente.DINAMICA;
     this.multimedia = multimedia;
     this.registrado = registerBoolean;
-    this.repositorioH = rh;
   }
 
   public SolicitudDeCarga() {
@@ -92,7 +81,7 @@ public class SolicitudDeCarga extends Solicitud {
     this.sugerencia = s;
   }
 
-  public void aprobar() {
+  public Hecho aprobar() {
     System.out.printf("Terrible%n%n%n%n%n%n");
 
     if (estado.equals(EstadoSolicitud.ACEPTADA)) {
@@ -113,8 +102,8 @@ public class SolicitudDeCarga extends Solicitud {
           this.origen,
           this.multimedia,
           this.disponibilidad);
-
-      repositorioH.cargarHecho(hechoCreado);
+      //todo esto genera el error en el test
+      return hechoCreado;
     }
   }
 
@@ -129,47 +118,26 @@ public class SolicitudDeCarga extends Solicitud {
   public void cambiarEstado(EstadoSolicitud evaluacion) {
   }
 
-  public boolean puedeModificar() {
+  public boolean puedeModificar(Hecho h) {
     if (estado.equals(EstadoSolicitud.ACEPTADA) && registrado
-        && (ChronoUnit.DAYS.between(hechoCreado.getFechaDeCarga(), LocalDate.now())) <= 7) {
+        && (ChronoUnit.DAYS.between(hechoCreado.getFechaDeCarga(), LocalDate.now())) <= 7
+        && (h.getId().equals(this.hechoCreado.getId()))) {
       return true;
     } else {
       throw new RuntimeException("No se puede modificar este hecho");
     }
   }
 
-  public void modificarHecho(Hecho h) {
-    if (puedeModificar()) {
-      if (!h.getId().equals(this.hechoCreado.getId())) {
-        throw new IllegalArgumentException("El hecho modificado no corresponde al registrado");
-      }
-
-      this.hechoCreado = repositorioH.modificarHecho(h);
-    } else {
+  public void modificarHecho(Hecho hechoModificado) {
+    if (!puedeModificar(hechoModificado)) {
       throw new RuntimeException("No se puede modificar este hecho");
     }
+    // si pasa la validación, actualizo la referencia
+    this.hechoCreado = hechoModificado;
   }
 
 
-  /*
-  public void modificarHecho(Hecho h) {
-    if (puedeModificar()) {
-      repositorioH.modificarHecho(h);
-      this.hechoCreado = h; //EVALUAR SI ESTO ES CORRECTO.
-      //(ENTIENDO QUE HAY QUE ACTUALIZAR LA REFERENCIA QUE SE TIENE DEL HECHO UNA VEZ MODIFICADO)
-      //EN to do CASO SE PUEDE VOLVER A BUSCAR A LA DATABASE.
-    }
-    else {
-      throw new RuntimeException("No se puede modificar este hecho");
-    }
-    //repensar este metodo
-    //Hecho original = encontrarHecho();
-    //original.modificar(h);
-  }
-
-   */
-
-  public void setFechaCargaOriginal (LocalDate fechaCargaOriginal) {
+  public void setFechaCargaOriginal(LocalDate fechaCargaOriginal) {
     this.fechaCargaOriginal = fechaCargaOriginal;
   }
 

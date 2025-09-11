@@ -17,9 +17,8 @@ public class Agregador extends Fuente {
   @ManyToMany
   private List<Hecho> copiaLocal = new ArrayList<>();
 
-  public Agregador(List<Fuente>  fuentes) {
-    requireNonNull(fuentes);
-    this.fuentes = new ArrayList<>(fuentes);
+  public Agregador(List<Fuente> fuentes) {
+    this.fuentes = new ArrayList<>(requireNonNull(fuentes));
   }
 
   public Agregador() {

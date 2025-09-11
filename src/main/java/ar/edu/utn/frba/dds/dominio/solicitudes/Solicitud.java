@@ -10,8 +10,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "solicitudes")
 public abstract class Solicitud {
   @Id

@@ -2,28 +2,33 @@ package ar.edu.utn.frba.dds.dominio.fuentes;
 
 import ar.edu.utn.frba.dds.dominio.Hecho;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
-
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "fuentes_dinamicas")
 public class FuenteDinamica extends Fuente {
-  @Transient
-  private RepositorioHechos repositorioDeHechos;
+  @OneToMany
+  private List<Hecho> listaDeHechos = new ArrayList<>();
 
-
-  public FuenteDinamica(RepositorioHechos repositorio) {
-    this.repositorioDeHechos = repositorio;
+  public FuenteDinamica() {
   }
 
   @Override
   public List<Hecho> getHechos() {
-    return repositorioDeHechos.obtenerTodos();
+    return new ArrayList<>(listaDeHechos);
+  }
+
+  public void setListaDeHechos(List<Hecho> listaDeHechos) {
+    this.listaDeHechos = new ArrayList<>(listaDeHechos);
+  }
+
+  public void actualiza(RepositorioHechos repositorio) {
+    this.setListaDeHechos(repositorio.obtenerTodos());
   }
 
   @Override
