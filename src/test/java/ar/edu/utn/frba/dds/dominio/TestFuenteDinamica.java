@@ -10,14 +10,11 @@ import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioSolicitudes;
 import ar.edu.utn.frba.dds.dominio.solicitudes.EstadoSolicitud;
 import ar.edu.utn.frba.dds.dominio.solicitudes.SolicitudDeCarga;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -144,7 +141,7 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
     Assertions.assertEquals("Corte de luz", hechos.get(0).getTitulo());
     Assertions.assertEquals(1, hechos.size());
   }
-  /*
+
   @Test
   public void importarHechosRegistradoYModificar() {
     repoSolicitudes.agregarSolicitudDeCarga(solicitudDeCargaPrimera);
@@ -182,7 +179,6 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
     Assertions.assertEquals("No se puede modificar este hecho", exception.getMessage());
   }
 
-   */
 
   @Test
   public void importarHechosRegistradoYModificarFailSolicitudNoAceptada() {

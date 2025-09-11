@@ -120,6 +120,32 @@ public class SolicitudDeCarga extends Solicitud {
 
   public boolean puedeModificar(Hecho h) {
     if (estado.equals(EstadoSolicitud.ACEPTADA) && registrado
+        && (ChronoUnit.DAYS.between(hechoCreado.getFechaDeCarga(), LocalDate.now())) <= 7) {
+      return true;
+    } else {
+      throw new RuntimeException("No se puede modificar este hecho");
+    }
+  }
+
+  public void modificarHecho(Hecho hechoModificado) {
+    if (!puedeModificar(hechoModificado)) {
+      throw new RuntimeException("No se puede modificar este hecho");
+    }
+    // si pasa la validación, actualizo la referencia
+    this.hechoCreado.setTitulo(hechoModificado.getTitulo());
+    this.hechoCreado.setDescripcion(hechoModificado.getDescripcion());
+    this.hechoCreado.setCategoria(hechoModificado.getCategoria());
+    this.hechoCreado.setLatitud(hechoModificado.getLatitud());
+    this.hechoCreado.setLongitud(hechoModificado.getLongitud());
+    this.hechoCreado.setFechaAcontecimiento(hechoModificado.getFechaAcontecimiento());
+    this.hechoCreado.setOrigen(hechoModificado.getOrigen());
+    this.hechoCreado.setMultimedia(hechoModificado.getMultimedia());
+    this.hechoCreado.setFechaDeCarga(hechoModificado.getFechaDeCarga());
+  }
+
+  /*
+  public boolean puedeModificar(Hecho h) {
+    if (estado.equals(EstadoSolicitud.ACEPTADA) && registrado
         && (ChronoUnit.DAYS.between(hechoCreado.getFechaDeCarga(), LocalDate.now())) <= 7
         && (h.getId().equals(this.hechoCreado.getId()))) {
       return true;
@@ -135,6 +161,8 @@ public class SolicitudDeCarga extends Solicitud {
     // si pasa la validación, actualizo la referencia
     this.hechoCreado = new Hecho(hechoModificado);
   }
+
+   */
 
 
   public void setFechaCargaOriginal(LocalDate fechaCargaOriginal) {
