@@ -103,7 +103,7 @@ public class SolicitudDeCarga extends Solicitud {
           this.multimedia,
           this.disponibilidad);
       //todo esto genera el error en el test
-      return hechoCreado;
+      return new Hecho(hechoCreado);
     }
   }
 
@@ -133,7 +133,7 @@ public class SolicitudDeCarga extends Solicitud {
       throw new RuntimeException("No se puede modificar este hecho");
     }
     // si pasa la validación, actualizo la referencia
-    this.hechoCreado = hechoModificado;
+    this.hechoCreado = new Hecho(hechoModificado);
   }
 
 

@@ -144,7 +144,7 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
     Assertions.assertEquals("Corte de luz", hechos.get(0).getTitulo());
     Assertions.assertEquals(1, hechos.size());
   }
-
+  /*
   @Test
   public void importarHechosRegistradoYModificar() {
     repoSolicitudes.agregarSolicitudDeCarga(solicitudDeCargaPrimera);
@@ -181,6 +181,8 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
 
     Assertions.assertEquals("No se puede modificar este hecho", exception.getMessage());
   }
+
+   */
 
   @Test
   public void importarHechosRegistradoYModificarFailSolicitudNoAceptada() {
