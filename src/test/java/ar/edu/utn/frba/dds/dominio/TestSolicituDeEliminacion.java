@@ -63,7 +63,7 @@ public class TestSolicituDeEliminacion {
     SolicitudDeEliminacion solicitud = new SolicitudDeEliminacion(
         hechoEjemplo,
         "Motivo válido",
-        EstadoSolicitud.PENDIENTE
+        EstadoSolicitud.PENDIENTE, false
     );
 
     solicitud.cambiarEstado(EstadoSolicitud.ACEPTADA);
@@ -76,7 +76,7 @@ public class TestSolicituDeEliminacion {
     SolicitudDeEliminacion solicitud = new SolicitudDeEliminacion(
         hechoEjemplo,
         "Motivo válido",
-        EstadoSolicitud.PENDIENTE
+        EstadoSolicitud.PENDIENTE, true
     );
 
     solicitud.cambiarEstado(EstadoSolicitud.RECHAZADA);
@@ -90,7 +90,7 @@ public class TestSolicituDeEliminacion {
     SolicitudDeEliminacion solicitud = new SolicitudDeEliminacion(
         hechoEjemplo,
         "Motivo válido",
-        EstadoSolicitud.PENDIENTE
+        EstadoSolicitud.PENDIENTE, false
     );
 
     solicitud.cambiarEstado(EstadoSolicitud.ACEPTADA);

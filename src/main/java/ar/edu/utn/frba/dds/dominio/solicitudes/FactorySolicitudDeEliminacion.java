@@ -16,10 +16,10 @@ public class FactorySolicitudDeEliminacion {
 
     if (detector.esSpam(motivo)) {
       estadoInicial = EstadoSolicitud.RECHAZADA;
+      return new SolicitudDeEliminacion(hecho, motivo, estadoInicial, true);
     } else {
       estadoInicial = EstadoSolicitud.PENDIENTE;
     }
-
-    return new SolicitudDeEliminacion(hecho, motivo, estadoInicial);
+    return new SolicitudDeEliminacion(hecho, motivo, estadoInicial, false);
   }
 }

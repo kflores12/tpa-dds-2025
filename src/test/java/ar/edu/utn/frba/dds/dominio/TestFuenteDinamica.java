@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioSolicitudesDeCarga;
 import ar.edu.utn.frba.dds.dominio.solicitudes.EstadoSolicitud;
 import ar.edu.utn.frba.dds.dominio.solicitudes.SolicitudDeCarga;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
+import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,20 +82,14 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
 
   @Test
   public void importarHechos() {
-    // 1. Aprobar la solicitud (esto crea el Hecho)
     Hecho hechoAprobado = solicitudDeCargaPrimera.aprobar();
 
-    // 2. Persistir el Hecho primero
     repoHechos.cargarHecho(hechoAprobado);
 
-    // 3. Luego persistir la solicitud (que ya tiene el Hecho asociado)
     repoSolicitudes.registrar(solicitudDeCargaPrimera);
 
-
-    // 4. Actualizar la fuente dinámica con los hechos persistidos
     fuenteDinamica.actualiza(repoHechos);
 
-    // 5. Verificar resultados
     List<Hecho> hechos = fuenteDinamica.getHechos();
 
     Assertions.assertEquals(EstadoSolicitud.ACEPTADA, solicitudDeCargaPrimera.getEstado());

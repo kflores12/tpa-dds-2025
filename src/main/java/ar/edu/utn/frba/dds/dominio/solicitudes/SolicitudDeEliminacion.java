@@ -18,14 +18,18 @@ public class SolicitudDeEliminacion extends Solicitud {
   private String motivo;
   @Enumerated(EnumType.STRING)
   private EstadoSolicitud estado;
+  @Column
+  private Boolean esSpam;
 
-  public SolicitudDeEliminacion(Hecho hecho, String motivo, EstadoSolicitud estado) {
+  public SolicitudDeEliminacion(Hecho hecho, String motivo
+      , EstadoSolicitud estado,  Boolean esSpam) {
     if (motivo.length() > 500) {
       throw new RuntimeException("El motivo es demasiado extenso.");
     }
     this.hecho = new Hecho(hecho);
     this.motivo = requireNonNull(motivo);
     this.estado = requireNonNull(estado);
+    this.esSpam = esSpam;
   }
 
   public SolicitudDeEliminacion() {
@@ -46,6 +50,10 @@ public class SolicitudDeEliminacion extends Solicitud {
 
   public Hecho getHecho() {
     return new Hecho(hecho);
+  }
+
+  public Boolean getEsSpam() {
+    return esSpam;
   }
 
   @Override
