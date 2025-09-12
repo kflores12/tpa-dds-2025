@@ -2,6 +2,8 @@ package ar.edu.utn.frba.dds.dominio.repositorios;
 
 import ar.edu.utn.frba.dds.dominio.Hecho;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import java.util.List;
 
 public class RepositorioHechos implements WithSimplePersistenceUnit {
@@ -33,4 +35,14 @@ public class RepositorioHechos implements WithSimplePersistenceUnit {
     return entityManager().merge(hecho);
   }
 
+  public List<Hecho> buscarPorTextoLibre(String textoLibre) {
+    SearchSession searchSession = Search.session(entityManager());
+
+     return searchSession.search(Hecho.class)
+        .where(f -> f.match()
+            .fields("titulo", "descripcion")
+            .matching(textoLibre)
+            .fuzzy())
+            .fetchAllHits(); 
+  }
 }

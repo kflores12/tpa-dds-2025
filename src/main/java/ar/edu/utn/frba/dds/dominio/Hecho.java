@@ -14,19 +14,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 
 
 @Entity
 @Table(name = "hechos")
+
 public class Hecho {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @Column
+  @FullTextField
   private String titulo;
   @Column
+  @FullTextField
   private String descripcion;
   @Column
+  @FullTextField
   private String categoria;
   @Column
   private Double latitud;
