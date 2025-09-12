@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.dominio.repositorios;
 
 import ar.edu.utn.frba.dds.dominio.Coleccion;
-import ar.edu.utn.frba.dds.dominio.Hecho;
+
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class RepositorioColecciones implements WithSimplePersistenceUnit  {
