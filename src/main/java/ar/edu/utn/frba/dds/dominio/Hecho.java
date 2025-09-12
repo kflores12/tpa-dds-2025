@@ -14,19 +14,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
+import org.hibernate.search.annotations.*;
 
 
 
 @Entity
 @Table(name = "hechos")
+@Indexed
 
 public class Hecho {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @Column
+  @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
   private String titulo;
   @Column
+  @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
   private String descripcion;
   @Column
   private String categoria;
