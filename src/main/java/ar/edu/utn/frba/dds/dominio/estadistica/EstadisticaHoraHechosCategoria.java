@@ -1,11 +1,16 @@
 package ar.edu.utn.frba.dds.dominio.estadistica;
 
 import ar.edu.utn.frba.dds.dominio.Hecho;
+import com.opencsv.CSVWriter;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -43,7 +48,25 @@ public class EstadisticaHoraHechosCategoria implements Estadistica, WithSimplePe
 
   @Override
   public void exportarEstadistica(String path) throws IOException {
+    File file = new File(path);
+    try (CSVWriter writer = new CSVWriter(new FileWriter(file, true))) {
+      String[] header = {"Fecha", "Categoria", "HoraPico"};
 
+      String horaFormateada = horaPicoCategoria != null
+          ? horaPicoCategoria.format(DateTimeFormatter.ofPattern("HH:mm"))
+          : "N/A";
+
+      String[] data = {
+          LocalDateTime.now().toString(),
+          categoria,
+          horaFormateada
+      };
+
+      if (file.length() == 0) {
+        writer.writeNext(header);
+      }
+      writer.writeNext(data);
+    }
   }
 
   public LocalTime gethoraPicoCategoria() {
