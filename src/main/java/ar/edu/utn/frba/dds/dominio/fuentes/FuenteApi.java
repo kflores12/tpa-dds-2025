@@ -18,10 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Entity
 @Table(name = "fuentes_api")
 public class FuenteApi extends Fuente {
-  @Column
-  private String nombre;
-  @Column
-  private String apellido;
   @Transient
   private ApiService apiService;
   @Column
@@ -42,28 +38,12 @@ public class FuenteApi extends Fuente {
   public FuenteApi() {
   }
 
-  public String getNombre() {
-    return nombre;
-  }
-
-  public String getApellido() {
-    return apellido;
-  }
-
-  public void setNombre(String nombre) {
-    this.nombre = nombre;
-  }
-
-  public void setApellido(String apellido) {
-    this.apellido = apellido;
-  }
-
   public void setApiService(ApiService apiService) {
     this.apiService = apiService;
   }
 
   @Override
-  public List<Hecho> getHechos() { // Ya no recibe criterios
+  public List<Hecho> getHechos() {
     try {
       Response<List<Hecho>> response;
 

@@ -74,19 +74,6 @@ public class Hecho {
     this.disponibilidad = otro.disponibilidad;
   }
 
-  public void modificar(Hecho otro) {
-    this.titulo = otro.titulo;
-    this.descripcion = otro.descripcion;
-    this.categoria = otro.categoria;
-    this.latitud = otro.latitud;
-    this.longitud = otro.longitud;
-    this.fechaAcontecimiento = otro.fechaAcontecimiento;
-    //this.fechaDeCarga = otro.fechaDeCarga;
-    this.origen = otro.origen;
-    this.multimedia = otro.multimedia;
-    this.disponibilidad = otro.disponibilidad;
-  }
-
   public Long getId() {
     return id;
   }
@@ -173,11 +160,6 @@ public class Hecho {
 
   public void setLongitud(Double longitud) {
     this.longitud = longitud;
-  }
-
-  //solo para testear
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public void setFechaAcontecimiento(LocalDateTime fechaAcontecimiento) {

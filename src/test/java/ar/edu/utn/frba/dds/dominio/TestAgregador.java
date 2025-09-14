@@ -5,7 +5,6 @@ import ar.edu.utn.frba.dds.dominio.criterios.CriterioBase;
 import ar.edu.utn.frba.dds.dominio.fuentes.*;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioFuentes;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
-import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioSolicitudes;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioSolicitudesDeCarga;
 import ar.edu.utn.frba.dds.dominio.solicitudes.SolicitudDeCarga;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
