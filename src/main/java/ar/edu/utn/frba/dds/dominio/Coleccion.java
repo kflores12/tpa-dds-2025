@@ -79,6 +79,10 @@ public class Coleccion {
     return id;
   }
 
+  public Fuente getFuente() {
+    return fuente;
+  }
+
   public List<Hecho> obtnerHechos() {
     List<Hecho> hechosAgregados = new ArrayList<>();
 
@@ -107,7 +111,7 @@ public class Coleccion {
 
   public List<Hecho> listarHechosDisponibles(List<Criterio> criteriosUsuario,
                                              ModoNavegacion modo) {
-    List<Hecho> hechosNodo = modo.aplicar(this.obtnerHechos(), this.algoritmo);
+    List<Hecho> hechosNodo = modo.aplicar(this, this.algoritmo);
     List<Hecho> filtradosColeccion = hechosNodo
         .stream()
         .filter(Hecho::getDisponibilidad)
@@ -120,14 +124,14 @@ public class Coleccion {
   }
 
   public void actualizarHechosConsensuados() {
-    List<Hecho> hechosNodo = this.obtnerHechos();
+
     ModoNavegacion modo;
     if (this.algoritmo == null) {
       modo = new NavegacionIrrestricta();
     } else {
       modo = new NavegacionConsensuada();
     }
-    this.hechosConsensuados = modo.aplicar(hechosNodo, this.algoritmo);
+    this.hechosConsensuados = modo.aplicar(this, this.algoritmo);
   }
 
 }

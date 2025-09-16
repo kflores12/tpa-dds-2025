@@ -1,40 +1,70 @@
 package ar.edu.utn.frba.dds.dominio;
 import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.Aabsoluta;
-import ar.edu.utn.frba.dds.dominio.fuentes.TipoFuente;
+import ar.edu.utn.frba.dds.dominio.fuentes.*;
+
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TestAbsoluto{
 
   private final Aabsoluta algoritmo = new Aabsoluta();
 
-  private Hecho hecho(String titulo, TipoFuente fuente) {
-    return new Hecho(titulo, "desc", "cat", 0.0, 0.0,
-        LocalDateTime.now(), LocalDateTime.now(), fuente, null, true);
+  private Hecho hecho(String titulo) {
+    return new Hecho(
+        titulo, "desc", "cat",
+        0.0, 0.0,
+        LocalDateTime.now(), LocalDateTime.now(),
+        TipoFuente.DATASET, // el algoritmo ya no se basa en TipoFuente
+        null,
+        true
+    );
   }
 
   @Test
   public void hechoEsConsensuadoPorTodasLasFuentes() {
-    Hecho h1 = hecho("Crisis", TipoFuente.DATASET );
-    Hecho h2 = hecho("Crisis", TipoFuente.FUENTEPROXYDEMO);
-    Hecho h3 = hecho("Crisis", TipoFuente.DINAMICA );
+    Hecho h1 = hecho("Crisis");
+    Hecho h2 = hecho("Crisis");
+    Hecho h3 = hecho("Crisis");
 
-    List<Hecho> hechosNodo = List.of(h1, h2, h3); // 3 fuentes distintas, todas tienen el hecho
+    // Fuente 1 mockeada
+    Fuente fuente1 = mock(Fuente.class);
+    when(fuente1.getHechos()).thenReturn(List.of(h1));
 
-    assertTrue(algoritmo.estaConsensuado(h1, hechosNodo));
+    // Fuente 2 mockeada
+    Fuente fuente2 = mock(Fuente.class);
+    when(fuente2.getHechos()).thenReturn(List.of(h2, h1));
+
+    // Fuente 3 mockeada
+    Fuente fuente3 = mock(Fuente.class);
+    when(fuente3.getHechos()).thenReturn(List.of(h3, h1));
+
+    Agregador agregador = new Agregador(List.of(fuente1, fuente2, fuente3));
+
+    assertTrue(algoritmo.estaConsensuado(h1, agregador));
   }
+
 
   @Test
   public void hechoNoEsConsensuadoSiFaltaUnaFuente() {
-    Hecho h1 = hecho("Crisis", TipoFuente.DATASET );
-    Hecho h2 = hecho("Crisis", TipoFuente.FUENTEPROXYDEMO);
+    Hecho h1 = hecho("Crisis");
+    Hecho h2 = hecho("Crisis");
+    Hecho otro = hecho("Otro");
 
-    Hecho otro = hecho("Otro", TipoFuente.DINAMICA );
+    FuenteDinamica f1 = new FuenteDinamica();
+    f1.getHechos().add(h1);
 
-    List<Hecho> hechosNodo = List.of(h1, h2, otro); // falta que la fuente C tenga el hecho
+    Conexion conexionMock = mock(Conexion.class);
+    FuenteProxyDemo f2 = new FuenteProxyDemo(conexionMock, "http://fake-url", List.of(h2));
 
-    assertFalse(algoritmo.estaConsensuado(h1, hechosNodo));
+    FuenteDataSet f3 = mock(FuenteDataSet.class);
+    when(f3.getHechos()).thenReturn(List.of(otro)); // esta fuente no tiene el hecho consensuado
+
+    Agregador agregador = new Agregador(List.of(f1, f2, f3));
+
+    assertFalse(algoritmo.estaConsensuado(h1, agregador));
   }
 }

@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.dominio.algoritmosconcenso;
 
 import ar.edu.utn.frba.dds.dominio.Hecho;
+import ar.edu.utn.frba.dds.dominio.fuentes.Agregador;
+import ar.edu.utn.frba.dds.dominio.fuentes.Fuente;
 import java.util.List;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -23,6 +25,13 @@ public abstract class AlgoritmoDeConsenso {
   public AlgoritmoDeConsenso() {
   }
 
-  public abstract boolean estaConsensuado(Hecho hecho, List<Hecho> hechosNodo);
+  public abstract boolean estaConsensuado(Hecho hecho, Fuente fuente);
+
+  protected List<Fuente> descomponerFuente(Fuente fuente) {
+    if (fuente instanceof Agregador agregador) {
+      return agregador.getFuentes();
+    }
+    return List.of(fuente);
+  }
 
 }

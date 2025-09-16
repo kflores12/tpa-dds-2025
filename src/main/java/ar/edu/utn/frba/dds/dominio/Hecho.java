@@ -78,21 +78,15 @@ public class Hecho {
     return id;
   }
 
-  public Boolean equals(Hecho otro) {
-    if (Objects.equals(this.getTitulo(), otro.getTitulo())
-        && Objects.equals(this.getDescripcion(), otro.getDescripcion())
-        && Objects.equals(this.getCategoria(), otro.getCategoria())
-        && Objects.equals(this.getLatitud(), otro.getLatitud())
-        && Objects.equals(this.getLongitud(), otro.getLongitud())
-        && Objects.equals(this.getFechaAcontecimiento(), otro.getFechaAcontecimiento())
-        && Objects.equals(this.getFechaDeCarga(), otro.getFechaDeCarga())
-        && Objects.equals(this.getMultimedia(), otro.getMultimedia())
-        && Objects.equals(this.getDisponibilidad(), otro.getDisponibilidad())) {
-      return true;
-    } else {
-      return false;
-    }
+  public boolean esIgual(Hecho otro) {
+    return Objects.equals(this.titulo, otro.titulo)
+        && Objects.equals(this.descripcion, otro.descripcion)
+        && Objects.equals(this.categoria, otro.categoria)
+        && Objects.equals(this.latitud, otro.latitud)
+        && Objects.equals(this.longitud, otro.longitud)
+        && Objects.equals(this.fechaAcontecimiento, otro.fechaAcontecimiento);
   }
+
 
   public String getTitulo() {
     return titulo;

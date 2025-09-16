@@ -24,6 +24,10 @@ public class Agregador extends Fuente {
   public Agregador() {
   }
 
+  public List<Fuente> getFuentes() {
+    return new ArrayList<>(fuentes);
+  }
+
   @Override
   public List<Hecho> getHechos() {
     return new ArrayList<>(copiaLocal);

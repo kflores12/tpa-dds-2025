@@ -1,10 +1,8 @@
 package ar.edu.utn.frba.dds.dominio.algoritmosconcenso;
 
 import ar.edu.utn.frba.dds.dominio.Hecho;
-import ar.edu.utn.frba.dds.dominio.fuentes.TipoFuente;
+import ar.edu.utn.frba.dds.dominio.fuentes.Fuente;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -15,36 +13,20 @@ public class AmayoriaSimple extends AlgoritmoDeConsenso {
   }
 
   @Override
-  public boolean estaConsensuado(Hecho hecho, List<Hecho> hechosNodo) {
-
-    Set<TipoFuente> fuentesDelNodo = hechosNodo.stream()
-        .map(Hecho::getOrigen)
-        .collect(Collectors.toSet());
-
-    int totalFuentes = fuentesDelNodo.size();
-    if (totalFuentes == 0) {
+  public boolean estaConsensuado(Hecho hecho, Fuente fuente) {
+    List<Fuente> fuentes = descomponerFuente(fuente);
+    int total = fuentes.size();
+    if (total == 0) {
       return false;
     }
+    long conteo = fuentes.stream()
+        .filter(f -> f.getHechos().stream().anyMatch(h -> h.esIgual(hecho)))
+        .count();
 
-    Set<TipoFuente> fuentesQueContienenElHecho = hechosNodo.stream()
-        .filter(h -> sonIguales(h, hecho))
-        .map(Hecho::getOrigen)
-        .collect(Collectors.toSet());
-
-
-    return fuentesQueContienenElHecho.size() >= Math.ceil(totalFuentes / 2.0);
+    // Al menos la mitad de las fuentes deben tenerlo
+    return conteo >= Math.ceil(total / 2.0);
   }
 
-  private boolean sonIguales(Hecho a, Hecho b) {
-    if (a == b) {
-      return true;
-    }
-    if (a == null || b == null) {
-      return false;
-    }
-
-    return a.equals(b);
-  }
 }
 
 
