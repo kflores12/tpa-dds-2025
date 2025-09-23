@@ -14,11 +14,14 @@ import java.util.List;
 import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,11 +36,11 @@ public class Coleccion {
   private String descripcion;
   @ManyToOne
   private Fuente fuente;
-  @ManyToMany
+  @OneToMany
   private List<Criterio> criteriosPertenencia;
   @Column
   private String handler;
-  @ManyToOne
+  @Enumerated(EnumType.STRING)
   private AlgoritmoDeConsenso algoritmo;
   @ManyToMany
   private List<Hecho> hechosConsensuados = new ArrayList<Hecho>();
@@ -111,6 +114,7 @@ public class Coleccion {
 
   public List<Hecho> listarHechosDisponibles(List<Criterio> criteriosUsuario,
                                              ModoNavegacion modo) {
+    //repeticion de uso de logica
     List<Hecho> hechosNodo = modo.aplicar(this, this.algoritmo);
     List<Hecho> filtradosColeccion = hechosNodo
         .stream()
@@ -124,7 +128,7 @@ public class Coleccion {
   }
 
   public void actualizarHechosConsensuados() {
-
+    //en listar hechos disponibles usar los resultados de este metodo
     ModoNavegacion modo;
     if (this.algoritmo == null) {
       modo = new NavegacionIrrestricta();

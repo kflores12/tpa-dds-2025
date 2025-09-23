@@ -126,7 +126,7 @@ public class SolicitudDeCarga extends Solicitud {
       return true;
     } else {
       return false;
-    }
+    } //no hace falta el if
   }
 
 

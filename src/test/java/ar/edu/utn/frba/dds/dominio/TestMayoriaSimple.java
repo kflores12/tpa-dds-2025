@@ -1,20 +1,23 @@
 package ar.edu.utn.frba.dds.dominio;
 
 
-import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AmayoriaSimple;
+import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AlgoritmoDeConsenso;
 import ar.edu.utn.frba.dds.dominio.fuentes.*;
 
 import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDate;
+
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TestMayoriaSimple {
 
-  private final AmayoriaSimple algoritmo = new AmayoriaSimple();
 
   private Hecho hecho(String titulo) {
     return new Hecho(
@@ -56,7 +59,7 @@ public class TestMayoriaSimple {
 
     Agregador agregador = new Agregador(List.of(fuente1, fuente2, fuente3, fuente4, fuente5));
 
-    assertTrue(algoritmo.estaConsensuado(h1, agregador));
+    Assertions.assertTrue(AlgoritmoDeConsenso.AmayoriaSimple.estaConsensuado(h1, agregador));
   }
 
   @Test
@@ -86,6 +89,6 @@ public class TestMayoriaSimple {
     Agregador agregador = new Agregador(List.of(f1, f2, f3, f4, f5));
 
     // Solo 2 de 5 fuentes tienen el hecho → no hay mayoría
-    assertFalse(algoritmo.estaConsensuado(h1, agregador));
+    Assertions.assertFalse(AlgoritmoDeConsenso.AmayoriaSimple.estaConsensuado(h1, agregador));
   }
 }

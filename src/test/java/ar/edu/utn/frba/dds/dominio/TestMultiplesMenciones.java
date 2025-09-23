@@ -1,18 +1,18 @@
 package ar.edu.utn.frba.dds.dominio;
-import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AmultiplesMeciones;
+import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AlgoritmoDeConsenso;
 import ar.edu.utn.frba.dds.dominio.fuentes.*;
 
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDate;
+
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TestMultiplesMenciones {
-
-  private final AmultiplesMeciones algoritmo = new AmultiplesMeciones();
 
   private Hecho hecho(String titulo, String descripcion) {
     return new Hecho(
@@ -42,7 +42,7 @@ public class TestMultiplesMenciones {
 
     Agregador agregador = new Agregador(List.of(fuente1, fuente2, fuente3));
 
-    assertTrue(algoritmo.estaConsensuado(h1, agregador)); // cumple el criterio
+    assertTrue(AlgoritmoDeConsenso.AmultiplesMenciones.estaConsensuado(h1, agregador)); // cumple el criterio
   }
 
   @Test
@@ -58,7 +58,7 @@ public class TestMultiplesMenciones {
 
     Agregador agregador = new Agregador(List.of(f1, f2));
 
-    assertFalse(algoritmo.estaConsensuado(h1, agregador));
+    assertFalse(AlgoritmoDeConsenso.AmultiplesMenciones.estaConsensuado(h1, agregador));
   }
 
   @Test
@@ -70,7 +70,7 @@ public class TestMultiplesMenciones {
 
     Agregador agregador = new Agregador(List.of(f1));
 
-    assertFalse(algoritmo.estaConsensuado(h1, agregador));
+    assertFalse(AlgoritmoDeConsenso.AmultiplesMenciones.estaConsensuado(h1, agregador));
   }
 }
 

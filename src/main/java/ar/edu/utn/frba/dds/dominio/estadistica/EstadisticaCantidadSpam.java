@@ -28,9 +28,6 @@ public class EstadisticaCantidadSpam implements Estadistica, WithSimplePersisten
 
     if (file.exists()) {
       boolean eliminado = file.delete();
-      if (!eliminado) {
-        System.out.println("no se pudo eliminar");
-      }
     }
     try (CSVWriter writer = new CSVWriter(
         new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8))) {

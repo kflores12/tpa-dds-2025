@@ -1,17 +1,20 @@
 package ar.edu.utn.frba.dds.dominio;
-import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.Aabsoluta;
+import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AlgoritmoDeConsenso;
 import ar.edu.utn.frba.dds.dominio.fuentes.*;
 
 import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TestAbsoluto{
 
-  private final Aabsoluta algoritmo = new Aabsoluta();
 
   private Hecho hecho(String titulo) {
     return new Hecho(
@@ -44,7 +47,7 @@ public class TestAbsoluto{
 
     Agregador agregador = new Agregador(List.of(fuente1, fuente2, fuente3));
 
-    assertTrue(algoritmo.estaConsensuado(h1, agregador));
+    Assertions.assertTrue(AlgoritmoDeConsenso.Aabsoluta.estaConsensuado(h1, agregador));
   }
 
 
@@ -65,6 +68,6 @@ public class TestAbsoluto{
 
     Agregador agregador = new Agregador(List.of(f1, f2, f3));
 
-    assertFalse(algoritmo.estaConsensuado(h1, agregador));
+    Assertions.assertFalse(AlgoritmoDeConsenso.Aabsoluta.estaConsensuado(h1, agregador));
   }
 }
