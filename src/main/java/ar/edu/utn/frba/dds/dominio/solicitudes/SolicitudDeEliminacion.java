@@ -7,11 +7,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 
 @Entity
-public class SolicitudDeEliminacion extends Solicitud {
+public class SolicitudDeEliminacion {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
   @OneToOne
   private Hecho hecho;
   @Column
@@ -56,7 +62,6 @@ public class SolicitudDeEliminacion extends Solicitud {
     return esSpam;
   }
 
-  @Override
   public void cambiarEstado(EstadoSolicitud evaluacion) {
     if (!estado.equals(EstadoSolicitud.PENDIENTE)) {
       throw new IllegalStateException("La solicitud ya fue evaluada.");

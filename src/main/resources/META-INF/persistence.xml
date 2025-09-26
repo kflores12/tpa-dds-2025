@@ -18,11 +18,6 @@
         <class>ar.edu.utn.frba.dds.dominio.fuentes.FuenteDinamica</class>
         <class>ar.edu.utn.frba.dds.dominio.fuentes.FuenteProxyDemo</class>
 
-        <class>ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AlgoritmoDeConsenso</class>
-        <class>ar.edu.utn.frba.dds.dominio.algoritmosconcenso.Aabsoluta</class>
-        <class>ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AmayoriaSimple</class>
-        <class>ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AmultiplesMeciones</class>
-
         <class>ar.edu.utn.frba.dds.dominio.criterios.CriterioBase</class>
         <class>ar.edu.utn.frba.dds.dominio.criterios.Criterio</class>
         <class>ar.edu.utn.frba.dds.dominio.criterios.CriterioCategoria</class>
@@ -33,7 +28,6 @@
         <class>ar.edu.utn.frba.dds.dominio.criterios.CriterioTitulo</class>
         <class>ar.edu.utn.frba.dds.dominio.criterios.CriterioUbicacion</class>
 
-        <class>ar.edu.utn.frba.dds.dominio.solicitudes.Solicitud</class>
         <class>ar.edu.utn.frba.dds.dominio.solicitudes.SolicitudDeCarga</class>
         <class>ar.edu.utn.frba.dds.dominio.solicitudes.SolicitudDeEliminacion</class>
 
