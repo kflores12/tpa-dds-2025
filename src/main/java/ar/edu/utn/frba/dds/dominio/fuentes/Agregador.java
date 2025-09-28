@@ -23,7 +23,7 @@ public class Agregador extends Fuente {
   private List<Fuente> fuentes;
   @ManyToMany
   @JoinTable(
-      name = "agregador_copia_hechos",
+      name = "agregador_hechos",
       joinColumns = @JoinColumn(name = "agregador_id"),
       inverseJoinColumns = @JoinColumn(name = "hecho_id")
   )

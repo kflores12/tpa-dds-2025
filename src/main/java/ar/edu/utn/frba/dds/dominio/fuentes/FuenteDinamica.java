@@ -6,12 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 @DiscriminatorValue("FUENTE_DINAMICA")
 public class FuenteDinamica extends Fuente {
-  @OneToMany
+  @ManyToMany
+  @JoinTable(
+      name = "dinamica_hechos",  // nombre de la tabla intermedia
+      joinColumns = @JoinColumn(name = "dinamica_id"),
+      inverseJoinColumns = @JoinColumn(name = "hecho_id") // FK hacia Hecho
+  )
   private List<Hecho> listaDeHechos = new ArrayList<>();
 
   public FuenteDinamica() {
