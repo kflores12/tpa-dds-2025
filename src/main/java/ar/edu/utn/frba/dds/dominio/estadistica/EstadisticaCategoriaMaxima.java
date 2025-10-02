@@ -8,14 +8,19 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.NoResultException;
+import javax.persistence.Tuple;
 
 public class EstadisticaCategoriaMaxima implements Estadistica, WithSimplePersistenceUnit {
   private String categoriaMax;
 
+  public record categoriaMaxDTO(String categoria, Integer cantidad_hechos) {}
 
   @Override public void calcularEstadistica() {
-    try {
+
+    /*try {
       this.categoriaMax = entityManager()
           .createQuery(
               "SELECT h.categoria "
@@ -28,7 +33,26 @@ public class EstadisticaCategoriaMaxima implements Estadistica, WithSimplePersis
           .getSingleResult();
     } catch (NoResultException e) {
       this.categoriaMax = null;
+    }*/
+
+    List<Object[]> listaDTO = entityManager()
+        .createNativeQuery("SELECT " +
+            "h.categoria," +
+            "COUNT(*) as cantidad_hechos " +
+            "FROM Hecho h " +
+            "GROUP BY h.categoria " +
+            "ORDER BY COUNT(*) DESC;"
+        ).getResultList();
+
+    List<categoriaMaxDTO> lista = new ArrayList<>();
+
+    for (Object[] r : listaDTO) {
+      String categoria = (String) r[0];
+      int cantidad_hechos  = ((Number) r[1]).intValue();
+      lista.add(new categoriaMaxDTO(categoria, cantidad_hechos));
     }
+
+    lista.forEach(dto -> System.out.printf("Nombre: %s | Cantidad: %d%n", dto.categoria(), dto.cantidad_hechos()));
   }
 
   @Override
