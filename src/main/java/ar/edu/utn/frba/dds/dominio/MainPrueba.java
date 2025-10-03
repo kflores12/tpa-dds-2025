@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.dominio;
 
 import ar.edu.utn.frba.dds.dominio.fuentes.FuenteDataSet;
 import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
@@ -34,7 +35,7 @@ public class MainPrueba {
       FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);
       fullTextEntityManager.createIndexer().startAndWait();
 
-      Scanner scanner = new Scanner(System.in);
+      Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
       BusquedaTextoLibre buscador = new BusquedaTextoLibre(repo);
 
       while (true) {

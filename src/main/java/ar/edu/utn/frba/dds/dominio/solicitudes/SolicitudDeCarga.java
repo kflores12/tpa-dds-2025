@@ -13,16 +13,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class SolicitudDeCarga {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "hecho_id", nullable = true)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   private Hecho hechoCreado;
   //ATRIBUTOS DE UN HECHO A CREAR
   @Column
