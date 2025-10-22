@@ -1,15 +1,13 @@
 package db;
 
-import ar.edu.utn.frba.dds.dominio.Hecho;
-import ar.edu.utn.frba.dds.dominio.estadistica.EstadisticaCategoriaMaxima;
-import ar.edu.utn.frba.dds.dominio.fuentes.TipoFuente;
-import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
+import ar.edu.utn.frba.dds.model.entities.Hecho;
+import ar.edu.utn.frba.dds.model.estadistica.EstadisticaCategoriaMaxima;
+import ar.edu.utn.frba.dds.model.entities.fuentes.TipoFuente;
+import ar.edu.utn.frba.dds.repositories.RepositorioHechos;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
-
-import java.time.LocalDate;
 
 public class TestPrueba implements SimplePersistenceTest {
   @Test
