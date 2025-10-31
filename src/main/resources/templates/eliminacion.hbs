@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{titulo}}</title>
+</head>
+<body>
+    <h1>🗑️ {{titulo}}</h1>
+
+    {{#if flash_error}}
+        <p style="color: red; font-weight: bold;">Error: {{flash_error}}</p>
+    {{/if}}
+
+    <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+        <h2>Hecho a Eliminar</h2>
+        <table border="1" style="width: 100%;">
+            <tr>
+                <td><strong>ID del Hecho:</strong></td>
+                <td>{{hecho.id}}</td>
+            </tr>
+            <tr>
+                <td><strong>Título:</strong></td>
+                <td>{{hecho.titulo}}</td>
+            </tr>
+            <tr>
+                <td><strong>Descripción:</strong></td>
+                <td>{{hecho.descripcion}}</td>
+            </tr>
+            <tr>
+                <td><strong>Categoría:</strong></td>
+                <td>{{hecho.categoria}}</td>
+            </tr>
+            <tr>
+                <td><strong>Origen del Dato:</strong></td>
+                <td>Fuente ID: {{hecho.fuenteOrigen.id}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <form method="POST" action="/solicitudes">
+
+        <input type="hidden" name="hechoId" value="{{hechoId}}">
+
+        <label for="motivo"><h3>Motivo de la Solicitud de Eliminación:</h3></label>
+        [cite_start]<p>Por favor, fundamente su solicitud (mínimo 500 caracteres, según Entrega 1 [cite: 333]):</p>
+
+        <textarea id="motivo" name="motivo" rows="10" cols="70" maxlength="500" required></textarea>
+
+        <br><br>
+
+        <button type="submit" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none;">
+            Enviar Solicitud de Eliminación
+        </button>
+    </form>
+
+    <p style="margin-top: 20px;"><a href="/home">Cancelar y volver al inicio</a></p>
+</body>
+</html>

@@ -38,6 +38,10 @@ public class RepositorioHechos implements WithSimplePersistenceUnit {
     return h;
   }
 
+  public Hecho buscarHechoPorId(Long idHecho) {
+    return entityManager().find(Hecho.class, idHecho);
+  }
+
   public Hecho modificarHecho(Hecho hecho) {
     return entityManager().merge(hecho);
   }

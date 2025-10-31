@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{titulo}}</title>
+</head>
+<body>
+    {{#if solicitud.esSpam}}
+        <h1 style="color: red;">❌ Solicitud Rechazada (detectada como SPAM)</h1>
+    {{else}}
+        <h1 style="color: green;">✅ Solicitud Enviada Correctamente</h1>
+    {{/if}}
+
+    <div style="padding: 15px; border: 1px solid #ccc; margin-bottom: 20px;">
+        <h2>Mensaje del Sistema</h2>
+        {{#if flash_message}}
+            <p style="font-weight: bold; color: #333;">{{flash_message}}</p>
+        {{else}}
+            <p>No hay mensajes adicionales del sistema.</p>
+        {{/if}}
+    </div>
+
+    <h2>Detalles de la Solicitud</h2>
+    <table border="1" style="width: 60%; margin-top: 15px; border-collapse: collapse;">
+        <tr>
+            <td><strong>ID de Solicitud:</strong></td>
+            <td>{{solicitud.id}}</td>
+        </tr>
+        <tr>
+            <td><strong>Estado Actual:</strong></td>
+            <td><strong>{{solicitud.estado}}</strong></td>
+        </tr>
+        <tr>
+            <td><strong>Hecho Asociado:</strong></td>
+            <td>ID {{solicitud.hecho.id}} — {{solicitud.hecho.titulo}}</td>
+        </tr>
+        <tr>
+            <td><strong>Motivo Enviado:</strong></td>
+            <td>{{solicitud.motivo}}</td>
+        </tr>
+        <tr>
+            <td><strong>Clasificado como SPAM:</strong></td>
+            <td>{{#if solicitud.esSpam}}Sí{{else}}No{{/if}}</td>
+        </tr>
+    </table>
+
+    <p style="margin-top: 30px;">
+        <a href="/home">🏠 Volver al Inicio</a>
+    </p>
+</body>
+</html>
+

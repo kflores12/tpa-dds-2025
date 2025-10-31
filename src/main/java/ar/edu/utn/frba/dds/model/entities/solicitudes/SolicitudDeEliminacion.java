@@ -62,6 +62,10 @@ public class SolicitudDeEliminacion {
     return esSpam;
   }
 
+  public Long getId() {
+    return id;
+  }
+
   public void cambiarEstado(EstadoSolicitud evaluacion) {
     if (!estado.equals(EstadoSolicitud.PENDIENTE)) {
       throw new IllegalStateException("La solicitud ya fue evaluada.");
