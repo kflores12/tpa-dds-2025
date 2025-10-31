@@ -3,22 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>{{titulo}}</title>
-    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/main.css">
 </head>
 <body>
-    <div class="container">
-        <h1>{{titulo}} 👋</h1>
-        <p>{{mensaje}}</p>
-        <hr>
+    <div class="containerGenerico">
+        <div class="container">
+            <h1 style="font-size: 3em; margin-bottom: 10px;">{{titulo}} 👋</h1>
+            <p>{{mensaje}}</p>
 
-        <h2>Tu Modelo de Dominio está Listo</h2>
-        <p>Servidor MVC con Javalin y Handlebars funcionando en puerto 9001.</p>
-
-        <p>Ahora puedes comenzar con las funcionalidades de la Entrega 5:</p>
-        <ul>
-            <li><a href="/colecciones">Navegar Colecciones y Hechos</a></li>
-            <li><a href="/hechos/nuevo">Cargar Nuevo Hecho (Fuente Dinámica)</a></li>
-        </ul>
+            <hr style="width: 100%; border: 0; border-top: 2px solid #333; margin: 30px 0;">
+            <div class="botones-navegacion">
+                <a href="/colecciones" style="text-decoration: none;">
+                    <button class="btn-circular btn-navegar">
+                         Navegar Colecciones y Hechos
+                    </button>
+                </a>
+                <a href="/hechos/nuevo" style="text-decoration: none;">
+                    <button class="btn-circular btn-cargar">
+                         Cargar Nuevo Hecho
+                    </button>
+                </a>
+                <a href="/hechos/eliminar" style="text-decoration: none;">
+                    <button class="btn-circular btn-eliminar">
+                         Solicitar Eliminación
+                    </button>
+                </a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

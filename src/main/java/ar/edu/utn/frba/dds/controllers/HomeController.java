@@ -9,7 +9,7 @@ public class HomeController {
   public Map<String, Object> index(@NotNull Context ctx) {
     return Map.of(
         "titulo", "MetaMapa: Gestión de Mapeos Colaborativos",
-        "mensaje", "Bienvenido a la interfaz Web. ¡Empecemos con la Entrega 5!"
+        "mensaje", "Bienvenido a la interfaz Web."
     );
   }
 }
