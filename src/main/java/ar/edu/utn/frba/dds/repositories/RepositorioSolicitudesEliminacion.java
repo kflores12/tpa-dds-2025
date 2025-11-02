@@ -43,4 +43,8 @@ public class RepositorioSolicitudesEliminacion implements WithSimplePersistenceU
         .getResultList();
   }
 
+  public SolicitudDeEliminacion getSolicitudDeEliminacion(Long id) {
+    return entityManager().find(SolicitudDeEliminacion.class, id);
+  }
+
 }

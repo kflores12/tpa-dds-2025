@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositories;
 
 import ar.edu.utn.frba.dds.model.entities.fuentes.Fuente;
+import ar.edu.utn.frba.dds.model.entities.fuentes.FuenteDinamica;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
 
@@ -25,9 +26,8 @@ public class RepositorioFuentes implements WithSimplePersistenceUnit {
         .createQuery("from Fuente", Fuente.class).getResultList();
   }
 
-  public Fuente getFuente(Fuente fuente) {
-    Fuente f = entityManager().getReference(Fuente.class, fuente.getId());
-    return f;
+  public Fuente getFuente(Long id) {
+    return entityManager().find(Fuente.class, id);
   }
 
   public void actualizarHechos() {
@@ -38,4 +38,8 @@ public class RepositorioFuentes implements WithSimplePersistenceUnit {
   private RepositorioFuentes() {
   }
 
+  public List<FuenteDinamica> getFuentesDinamicas() {
+    return entityManager()
+        .createQuery("FROM FuenteDinamica", FuenteDinamica.class).getResultList();
+  }
 }

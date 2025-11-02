@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.model.entities.solicitudes;
 
 import ar.edu.utn.frba.dds.model.entities.Hecho;
+import ar.edu.utn.frba.dds.model.entities.fuentes.Fuente;
 import ar.edu.utn.frba.dds.model.entities.fuentes.TipoFuente;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import javax.persistence.CascadeType;
@@ -13,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -50,6 +53,9 @@ public class SolicitudDeCarga {
   private String sugerencia = "";
   @Enumerated(EnumType.STRING)
   private EstadoSolicitud estado = EstadoSolicitud.PENDIENTE;
+  @ManyToOne
+  @JoinColumn(name = "fuente_id")
+  private Fuente fuente;
 
   public SolicitudDeCarga(String titulo,
                           String descripcion,
@@ -58,7 +64,8 @@ public class SolicitudDeCarga {
                           Double longitud,
                           LocalDateTime fechaAcontecimiento,
                           String multimedia,
-                          boolean registerBoolean) {
+                          boolean registerBoolean,
+                          Fuente fuente) {
     this.hechoCreado = null;
     this.titulo = titulo;
     this.descripcion = descripcion;
@@ -69,9 +76,58 @@ public class SolicitudDeCarga {
     this.origen = TipoFuente.DINAMICA;
     this.multimedia = multimedia;
     this.registrado = registerBoolean;
+    this.fuente = fuente;
   }
 
   public SolicitudDeCarga() {
+  }
+
+  public String getTitulo() {
+    return titulo;
+  }
+
+  public String getCategoria() {
+    return categoria;
+  }
+
+  public String getDescripcion() {
+    return descripcion;
+  }
+
+  public Double getLatitud() {
+    return latitud;
+  }
+
+  public Double getLongitud() {
+    return longitud;
+  }
+
+  public LocalDateTime getFechaAcontecimiento() {
+    return fechaAcontecimiento;
+  }
+
+  public LocalDateTime getFechaCargaOriginal() {
+    return fechaCargaOriginal;
+  }
+
+  public TipoFuente getOrigen() {
+    return origen;
+  }
+
+  public String getMultimedia() {
+    return multimedia;
+  }
+
+  public Boolean getDisponibilidad() {
+    return disponibilidad;
+  }
+
+  public boolean isRegistrado() {
+    return registrado;
+  }
+
+  public Fuente getFuente() {
+    return fuente;
   }
 
   public EstadoSolicitud getEstado() {
@@ -88,6 +144,14 @@ public class SolicitudDeCarga {
 
   public void setSugerencia(String s) {
     this.sugerencia = s;
+  }
+
+  public Hecho getHechoCreado() {
+    return hechoCreado;
+  }
+
+  public boolean esRegistrado() {
+    return registrado;
   }
 
   public void aprobar() {
@@ -108,7 +172,8 @@ public class SolicitudDeCarga {
         fechaCargaOriginal,
         this.origen,
         this.multimedia,
-        this.disponibilidad
+        this.disponibilidad,
+        this.fuente
     );
 
   }
@@ -122,6 +187,10 @@ public class SolicitudDeCarga {
   }
 
   public void cambiarEstado(EstadoSolicitud evaluacion) {
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public boolean puedeModificar(Hecho h) {
@@ -148,6 +217,7 @@ public class SolicitudDeCarga {
     this.hechoCreado.setOrigen(hechoModificado.getOrigen());
     this.hechoCreado.setMultimedia(hechoModificado.getMultimedia());
     this.hechoCreado.setFechaDeCarga(hechoModificado.getFechaDeCarga());
+    this.hechoCreado.setFuenteOrigen(hechoModificado.getFuenteOrigen());
   }
 
 
@@ -155,5 +225,25 @@ public class SolicitudDeCarga {
     this.fechaCargaOriginal = fechaCargaOriginal;
   }
 
-
+  @Override
+  public String toString() {
+    return "SolicitudDeCarga{" +
+        "id=" + id +
+        ", hechoCreado=" + hechoCreado +
+        ", titulo='" + titulo + '\'' +
+        ", descripcion='" + descripcion + '\'' +
+        ", categoria='" + categoria + '\'' +
+        ", latitud=" + latitud +
+        ", longitud=" + longitud +
+        ", fechaAcontecimiento=" + fechaAcontecimiento +
+        ", fechaCargaOriginal=" + fechaCargaOriginal +
+        ", origen=" + origen +
+        ", multimedia='" + multimedia + '\'' +
+        ", disponibilidad=" + disponibilidad +
+        ", registrado=" + registrado +
+        ", sugerencia='" + sugerencia + '\'' +
+        ", estado=" + estado +
+        ", fuente=" + fuente +
+        '}';
+  }
 }

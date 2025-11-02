@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmación de Hecho</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <h1>✅ Hecho enviado con éxito</h1>
+
+  {{#if flash_message}}
+    <p style="color: green; font-weight: bold;">{{flash_message}}</p>
+  {{/if}}
+
+  <div style="border: 1px solid #ccc; padding: 15px; background-color: #f9f9f9;">
+    <h2>Detalles del Hecho Reportado</h2>
+    <table border="1" style="width: 60%; margin-top: 15px;">
+      <tr><td><strong>Título:</strong></td><td>{{solicitud.titulo}}</td></tr>
+      <tr><td><strong>Descripción:</strong></td><td>{{solicitud.descripcion}}</td></tr>
+      <tr><td><strong>Categoría:</strong></td><td>{{solicitud.categoria}}</td></tr>
+      <tr><td><strong>Ubicación:</strong></td><td>Lat: {{solicitud.latitud}}, Lon: {{solicitud.longitud}}</td></tr>
+      <tr><td><strong>Fecha:</strong></td><td>{{solicitud.fechaAcontecimiento}}</td></tr>
+      <tr><td><strong>Fuente:</strong></td><td>ID {{solicitud.fuente.id}} ({{solicitud.fuente.tipo_fuente}})</td></tr>
+    </table>
+
+    {{#if registrado}}
+      <p>Tu hecho ha sido registrado bajo tu cuenta de usuario.</p>
+    {{else}}
+      <p>Tu hecho ha sido enviado como usuario anónimo.</p>
+    {{/if}}
+  </div>
+
+  <p style="margin-top: 30px;">
+    <a href="/hechos/nuevo">Cargar otro hecho</a> |
+    <a href="/home">Volver al Inicio</a>
+  </p>
+</body>
+</html>

@@ -36,4 +36,8 @@ public class RepositorioSolicitudesDeCarga implements WithSimplePersistenceUnit 
         .getResultList();
   }
 
+  public SolicitudDeCarga getSolicitud(Long id) {
+    return entityManager().find(SolicitudDeCarga.class, id);
+  }
+
 }

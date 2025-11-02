@@ -1,12 +1,16 @@
 package ar.edu.utn.frba.dds.server;
 
+import ar.edu.utn.frba.dds.scripts.Bootstrap;
 import ar.edu.utn.frba.dds.server.templates.JavalinHandlebars;
 import ar.edu.utn.frba.dds.server.templates.JavalinRenderer;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 
-public class Server {
+
+public class Server implements WithSimplePersistenceUnit {
   public void start() {
+    Bootstrap.init();
     var app = Javalin.create(config -> {
       initializeStaticFiles(config);
       initializeTemplating(config);
@@ -15,6 +19,7 @@ public class Server {
     new Router().configure(app);
     app.start(9001);
   }
+
 
   private void initializeTemplating(JavalinConfig config) {
     config.fileRenderer(

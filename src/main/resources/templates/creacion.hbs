@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{{titulo}}</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    .flash {
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+    .flash.error {
+      background-color: #ffe0e0;
+      color: #a60000;
+      border: 1px solid #ffb3b3;
+    }
+    .flash.success {
+      background-color: #e0ffe0;
+      color: #007700;
+      border: 1px solid #b3ffb3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h1>{{titulo}}</h1>
+
+    {{#if flash_error}}
+      <div class="flash error">{{flash_error}}</div>
+    {{/if}}
+
+    {{#if flash_message}}
+      <div class="flash success">{{flash_message}}</div>
+    {{/if}}
+
+    <form action="/hechos" method="POST">
+      {{!-- La fuente se determina automáticamente en el controlador --}}
+      {{#if fuente}}
+        <input type="hidden" name="fuenteId" value="{{fuente.id}}">
+      {{/if}}
+
+      <label for="titulo">Título</label>
+      <input type="text" name="titulo" placeholder="Ej: Incendio en el centro" required>
+
+      <label for="descripcion">Descripción</label>
+      <textarea name="descripcion" placeholder="Describe brevemente el hecho..." required></textarea>
+
+      <label for="categoria">Categoría</label>
+      <select name="categoria" required>
+        {{#each categorias}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+
+      <label for="latitud">Latitud</label>
+      <input type="number" step="0.0001" name="latitud" placeholder="-34.6037" required>
+
+      <label for="longitud">Longitud</label>
+      <input type="number" step="0.0001" name="longitud" placeholder="-58.3816" required>
+
+      <label for="fechaAcontecimiento">Fecha del Acontecimiento</label>
+      <input type="datetime-local" name="fechaAcontecimiento" required>
+
+      <label for="multimedia">Enlace Multimedia (opcional)</label>
+      <input type="url" name="multimedia" placeholder="https://ejemplo.com/imagen.jpg">
+
+      <button type="submit">📍 Cargar Hecho</button>
+    </form>
+
+    <p style="margin-top: 20px;">
+      <a href="/home">⬅️ Volver al Inicio</a>
+    </p>
+  </div>
+
+</body>
+</html>
