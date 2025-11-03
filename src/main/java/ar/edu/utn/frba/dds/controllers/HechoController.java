@@ -1,24 +1,31 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.model.entities.Hecho;
+import ar.edu.utn.frba.dds.model.entities.criterios.*;
 import ar.edu.utn.frba.dds.model.entities.fuentes.Fuente;
 import ar.edu.utn.frba.dds.model.entities.fuentes.FuenteDinamica;
 import ar.edu.utn.frba.dds.model.entities.solicitudes.SolicitudDeCarga;
 import ar.edu.utn.frba.dds.repositories.RepositorioFuentes;
+import ar.edu.utn.frba.dds.repositories.RepositorioHechos;
 import ar.edu.utn.frba.dds.repositories.RepositorioSolicitudesDeCarga;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import org.apache.avro.reflect.Nullable;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class HechoController implements WithSimplePersistenceUnit {
 
   private final RepositorioSolicitudesDeCarga repoSolicitudes;
   private final RepositorioFuentes repoFuentes;
+  private final RepositorioHechos repoHechos = RepositorioHechos.getInstance();
 
   private static final Map<String, Long> CONTEXTO_A_FUENTE = Map.of(
       "anonimo", 1L,
@@ -128,41 +135,61 @@ public class HechoController implements WithSimplePersistenceUnit {
     String titulo = ctx.queryParam("titulo");
     String categoria = ctx.queryParam("categoria");
     String descripcion = ctx.queryParam("descripcion");
-    String ubicacion = ctx.queryParam("ubicacion");
+    String longitud = ctx.queryParam("longitud");
+    String latitud = ctx.queryParam("latitud");
     String fechaAcontecimiento = ctx.queryParam("fechaAcontecimiento");
     String fechaCarga = ctx.queryParam("fechaCarga");
     String fechaDesde = ctx.queryParam("fechaDesde");
     String fechaHasta = ctx.queryParam("fechaHasta");
 
-    // Guardar los filtros para mostrarlos en el formulario
-    Map<String, Criterio> filtros = new HashMap<>();
-    if (titulo != null) filtros.put("titulo", titulo);
-    if (categoria != null) filtros.put("categoria", categoria);
-    if (descripcion != null) filtros.put("descripcion", descripcion);
-    if (ubicacion != null) filtros.put("ubicacion", ubicacion);
-    if (fechaAcontecimiento != null) filtros.put("fechaAcontecimiento", fechaAcontecimiento);
-    if (fechaCarga != null) filtros.put("fechaCarga", fechaCarga);
-    if (fechaDesde != null) filtros.put("fechaDesde", fechaDesde);
-    if (fechaHasta != null) filtros.put("fechaHasta", fechaHasta);
+    // Detectar si el usuario presionó el botón buscar (hay algún parámetro en la query)
+    boolean sePresionoBuscar = ctx.queryParamMap().size() > 0;
 
-    modelo.put("filtros", filtros);
+    // Guardar los valores de los filtros para mantenerlos en el formulario
+    Map<String, String> filtrosForm = new HashMap<>();
+    if (titulo != null) filtrosForm.put("titulo", titulo);
+    if (categoria != null) filtrosForm.put("categoria", categoria);
+    if (descripcion != null) filtrosForm.put("descripcion", descripcion);
+    if (longitud != null) filtrosForm.put("longitud", longitud);
+    if (latitud != null) filtrosForm.put("latitud", latitud);
+    if (fechaAcontecimiento != null) filtrosForm.put("fechaAcontecimiento", fechaAcontecimiento);
+    if (fechaCarga != null) filtrosForm.put("fechaCarga", fechaCarga);
+    if (fechaDesde != null) filtrosForm.put("fechaDesde", fechaDesde);
+    if (fechaHasta != null) filtrosForm.put("fechaHasta", fechaHasta);
 
-    // Si hay algún filtro, realizar la búsqueda
-    boolean hayFiltros = !filtros.isEmpty();
+    modelo.put("filtros", filtrosForm);
 
-    if (hayFiltros) {
-      List<Hecho> resultados = repoHechos.buscarConFiltros(
-          titulo, categoria, descripcion, ubicacion,
-          fechaAcontecimiento, fechaCarga, fechaDesde, fechaHasta
-      );
+    // Solo mostrar resultados si se presionó el botón buscar
+    if (sePresionoBuscar) {
+      List<Criterio> filtros = new ArrayList<>();
+      if (titulo != null && !titulo.isEmpty()) filtros.add(new CriterioTitulo(titulo));
+      if (categoria != null && !categoria.isEmpty()) filtros.add(new CriterioCategoria(categoria));
+      if (descripcion != null && !descripcion.isEmpty()) filtros.add(new CriterioDescripcion(descripcion));
+      if (longitud != null && !longitud.isEmpty() && latitud != null && !latitud.isEmpty()) {
+        filtros.add(new CriterioUbicacion(Double.parseDouble(latitud), Double.parseDouble(longitud)));
+      }
+      if (fechaAcontecimiento != null && !fechaAcontecimiento.isEmpty()) {
+        filtros.add(new CriterioFecha(LocalDate.parse(fechaAcontecimiento)));
+      }
+      if (fechaCarga != null && !fechaCarga.isEmpty()) {
+        filtros.add(new CriterioFechaCarga(LocalDate.parse(fechaCarga)));
+      }
+      if (fechaDesde != null && !fechaDesde.isEmpty() && fechaHasta != null && !fechaHasta.isEmpty()) {
+        filtros.add(new CriterioRangoFechas(LocalDate.parse(fechaDesde), LocalDate.parse(fechaHasta)));
+      }
 
-      // Convertir los hechos a un formato más amigable para la vista
-      List<Map<String, String>> hechosFormateados = resultados.stream()
-          .map(this::formatearHecho)
-          .collect(Collectors.toList());
+      // Obtener todos los hechos
+      List<Hecho> resultados = repoHechos.obtenerTodos();
+
+      // Si hay filtros, aplicarlos
+      if (!filtros.isEmpty()) {
+        resultados = resultados.stream()
+            .filter(hecho -> filtros.stream().allMatch(criterio -> criterio.aplicarFiltro(hecho)))
+            .toList();
+      }
 
       modelo.put("resultadosBusqueda", true);
-      modelo.put("hechos", hechosFormateados);
+      modelo.put("hechos", resultados);
       modelo.put("cantidadResultados", resultados.size());
     }
 

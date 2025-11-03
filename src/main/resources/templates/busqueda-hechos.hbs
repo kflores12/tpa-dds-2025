@@ -4,99 +4,6 @@
     <meta charset="UTF-8">
     <title>Búsqueda de Hechos</title>
     <link rel="stylesheet" href="/assets/main.css">
-    <style>
-        .search-form {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        .form-group label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        .form-group input,
-        .form-group select {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        .search-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .btn-search {
-            background: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .btn-search:hover {
-            background: #0056b3;
-        }
-        .btn-clear {
-            background: #6c757d;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .btn-clear:hover {
-            background: #545b62;
-        }
-        .results-section {
-            margin-top: 30px;
-        }
-        .result-item {
-            background: white;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .result-item h3 {
-            margin-top: 0;
-            color: #007bff;
-        }
-        .result-meta {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-            font-size: 14px;
-            color: #666;
-        }
-        .result-meta-item {
-            display: flex;
-            flex-direction: column;
-        }
-        .result-meta-item strong {
-            color: #333;
-        }
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -121,8 +28,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="ubicacion">Ubicación (Provincia):</label>
-                    <input type="text" id="ubicacion" name="ubicacion" value="{{filtros.ubicacion}}" placeholder="Ej: Buenos Aires">
+                    <label for="longitud">Longitud:</label>
+                    <input type="number" step="any" id="longitud" name="longitud" value="{{filtros.longitud}}" placeholder="Ej: -58.3816">
+                </div>
+
+                <div class="form-group">
+                    <label for="latitud">Latitud:</label>
+                    <input type="number" step="any" id="latitud" name="latitud" value="{{filtros.latitud}}" placeholder="Ej: -34.6037">
                 </div>
 
                 <div class="form-group">

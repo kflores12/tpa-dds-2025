@@ -18,15 +18,7 @@ public class HomeController {
   }
 
   public Map<String, Object> index(@NotNull Context ctx) {
-    // 🔒 Preparado para autenticación futura
     boolean esRegistrado = ctx.sessionAttribute("usuarioRegistrado") != null;
-
-    // ✅ Filtramos solo los hechos disponibles (visibles públicamente)
-    List<Hecho> hechosDisponibles = repoHechos
-        .obtenerTodos()
-        .stream()
-        .filter(Hecho::getDisponibilidad)
-        .toList();
 
     return Map.of(
         "titulo", "MetaMapa: Gestión de Mapeos Colaborativos",

@@ -12,7 +12,7 @@ import ar.edu.utn.frba.dds.model.entities.criterios.CriterioTitulo;
 import ar.edu.utn.frba.dds.model.entities.fuentes.Agregador;
 import ar.edu.utn.frba.dds.model.entities.fuentes.Fuente;
 import ar.edu.utn.frba.dds.model.entities.fuentes.FuenteDataSet;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,8 +40,8 @@ public class TestsFuenteDataSet {
 
   @BeforeEach
   public void fixtureColeccion() {
-    rango = new CriterioRangoFechas(LocalDateTime.of(2023, 1, 1,00,00),
-        LocalDateTime.of(2025,12,30,23,59));
+    rango = new CriterioRangoFechas(LocalDate.of(2023, 1, 1),
+        LocalDate.of(2025,12,30));
     titulo = new CriterioTitulo("incendio");
     dataset = new FuenteDataSet("datos.csv","yyyy-MM-dd HH:mm",',');
     datavacio = new FuenteDataSet("vacio.csv","yyyy-MM-dd HH:mm",',');
