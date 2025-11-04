@@ -7,6 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import java.util.List;
+import java.util.Map;
 
 public class Server {
 
@@ -76,6 +77,13 @@ public class Server {
     config.staticFiles.add(staticFileConfig -> {
       staticFileConfig.hostedPath = "/assets";
       staticFileConfig.directory = "/assets";
+    });
+
+    config.staticFiles.add(staticFileConfig -> {
+      staticFileConfig.hostedPath = "/uploads";
+      staticFileConfig.directory = "uploads"; // carpeta fuera de src/main/resources
+      staticFileConfig.location = io.javalin.http.staticfiles.Location.EXTERNAL;
+      staticFileConfig.headers = Map.of("Cache-Control", "max-age=0");
     });
   }
 }

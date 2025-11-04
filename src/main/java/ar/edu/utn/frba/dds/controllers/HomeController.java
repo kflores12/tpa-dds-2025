@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.server.AppRole;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,21 +23,23 @@ public class HomeController {
     AppRole rol = ctx.attribute("userRole");
     boolean esRegistrado = rol == AppRole.USER || rol == AppRole.ADMIN;
     String username = ctx.attribute("username");
+    List<Hecho> hechosDisponibles = repoHechos.obtenerTodos();
 
-    List<Hecho> hechosDisponibles = repoHechos.obtenerTodos()
-        .stream()
-        .filter(Hecho::getDisponibilidad)
-        .toList();
+    if (hechosDisponibles == null) {
+      hechosDisponibles = List.of(); // evita null
+    }
 
-    return Map.of(
-        "titulo", "MetaMapa: Gestión de Mapeos Colaborativos",
-        "mensaje", esRegistrado ?
-            "Bienvenido, " + username + ". Podés registrar y gestionar tus hechos." :
-            "Estás navegando como visitante. Podés ver hechos y cargar nuevos de forma anónima.",
-        "hechos", hechosDisponibles,
-        "esRegistrado", esRegistrado,
-        "username", username
-    );
+    Map<String, Object> model = new HashMap<>();
+    model.put("titulo", "MetaMapa: Gestión de Mapeos Colaborativos");
+    model.put("mensaje", esRegistrado
+        ? "Bienvenido, " + (username != null ? username : "Usuario") + ". Podés registrar y gestionar tus hechos."
+        : "Estás navegando como visitante. Podés ver hechos y cargar nuevos de forma anónima.");
+    model.put("hechos", hechosDisponibles);
+    model.put("esRegistrado", esRegistrado);
+    model.put("username", username != null ? username : "Invitado");
+
+    return model;
   }
+
 
 }
