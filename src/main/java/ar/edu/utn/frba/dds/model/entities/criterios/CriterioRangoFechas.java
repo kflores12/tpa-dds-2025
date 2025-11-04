@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.model.entities.criterios;
 
 import ar.edu.utn.frba.dds.model.entities.Hecho;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -11,11 +11,11 @@ import javax.persistence.Entity;
 @DiscriminatorValue("RANGO")
 public class CriterioRangoFechas extends Criterio {
   @Column
-  private LocalDateTime desde;
+  private LocalDate desde;
   @Column
-  private LocalDateTime hasta;
+  private LocalDate hasta;
 
-  public CriterioRangoFechas(LocalDateTime desde, LocalDateTime hasta) {
+  public CriterioRangoFechas(LocalDate desde, LocalDate hasta) {
     this.desde = desde;
     this.hasta = hasta;
   }
@@ -25,8 +25,11 @@ public class CriterioRangoFechas extends Criterio {
 
   @Override
   public boolean aplicarFiltro(Hecho hecho) {
-    LocalDateTime fecha = hecho.getFechaAcontecimiento();
-    return (fecha != null) && !fecha.isBefore(desde) && !fecha.isAfter(hasta);
+    if (hecho.getFechaAcontecimiento() == null) {
+      return false;
+    }
+    LocalDate fecha = hecho.getFechaAcontecimiento().toLocalDate();
+    return !fecha.isBefore(desde) && !fecha.isAfter(hasta);
   }
 
  

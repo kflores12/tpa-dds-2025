@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>{{titulo}}</title>
-  <link rel="stylesheet" href="/assets/style.css">
+    <meta charset="UTF-8">
+    <title>{{titulo}}</title>
+    <link rel="stylesheet" href="/assets/main.css">
 </head>
 <body>
+<div class="container">
+    <h1 class="page-title">{{titulo}}</h1>
+    <p class="page-message">{{mensaje}}</p>
   <div class="container">
     <header style="display:flex;justify-content:space-between;align-items:center;">
       <h1>{{titulo}}</h1>
@@ -24,32 +27,13 @@
 
     <hr>
 
-    <div style="margin-bottom: 20px;">
-      <a href="/hechos/nuevo" class="btn">📝 Cargar Nuevo Hecho</a>
+    <div class="user-section">
+        <a href="/hechos/buscar" class="btn">🔍 Buscar Hechos</a>
+        <a href="/hechos/nuevo" class="btn">📝 Cargar Nuevo Hecho</a>
     </div>
 
-    <h2>Hechos Disponibles</h2>
-    {{#if hechos.length}}
-      {{#each hechos}}
-        <div class="hecho-card">
-          <h3>{{titulo}}</h3>
-          <p><strong>Categoría:</strong> {{categoria}}</p>
-          <p>{{descripcion}}</p>
-          <p><em>{{latitud}}, {{longitud}}</em></p>
-          <p><strong>Fecha:</strong> {{fechaAcontecimiento}}</p>
-
-          <div>
-            <a href="/hechos/{{id}}/solicitud">🗑️ Solicitar Eliminación</a>
-            {{#if multimedia}}
-              <a href="{{multimedia}}" target="_blank">📸 Ver multimedia</a>
-            {{/if}}
-          </div>
-        </div>
-      {{/each}}
-    {{else}}
-      <p>No hay hechos disponibles por el momento.</p>
-    {{/if}}
-  </div>
+    <hr>
+    <p><a href="/home">🔄 Actualizar página</a></p>
+</div>
 </body>
 </html>
-

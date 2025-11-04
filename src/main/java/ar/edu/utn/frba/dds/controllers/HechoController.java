@@ -1,8 +1,11 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.model.entities.Hecho;
+import ar.edu.utn.frba.dds.model.entities.criterios.*;
 import ar.edu.utn.frba.dds.model.entities.fuentes.Fuente;
 import ar.edu.utn.frba.dds.model.entities.solicitudes.SolicitudDeCarga;
 import ar.edu.utn.frba.dds.repositories.RepositorioFuentes;
+import ar.edu.utn.frba.dds.repositories.RepositorioHechos;
 import ar.edu.utn.frba.dds.repositories.RepositorioSolicitudesDeCarga;
 import ar.edu.utn.frba.dds.server.AppRole;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -13,15 +16,16 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class HechoController implements WithSimplePersistenceUnit {
 
   private final RepositorioSolicitudesDeCarga repoSolicitudes;
   private final RepositorioFuentes repoFuentes;
+  private final RepositorioHechos repoHechos = RepositorioHechos.getInstance();
 
   private static final String UPLOAD_DIR = "uploads/uploads";
 
@@ -157,5 +161,74 @@ public class HechoController implements WithSimplePersistenceUnit {
 
     // URL pública servida por Javalin (/uploads)
     return "/uploads/uploads/" + uniqueName;
+  }
+
+
+  public Map<String, Object> showBusquedaForm(@NotNull Context ctx) {
+    Map<String, Object> modelo = new HashMap<>();
+
+    // Obtener los parámetros de búsqueda
+    String titulo = ctx.queryParam("titulo");
+    String categoria = ctx.queryParam("categoria");
+    String descripcion = ctx.queryParam("descripcion");
+    String longitud = ctx.queryParam("longitud");
+    String latitud = ctx.queryParam("latitud");
+    String fechaAcontecimiento = ctx.queryParam("fechaAcontecimiento");
+    String fechaCarga = ctx.queryParam("fechaCarga");
+    String fechaDesde = ctx.queryParam("fechaDesde");
+    String fechaHasta = ctx.queryParam("fechaHasta");
+
+    // Detectar si el usuario presionó el botón buscar (hay algún parámetro en la query)
+    boolean sePresionoBuscar = ctx.queryParamMap().size() > 0;
+
+    // Guardar los valores de los filtros para mantenerlos en el formulario
+    Map<String, String> filtrosForm = new HashMap<>();
+    if (titulo != null) filtrosForm.put("titulo", titulo);
+    if (categoria != null) filtrosForm.put("categoria", categoria);
+    if (descripcion != null) filtrosForm.put("descripcion", descripcion);
+    if (longitud != null) filtrosForm.put("longitud", longitud);
+    if (latitud != null) filtrosForm.put("latitud", latitud);
+    if (fechaAcontecimiento != null) filtrosForm.put("fechaAcontecimiento", fechaAcontecimiento);
+    if (fechaCarga != null) filtrosForm.put("fechaCarga", fechaCarga);
+    if (fechaDesde != null) filtrosForm.put("fechaDesde", fechaDesde);
+    if (fechaHasta != null) filtrosForm.put("fechaHasta", fechaHasta);
+
+    modelo.put("filtros", filtrosForm);
+
+    // Solo mostrar resultados si se presionó el botón buscar
+    if (sePresionoBuscar) {
+      List<Criterio> filtros = new ArrayList<>();
+      if (titulo != null && !titulo.isEmpty()) filtros.add(new CriterioTitulo(titulo));
+      if (categoria != null && !categoria.isEmpty()) filtros.add(new CriterioCategoria(categoria));
+      if (descripcion != null && !descripcion.isEmpty()) filtros.add(new CriterioDescripcion(descripcion));
+      if (longitud != null && !longitud.isEmpty() && latitud != null && !latitud.isEmpty()) {
+        filtros.add(new CriterioUbicacion(Double.parseDouble(latitud), Double.parseDouble(longitud)));
+      }
+      if (fechaAcontecimiento != null && !fechaAcontecimiento.isEmpty()) {
+        filtros.add(new CriterioFecha(LocalDate.parse(fechaAcontecimiento)));
+      }
+      if (fechaCarga != null && !fechaCarga.isEmpty()) {
+        filtros.add(new CriterioFechaCarga(LocalDate.parse(fechaCarga)));
+      }
+      if (fechaDesde != null && !fechaDesde.isEmpty() && fechaHasta != null && !fechaHasta.isEmpty()) {
+        filtros.add(new CriterioRangoFechas(LocalDate.parse(fechaDesde), LocalDate.parse(fechaHasta)));
+      }
+
+      // Obtener todos los hechos
+      List<Hecho> resultados = repoHechos.obtenerTodos();
+
+      // Si hay filtros, aplicarlos
+      if (!filtros.isEmpty()) {
+        resultados = resultados.stream()
+            .filter(hecho -> filtros.stream().allMatch(criterio -> criterio.aplicarFiltro(hecho)))
+            .toList();
+      }
+
+      modelo.put("resultadosBusqueda", true);
+      modelo.put("hechos", resultados);
+      modelo.put("cantidadResultados", resultados.size());
+    }
+
+    return modelo;
   }
 }

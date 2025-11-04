@@ -1,5 +1,9 @@
 package ar.edu.utn.frba.dds.server;
 
+
+import ar.edu.utn.frba.dds.controllers.HechoController;
+import ar.edu.utn.frba.dds.controllers.HomeController;
+import ar.edu.utn.frba.dds.controllers.SolicitudController;
 import ar.edu.utn.frba.dds.controllers.*;
 import io.javalin.Javalin;
 
@@ -20,6 +24,10 @@ public class Router {
     app.get("/login", loginController::renderLogin);
     app.post("/login", loginController::handleLogin);
     app.get("/logout", loginController::handleLogout);
+    //BUSQUEDA DE HECHOS
+    app.get("/hechos/buscar", ctx -> ctx.render("busqueda-hechos.hbs",
+        hechoController.showBusquedaForm(ctx)));
+
 
     app.get("/register", registroController::renderRegister);
     app.post("/register", registroController::handleRegister);

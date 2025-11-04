@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Búsqueda de Hechos</title>
+    <link rel="stylesheet" href="/assets/main.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="page-title">🔍 Búsqueda de Hechos</h1>
+
+    <div class="search-form">
+        <form action="/hechos/buscar" method="GET">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="titulo">Título:</label>
+                    <input type="text" id="titulo" name="titulo" value="{{filtros.titulo}}" placeholder="Buscar por título">
+                </div>
+
+                <div class="form-group">
+                    <label for="categoria">Categoría:</label>
+                    <input type="text" id="categoria" name="categoria" value="{{filtros.categoria}}" placeholder="Ej: Accidente, Evento">
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <input type="text" id="descripcion" name="descripcion" value="{{filtros.descripcion}}" placeholder="Buscar en descripción">
+                </div>
+
+                <div class="form-group">
+                    <label for="longitud">Longitud:</label>
+                    <input type="number" step="any" id="longitud" name="longitud" value="{{filtros.longitud}}" placeholder="Ej: -58.3816">
+                </div>
+
+                <div class="form-group">
+                    <label for="latitud">Latitud:</label>
+                    <input type="number" step="any" id="latitud" name="latitud" value="{{filtros.latitud}}" placeholder="Ej: -34.6037">
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaAcontecimiento">Fecha de Acontecimiento:</label>
+                    <input type="date" id="fechaAcontecimiento" name="fechaAcontecimiento" value="{{filtros.fechaAcontecimiento}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaCarga">Fecha de Carga:</label>
+                    <input type="date" id="fechaCarga" name="fechaCarga" value="{{filtros.fechaCarga}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaDesde">Rango desde:</label>
+                    <input type="date" id="fechaDesde" name="fechaDesde" value="{{filtros.fechaDesde}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaHasta">Rango hasta:</label>
+                    <input type="date" id="fechaHasta" name="fechaHasta" value="{{filtros.fechaHasta}}">
+                </div>
+            </div>
+
+            <div class="search-buttons">
+                <button type="submit" class="btn-search">🔍 Buscar</button>
+                <button type="button" class="btn-clear" onclick="window.location.href='/hechos/buscar'">🗑️ Limpiar filtros</button>
+            </div>
+        </form>
+    </div>
+
+    {{#if resultadosBusqueda}}
+        <div class="results-section">
+            <h2>📋 Resultados de la búsqueda ({{cantidadResultados}} hechos encontrados)</h2>
+
+            {{#if hechos}}
+                {{#each hechos}}
+                    <div class="result-item">
+                        <h3>{{this.titulo}}</h3>
+                        <p>{{this.descripcion}}</p>
+                        <div class="result-meta">
+                            <div class="result-meta-item">
+                                <strong>Categoría:</strong>
+                                <span>{{this.categoria}}</span>
+                            </div>
+                            <div class="result-meta-item">
+                                <strong>Fecha de acontecimiento:</strong>
+                                <span>{{this.fechaAcontecimiento}}</span>
+                            </div>
+                            <div class="result-meta-item">
+                                <strong>Fecha de carga:</strong>
+                                <span>{{this.fechaDeCarga}}</span>
+                            </div>
+                            <div class="result-meta-item">
+                                <strong>Ubicación:</strong>
+                                <span>{{this.latitud}}, {{this.longitud}}</span>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <div class="no-results">
+                    <p>😔 No se encontraron hechos con los filtros especificados.</p>
+                    <p>Intenta modificar los criterios de búsqueda.</p>
+                </div>
+            {{/if}}
+        </div>
+    {{/if}}
+
+    <hr>
+    <p><a href="/home" class="btn">🏠 Volver al inicio</a></p>
+</div>
+</body>
+</html>
+
