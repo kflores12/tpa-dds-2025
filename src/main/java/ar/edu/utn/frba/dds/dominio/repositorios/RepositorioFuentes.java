@@ -35,7 +35,7 @@ public class RepositorioFuentes implements WithSimplePersistenceUnit {
     fuentes.forEach(Fuente::actualizarHechos);
   }
 
-  private RepositorioFuentes() {
+  public RepositorioFuentes() {
   }
 
 }

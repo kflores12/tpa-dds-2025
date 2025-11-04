@@ -20,28 +20,43 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EstadisticaProvMaxHechosCategoria implements Estadistica, WithSimplePersistenceUnit {
-  private String provincia;
-  public String categoria;
 
-  public EstadisticaProvMaxHechosCategoria(String categoria) {
-    this.categoria = categoria;
-  }
+  List<EstadisticaProvMaxHechosCategoria.EstPMHCategoriaDTO> reporte = new ArrayList<EstadisticaProvMaxHechosCategoria.EstPMHCategoriaDTO>();
+
+  public record EstPMHCategoriaDTO(String categoria, String provincia) {}
+
+  public EstadisticaProvMaxHechosCategoria() {}
 
   @Override
   public void calcularEstadistica() {
 
-    List<Hecho> hechos = entityManager()
-        .createQuery("from Hecho h where h.categoria  = :categoria", Hecho.class)
-        .setParameter("categoria", this.categoria)
+    List<Object[]> listaDTO = entityManager()
+        .createNativeQuery(
+            "SELECT a.categoria, a.provincia\n" +
+                "FROM (\n" +
+                "  SELECT categoria, provincia, COUNT(*) AS cantidad\n" +
+                "  FROM hechos\n" +
+                "  GROUP BY categoria, provincia\n" +
+                ") a\n" +
+                "LEFT JOIN (\n" +
+                "  SELECT categoria, provincia, COUNT(*) AS cantidad\n" +
+                "  FROM hechos\n" +
+                "  GROUP BY categoria, provincia\n" +
+                ") b\n" +
+                "  ON a.categoria = b.categoria\n" +
+                " AND b.cantidad > a.cantidad\n" +
+                "WHERE b.categoria IS NULL;")
         .getResultList();
 
-    List<String> provincias = hechos.stream().map(Hecho::obtenerProvincia).toList();
+    List<EstadisticaProvMaxHechosCategoria.EstPMHCategoriaDTO> lista = new ArrayList<>();
 
-    this.provincia = provincias.stream()
-        .collect(groupingBy(identity(), counting()))
-        .entrySet().stream()
-        .max(Map.Entry.comparingByValue())
-        .map(Map.Entry::getKey).orElse(null);
+    for (Object[] r : listaDTO) {
+      String categoria = (String) r[0];
+      String provincia = (String) r[1];
+      reporte.add(new EstadisticaProvMaxHechosCategoria.EstPMHCategoriaDTO(categoria,provincia));
+    }
+
+    reporte.forEach(dto -> System.out.printf("Categoria: %s | Provincia: %s%n", dto.categoria(), dto.provincia()));
 
   }
 
@@ -54,20 +69,21 @@ public class EstadisticaProvMaxHechosCategoria implements Estadistica, WithSimpl
     try (CSVWriter writer = new CSVWriter(
         new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8))) {
       String[] header = {"Fecha", "Categoria", "ProvinciaMaxima"};
-      String[] data = {
-          LocalDateTime.now().toString(),
-          categoria,
-          provincia != null ? provincia : "N/A"
-      };
 
       if (file.length() == 0) {
         writer.writeNext(header);
       }
-      writer.writeNext(data);
+
+      reporte.forEach(dto ->
+          writer.writeNext(new String[]{LocalDateTime.now().toString(),
+              dto.categoria() != null ? dto.categoria() : "N/A",
+              dto.provincia != null ? dto.provincia() : "N/A"}));
+
     }
   }
 
-  public String getProvinciaMax() {
-    return provincia;
+  public List<EstadisticaProvMaxHechosCategoria.EstPMHCategoriaDTO> getReporte() {
+    return reporte;
   }
+
 }

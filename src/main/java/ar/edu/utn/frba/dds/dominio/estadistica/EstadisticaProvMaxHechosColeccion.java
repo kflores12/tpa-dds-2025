@@ -12,34 +12,51 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class EstadisticaProvMaxHechosColeccion implements Estadistica, WithSimplePersistenceUnit {
-  private String  provincia;
-  private final Coleccion coleccion;
 
-  public EstadisticaProvMaxHechosColeccion(Coleccion coleccion) {
-    this.coleccion = coleccion;
-  }
+  List<EstadisticaProvMaxHechosColeccion.EstPMHColeccionDTO> reporte = new ArrayList<EstadisticaProvMaxHechosColeccion.EstPMHColeccionDTO>();
+
+  public record EstPMHColeccionDTO(String coleccion, String provincia) {}
+
+  public EstadisticaProvMaxHechosColeccion() {}
 
   @Override public void calcularEstadistica() {
 
-    List<Hecho> hechosDeLaColeccion = this.coleccion.obtnerHechos();
+    List<Object[]> listaDTO = entityManager()
+        .createNativeQuery("SELECT subq.coleccion, subq.provincia \n" +
+            "FROM (\n" +
+            "  SELECT\n" +
+            "    c.titulo as coleccion,\n" +
+            "    h.provincia,\n" +
+            "    COUNT(*) AS cantidad,\n" +
+            "    ROW_NUMBER() OVER (\n" +
+            "      PARTITION BY c.titulo\n" +
+            "      ORDER BY COUNT(*) DESC, h.provincia\n" +
+            "    ) AS rn\n" +
+            "  FROM coleccion_hechos ch \n" +
+            "  JOIN colecciones c \n" +
+            "  ON ch.coleccion_id = c.id\n" +
+            "  JOIN hechos h \n" +
+            "  ON ch.hecho_id = h.id\n" +
+            "  GROUP BY c.titulo, h.provincia\n" +
+            ") subq\n" +
+            "WHERE subq.rn = 1")
+        .getResultList();
 
-    Map<String, Long> conteoPorProvincia = new HashMap<>();
+    List<EstadisticaProvMaxHechosColeccion.EstPMHColeccionDTO> lista = new ArrayList<>();
 
-    for (Hecho hecho : hechosDeLaColeccion) {
-      String provincia = getProvincia(hecho.getLatitud(), hecho.getLongitud());
-      conteoPorProvincia.merge(provincia, 1L, Long::sum);
+    for (Object[] r : listaDTO) {
+      String coleccion = (String) r[0];
+      String provincia = (String) r[1];
+      reporte.add(new EstadisticaProvMaxHechosColeccion.EstPMHColeccionDTO(coleccion,provincia));
     }
 
-    this.provincia = conteoPorProvincia.entrySet()
-        .stream()
-        .max(Map.Entry.comparingByValue())
-        .map(Map.Entry::getKey)
-        .orElse(null);
+    reporte.forEach(dto -> System.out.printf("Coleccion: %s | Provincia: %s%n", dto.coleccion(), dto.provincia()));
 
   }
 
@@ -51,22 +68,21 @@ public class EstadisticaProvMaxHechosColeccion implements Estadistica, WithSimpl
     try (CSVWriter writer = new CSVWriter(
         new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8))) {
       String[] header = {"Fecha", "Coleccion", "ProvinciaMaxima"};
-      String[] data = {
-          LocalDateTime.now().toString(),
-          coleccion.getTitulo(),
-          provincia != null ? provincia : "N/A"
-      };
 
       if (file.length() == 0) {
         writer.writeNext(header);
       }
-      writer.writeNext(data);
+
+      reporte.forEach(dto ->
+          writer.writeNext(new String[]{LocalDateTime.now().toString(),
+              dto.coleccion != null ? dto.coleccion() : "N/A",
+              dto.provincia != null ? dto.provincia() : "N/A"}));
+
     }
   }
 
-  public String getProvinciaMax() {
-    return provincia;
+  public List<EstadisticaProvMaxHechosColeccion.EstPMHColeccionDTO> getReporte() {
+    return reporte;
   }
-
 
 }

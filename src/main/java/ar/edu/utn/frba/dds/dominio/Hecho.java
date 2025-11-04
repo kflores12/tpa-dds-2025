@@ -50,10 +50,8 @@ public class Hecho {
   private String multimedia;
   @Column
   private Boolean disponibilidad = Boolean.TRUE;
-
-  public String obtenerProvincia() {
-    return getProvincia(this.latitud, this.longitud);
-  }
+  @Column
+  private String provincia;
 
 
   public Hecho(String titulo, String descripcion, String categoria, Double latitud,
@@ -69,6 +67,7 @@ public class Hecho {
     this.origen = requireNonNull(origen);
     this.multimedia = multimedia;
     this.disponibilidad = requireNonNull(disponibilidad);
+    this.provincia = getProvincia(this.latitud, this.longitud);
   }
 
   public Hecho() {
@@ -87,6 +86,7 @@ public class Hecho {
     this.origen = otro.origen;
     this.multimedia = otro.multimedia;
     this.disponibilidad = otro.disponibilidad;
+    this.provincia = otro.provincia;
   }
 
   public Long getId() {
@@ -99,6 +99,7 @@ public class Hecho {
         && Objects.equals(this.categoria, otro.categoria)
         && Objects.equals(this.latitud, otro.latitud)
         && Objects.equals(this.longitud, otro.longitud)
+        && Objects.equals(this.provincia, otro.provincia)
         && Objects.equals(this.fechaAcontecimiento, otro.fechaAcontecimiento);
   }
 

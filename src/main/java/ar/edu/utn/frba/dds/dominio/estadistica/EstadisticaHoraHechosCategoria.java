@@ -41,10 +41,10 @@ public class EstadisticaHoraHechosCategoria implements Estadistica, WithSimplePe
             "      PARTITION BY categoria\n" +
             "      ORDER BY COUNT(*) DESC, h.fechaAcontecimiento\n" +
             "    ) AS rn\n" +
-            "  FROM Hecho h\n" +
+            "  FROM hechos h\n" +
             "  GROUP BY h.categoria, h.fechaAcontecimiento\n" +
             ") subq\n" +
-            "WHERE subq.rn = 1", Object[].class)
+            "WHERE subq.rn = 1")
         .getResultList();
 
     List<EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO> lista = new ArrayList<>();
@@ -55,13 +55,13 @@ public class EstadisticaHoraHechosCategoria implements Estadistica, WithSimplePe
       reporte.add(new EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO(categoria, hora_pico));
     }
 
-    reporte.forEach(dto -> System.out.printf("Nombre: %s | Cantidad: %d%n", dto.categoria(), dto.hora_pico()));
+    reporte.forEach(dto -> System.out.printf("Categoria: %s | Hora: %s%n", dto.categoria(), dto.hora_pico()));
   }
 
 
   @Override
   public void exportarEstadistica(String path) throws IOException {
-    /*File file = new File(path);
+    File file = new File(path);
 
     if (file.exists()) {
       boolean eliminado = file.delete();
@@ -70,28 +70,21 @@ public class EstadisticaHoraHechosCategoria implements Estadistica, WithSimplePe
         new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8))) {
       String[] header = {"Fecha", "Categoria", "HoraPico"};
 
-      String horaFormateada = horaPicoCategoria != null
-          ? horaPicoCategoria.format(DateTimeFormatter.ofPattern("HH:mm"))
-          : "N/A";
-
-      String[] data = {
-          LocalDateTime.now().toString(),
-          categoria,
-          horaFormateada
-      };
-
       if (file.length() == 0) {
         writer.writeNext(header);
       }
-      writer.writeNext(data);
+
+      reporte.forEach(dto ->
+          writer.writeNext(new String[]{LocalDateTime.now().toString(),
+              dto.categoria() != null ? dto.categoria() : "N/A",
+              dto.hora_pico != null ? dto.hora_pico() : "N/A"}));
+
+
     }
 
-
   }
 
-  public LocalTime gethoraPicoCategoria() {
-    return horaPicoCategoria;*/
+  public List<categoriaHoraPicoDTO> getReporte() {
+    return reporte;
   }
-
-
 }

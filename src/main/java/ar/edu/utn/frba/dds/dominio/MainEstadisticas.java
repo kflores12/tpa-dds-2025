@@ -18,21 +18,15 @@ public class MainEstadisticas {
   public static void main(String[] args) {
 
     //Creacion de funciones para estadisticas
-    GeneradorHandleUuid generador = new GeneradorHandleUuid();
     FuenteDinamica dinamica = new FuenteDinamica();
-    CriterioBase criterio = new CriterioBase();
-    List<Criterio> criterios = new ArrayList<>(Arrays.asList(criterio));
-    Coleccion coleccion = new Coleccion("incendios forestales",
-        "incendios en la patagonia",
-        dinamica, criterios, generador.generar(), null);
 
     EstadisticaCategoriaMaxima estadisticaCm =
         new EstadisticaCategoriaMaxima();
     EstadisticaCantidadSpam estadisticaCs = new EstadisticaCantidadSpam();
     EstadisticaProvMaxHechosCategoria estadisticaPmhcat =
-        new EstadisticaProvMaxHechosCategoria("cortes");
+        new EstadisticaProvMaxHechosCategoria();
     EstadisticaProvMaxHechosColeccion estadisticaPmhcalt =
-        new EstadisticaProvMaxHechosColeccion(coleccion);
+        new EstadisticaProvMaxHechosColeccion();
 
 
     //Agrego Estadisticas a la carga

@@ -35,6 +35,6 @@ public class RepositorioColecciones implements WithSimplePersistenceUnit  {
     colecciones.forEach(Coleccion::actualizarHechosConsensuados);
   }
 
-  private RepositorioColecciones() {
+  public RepositorioColecciones() {
   }
 }
