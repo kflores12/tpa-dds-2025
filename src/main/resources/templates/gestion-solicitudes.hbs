@@ -1,0 +1,49 @@
+<header class="main-header">
+    <h1>Gestionar Solicitudes</h1>
+    <p>Acepta o rechaza las solicitudes pendientes.</p>
+</header>
+
+<section class="solicitudes-lista">
+
+    <h2>Solicitudes de Carga Pendientes</h2>
+    {{#each solicitudesCarga}}
+        <div class="solicitud-item">
+            <span>Carga: {{this.titulo}} (ID: {{this.id}})</span>
+            <div class="solicitud-botones">
+                <button class="btn-aceptar"
+                        hx-post="/solicitud/carga/{{this.id}}/aceptar"
+                        hx-target="closest .solicitud-item"
+                        hx-swap="outerHTML">
+                    Aceptar
+                </button>
+                <button class="btn-rechazar"
+                        hx-post="/solicitud/carga/{{this.id}}/rechazar"
+                        hx-target="closest .solicitud-item"
+                        hx-swap="outerHTML">
+                    Rechazar
+                </button>
+            </div>
+        </div>
+    {{/each}}
+
+    <h2>Solicitudes de Eliminación Pendientes</h2>
+    {{#each solicitudesEliminacion}}
+        <div class="solicitud-item">
+            <span>Eliminación: {{this.titulo}} (ID: {{this.id}})</span>
+            <div class="solicitud-botones">
+                <button class="btn-aceptar"
+                        hx-post="/solicitud/eliminacion/{{this.id}}/aceptar"
+                        hx-target="closest .solicitud-item"
+                        hx-swap="outerHTML">
+                    Aceptar
+                </button>
+                <button class="btn-rechazar"
+                        hx-post="/solicitud/eliminacion/{{this.id}}/rechazar"
+                        hx-target="closest .solicitud-item"
+                        hx-swap="outerHTML">
+                    Rechazar
+                </button>
+            </div>
+        </div>
+    {{/each}}
+</section>

@@ -1,197 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Panel de Administrador</title>
-  <link rel="stylesheet" href="/assets/dashboard.css">
-  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <meta charset="UTF-8">
+    <title>Panel de Administrador</title>
+    <link rel="stylesheet" href="/assets/dashboard.css">
 </head>
 <body class="dashboard-body">
-  <div class="dashboard-container">
 
-    <aside class="sidebar">
-      <h3>Panel de Control</h3>
-      <nav class="sidebar-nav">
-        <ul>
-          <li class="active">
-            <a
-              hx-get="/partials/resumen"
-              hx-target="#content"
-              hx-push-url="true"
-              hx-on:click="
-                document.getElementById('landing').classList.remove('hidden');
-                document.getElementById('cantSpam').classList.add('hidden');
-                document.getElementById('catMaxima').classList.add('hidden');
-                document.getElementById('PMHCat').classList.add('hidden');
-                document.getElementById('PMHCol').classList.add('hidden');
-                document.getElementById('HHCat').classList.add('hidden');
-              "
-            >Resumen</a>
-          </li>
+<div class="dashboard-container">
 
-          <li>
-            <details class="nav-exp">
-              <summary
-                hx-get="/partials/analytics/resumen"
-                hx-target="#content"
-                hx-push-url="true"
-              >
-                Consultar estadísticas
-              </summary>
+    {{> templates/_sidebar}}
 
-              <ul class="nav-sub">
-                <li>
-                  <a
-                    hx-get="/partials/analytics/cantSpam"
-                    hx-target="#cantSpam"
-                    hx-push-url="true"
-                    hx-on:click="
-                        document.getElementById('landing').classList.add('hidden');
-                        document.getElementById('cantSpam').classList.remove('hidden');
-                        document.getElementById('catMaxima').classList.add('hidden');
-                        document.getElementById('HHCat').classList.add('hidden');
-                        document.getElementById('PMHCat').classList.add('hidden');
-                        document.getElementById('PMHCol').classList.add('hidden');
-                    "
-                  >Cantidad de Spam</a>
-                </li>
-
-                <li>
-                  <a
-                    hx-get="/partials/analytics/categoriaMaxima"
-                    hx-target="#content"
-                    hx-push-url="true"
-                    hx-on:click="
-                        document.getElementById('landing').classList.add('hidden');
-                        document.getElementById('cantSpam').classList.add('hidden');
-                        document.getElementById('catMaxima').classList.remove('hidden');
-                        document.getElementById('HHCat').classList.add('hidden');
-                        document.getElementById('PMHCat').classList.add('hidden');
-                        document.getElementById('PMHCol').classList.add('hidden');
-
-                    "
-                  >Categoría Máxima</a>
-                </li>
-                <li>
-                  <a
-                    hx-get="/partials/analytics/horaHechosCategoria"
-                    hx-target="#content"
-                    hx-push-url="true"
-                    hx-on:click="
-                        document.getElementById('landing').classList.add('hidden');
-                        document.getElementById('cantSpam').classList.add('hidden');
-                        document.getElementById('catMaxima').classList.add('hidden');
-                        document.getElementById('HHCat').classList.remove('hidden');
-                        document.getElementById('PMHCat').classList.add('hidden');
-                        document.getElementById('PMHCol').classList.add('hidden');
-                    "
-                  >Categoría hora pico</a>
-                </li>
-                <li>
-                  <a
-                    hx-get="/partials/analytics/provMaxHechosCategoria"
-                    hx-target="#content"
-                    hx-push-url="true"
-                    hx-on:click="
-                        document.getElementById('landing').classList.add('hidden');
-                        document.getElementById('cantSpam').classList.add('hidden');
-                        document.getElementById('catMaxima').classList.add('hidden');
-                        document.getElementById('HHCat').classList.add('hidden');
-                        document.getElementById('PMHCat').classList.remove('hidden');
-                        document.getElementById('PMHCol').classList.add('hidden');
-                    "
-                  >Provincias con más hechos por Categorías</a>
-                </li>
-                <li>
-                  <a
-                    hx-get="/partials/analytics/provMaxHechosColeccion"
-                    hx-target="#content"
-                    hx-push-url="true"
-                    hx-on:click="
-                        document.getElementById('landing').classList.add('hidden');
-                        document.getElementById('cantSpam').classList.add('hidden');
-                        document.getElementById('catMaxima').classList.add('hidden');
-                        document.getElementById('HHCat').classList.add('hidden');
-                        document.getElementById('PMHCat').classList.add('hidden');
-                        document.getElementById('PMHCol').classList.remove('hidden');
-                    "
-                  >Provincias con más hechos por Colecciones</a>
-                </li>
-              </ul>
-            </details>
-          </li>
-
-          <li>
-            <a
-              hx-get="/partials/solicitudes"
-              hx-target="#content"
-              hx-push-url="true"
-              hx-on:click="
-                document.getElementById('content2').classList.add('hidden');
-                document.getElementById('content').classList.remove('hidden');
-              "
-            >Gestionar solicitudes</a>
-          </li>
-
-          <li>
-            <a
-              hx-get="/partials/coleccion/nueva"
-              hx-target="#content"
-              hx-push-url="true"
-              hx-on:click="
-                document.getElementById('content2').classList.add('hidden');
-                document.getElementById('content').classList.remove('hidden');
-              "
-            >Crear colección</a>
-          </li>
-        </ul>
-      </nav>
-
-      <div class="sidebar-footer">
-        <a href="/home">Volver al Home</a>
-        <a href="/logout">Cerrar Sesión</a>
-      </div>
-    </aside>
-
-    <main id="landing" class="main-content"
-          hx-geat="/resumen"
-          hx-trigger="lod">
+    <main class="main-content">
 
         <header class="main-header">
-                                  <h1>Bienvenido, {{username}}</h1>
-                              </header>
+            <h1>Bienvenido, {{username}}</h1>
+        </header>
+
+        <section class="widgets-grid">
+
+            <div class="widget">
+                <h4>Usuarios Registrados</h4>
+                <p class="widget-dato">1,204</p>
+            </div>
+
+        </section>
     </main>
 
-    <section id="cantSpam" class="main-content hidden">
-          <header class="main-header">
-                          <h1>cantSpam, {{username}}</h1>
-                      </header>
-        </section>
+</div>
 
-    <section id="catMaxima" class="main-content hidden">
-      <header class="main-header">
-                      <h1>catMaxima, {{username}}</h1>
-                  </header>
-    </section>
-
-    <section id="HHCat" class="main-content hidden">
-          <header class="main-header">
-                          <h1>CategoriaHH, {{username}}</h1>
-                      </header>
-    </section>
-
-    <section id="PMHCat" class="main-content hidden">
-          <header class="main-header">
-                          <h1>CategoriaPMH, {{username}}</h1>
-                      </header>
-    </section>
-
-    <section id="PMHCol" class="main-content hidden">
-          <header class="main-header">
-                          <h1>ColeccionesPMH, {{username}}</h1>
-                      </header>
-    </section>
-
-  </div>
 </body>
 </html>
