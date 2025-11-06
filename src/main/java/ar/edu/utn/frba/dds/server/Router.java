@@ -44,6 +44,7 @@ public class Router {
     app.post("/solicitudes", solicitudController::createSolicitudEliminacion);
     app.get("/solicitudes/resultado/{solicitudId}",
         ctx -> ctx.render("resultado_eliminacion.hbs", solicitudController.showResultado(ctx)));
+    app.get("/dashboard",ctx -> ctx.render("dashboard.hbs"));
   }
 }
 

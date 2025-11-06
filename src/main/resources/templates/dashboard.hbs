@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administrador</title>
+    <link rel="stylesheet" href="/assets/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+            <h3>Panel de Control</h3>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="">Resumen</a></li>
+                    <li><a href="">Consultas estadisticas</a></li>
+                    <li><a href="">Gestionar solicitudes</a></li>
+                    <li><a href="">Crear coleccion</a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="/home">Volver al Home</a>
+                <a href="/logout">Cerrar Sesión</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <header class="main-header">
+                <h1>Bienvenido, {{username}}</h1>
+            </header>
+
+            <section class="widgets-grid">
+
+                <div class="widget">
+                    <h4>Usuarios Registrados</h4>
+                    <p class="widget-dato">1,204</p>
+                </div>
+
+            </section>
+        </main>
+
+    </div>
+
+</body>
+</html>
