@@ -14,6 +14,7 @@ public class Router {
     SolicitudController solicitudController = new SolicitudController();
     LoginController loginController = new LoginController();
     RegistroController registroController = new RegistroController();
+    GestionSolicitudesController gestionSolicitudesController = new GestionSolicitudesController();
 
     // HOME
     app.get("/", ctx -> ctx.redirect("/home"));
@@ -47,6 +48,7 @@ public class Router {
 
     // DASHBOARD
     app.get("/dashboard",ctx -> ctx.render("dashboard.hbs"));
+    app.get("/dashboard/solicitudes",ctx -> ctx.render("gestion-solicitudes.hbs", gestionSolicitudesController.mostrarSolicitudes(ctx)));
   }
 }
 

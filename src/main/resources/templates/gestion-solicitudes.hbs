@@ -1,49 +1,69 @@
-<header class="main-header">
-    <h1>Gestionar Solicitudes</h1>
-    <p>Acepta o rechaza las solicitudes pendientes.</p>
-</header>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionar Solicitudes</title>
+    <link rel="stylesheet" href="/assets/dashboard.css">
 
-<section class="solicitudes-lista">
+    <style>
+        .solicitud-botones form {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
 
-    <h2>Solicitudes de Carga Pendientes</h2>
-    {{#each solicitudesCarga}}
-        <div class="solicitud-item">
-            <span>Carga: {{this.titulo}} (ID: {{this.id}})</span>
-            <div class="solicitud-botones">
-                <button class="btn-aceptar"
-                        hx-post="/solicitud/carga/{{this.id}}/aceptar"
-                        hx-target="closest .solicitud-item"
-                        hx-swap="outerHTML">
-                    Aceptar
-                </button>
-                <button class="btn-rechazar"
-                        hx-post="/solicitud/carga/{{this.id}}/rechazar"
-                        hx-target="closest .solicitud-item"
-                        hx-swap="outerHTML">
-                    Rechazar
-                </button>
-            </div>
-        </div>
-    {{/each}}
+<div class="dashboard-container">
+    {{> templates/_sidebar}}
 
-    <h2>Solicitudes de Eliminación Pendientes</h2>
-    {{#each solicitudesEliminacion}}
-        <div class="solicitud-item">
-            <span>Eliminación: {{this.titulo}} (ID: {{this.id}})</span>
-            <div class="solicitud-botones">
-                <button class="btn-aceptar"
-                        hx-post="/solicitud/eliminacion/{{this.id}}/aceptar"
-                        hx-target="closest .solicitud-item"
-                        hx-swap="outerHTML">
-                    Aceptar
-                </button>
-                <button class="btn-rechazar"
-                        hx-post="/solicitud/eliminacion/{{this.id}}/rechazar"
-                        hx-target="closest .solicitud-item"
-                        hx-swap="outerHTML">
-                    Rechazar
-                </button>
-            </div>
-        </div>
-    {{/each}}
-</section>
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Gestionar Solicitudes</h1>
+        </header>
+
+        <section class="solicitudes-lista">
+
+            <h2>Solicitudes de Carga Pendientes</h2>
+            {{#each solicitudesCarga}}
+                <div class="solicitud-item">
+                    <span>Carga: {{this.titulo}} (ID: {{this.id}})</span>
+                    <div class="solicitud-botones">
+
+                        <form method="POST" action="/solicitud/carga/{{this.id}}/aceptar">
+                            <button type="submit" class="btn-aceptar">Aceptar</button>
+                        </form>
+
+                        <form method="POST" action="/solicitud/carga/{{this.id}}/rechazar">
+                            <button type="submit" class="btn-rechazar">Rechazar</button>
+                        </form>
+
+                    </div>
+                </div>
+            {{/each}}
+            {{#unless solicitudesCarga}}
+                <p>No hay solicitudes de carga pendientes.</p>
+            {{/unless}}
+
+            <h2>Solicitudes de Eliminación Pendientes</h2>
+            {{#each solicitudesEliminacion}}
+                <div class="solicitud-item">
+                    <span>Eliminación: {{this.titulo}} (ID: {{this.id}})</span>
+                    <div class="solicitud-botones">
+                        <form method="POST" action="/solicitud/eliminacion/{{this.id}}/aceptar">
+                            <button type="submit" class="btn-aceptar">Aceptar</button>
+                        </form>
+                        <form method="POST" action="/solicitud/eliminacion/{{this.id}}/rechazar">
+                            <button type="submit" class="btn-rechazar">Rechazar</button>
+                        </form>
+                    </div>
+                </div>
+            {{/each}}
+            {{#unless solicitudesEliminacion}}
+                <p>No hay solicitudes de eliminación pendientes.</p>
+            {{/unless}}
+
+        </section>
+    </main>
+</div>
+</body>
+</html>
