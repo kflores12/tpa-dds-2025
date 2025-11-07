@@ -1,6 +1,2 @@
-"Fecha","Categoria","ProvinciaMaxima"
-"2025-11-06T19:47:16.610879500","Incendio","Ciudad Autónoma de Buenos Aires"
-"2025-11-06T19:47:16.610879500","Accidente Vial","Ciudad Autónoma de Buenos Aires"
-"2025-11-06T19:47:16.610879500","Contaminación","Buenos Aires"
-"2025-11-06T19:47:16.610879500","abc","N/A"
-"2025-11-06T19:47:16.610879500","1234","N/A"
+"Fecha","Categoria","ProvinciaMaxima","Cantidad"
+"2025-11-07T15:38:11.626976900","cortes","Santiago del Estero"

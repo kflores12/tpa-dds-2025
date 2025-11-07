@@ -1,4 +1,2 @@
-"Fecha","Categoria","Cantidad Hechos"
-"2025-11-06T22:53:23.672885400","Incendio","1"
-"2025-11-06T22:53:23.672885400","Accidente Vial","1"
-"2025-11-06T22:53:23.672885400","Contaminación","1"
+"Fecha","Categoria","HoraPico","Cantidad"
+"2025-11-07T15:38:09.068850900","cortes","hora pico"

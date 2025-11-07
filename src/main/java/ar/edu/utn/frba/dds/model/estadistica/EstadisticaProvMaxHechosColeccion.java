@@ -62,8 +62,11 @@ public class EstadisticaProvMaxHechosColeccion implements Estadistica, WithSimpl
     List<EstadisticaProvMaxHechosColeccion.EstPMHColeccionDTO> lista = new ArrayList<>();
 
     for (Object[] r : listaDTO) {
+
       String coleccion = (String) r[0];
+
       String provincia = (String) r[1];
+
       BigInteger cantidad = (BigInteger) r[2];
       reporte.add(new EstadisticaProvMaxHechosColeccion.EstPMHColeccionDTO(coleccion,provincia,cantidad));
     }
