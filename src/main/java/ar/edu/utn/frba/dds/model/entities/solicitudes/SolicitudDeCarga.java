@@ -174,12 +174,8 @@ public class SolicitudDeCarga {
         fechaCargaOriginal,
         this.origen,
         this.multimedia,
-        this.disponibilidad
-<<<<<<< HEAD
-        //, this.fuente
-=======
-        //this.fuente
->>>>>>> 0a69c7d777dd7d9538d179d364c91d50bbaf5ad9
+        this.disponibilidad,
+        this.fuente
     );
 
   }

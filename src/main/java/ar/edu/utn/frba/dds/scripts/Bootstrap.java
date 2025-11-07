@@ -48,12 +48,8 @@ public class Bootstrap implements WithSimplePersistenceUnit {
           LocalDateTime.now(),
           TipoFuente.DINAMICA,
           "url_imagen_incendio.jpg",
-<<<<<<< HEAD
-          Boolean.TRUE//,
-=======
-          Boolean.TRUE
->>>>>>> 0a69c7d777dd7d9538d179d364c91d50bbaf5ad9
-          //fuenteAsociada
+          Boolean.TRUE,
+          fuenteAsociada
       );
 
       Hecho hecho2 = new Hecho(
@@ -66,12 +62,8 @@ public class Bootstrap implements WithSimplePersistenceUnit {
           LocalDateTime.now(),
           TipoFuente.DINAMICA,
           "url_video_accidente.mp4",
-<<<<<<< HEAD
-          Boolean.TRUE//,
-=======
-          Boolean.TRUE
->>>>>>> 0a69c7d777dd7d9538d179d364c91d50bbaf5ad9
-          //fuenteAsociada
+          Boolean.TRUE,
+          fuenteAsociada
       );
 
       Hecho hecho3 = new Hecho(
@@ -84,12 +76,8 @@ public class Bootstrap implements WithSimplePersistenceUnit {
           LocalDateTime.now(),
           TipoFuente.DINAMICA,
           null,
-<<<<<<< HEAD
-          Boolean.TRUE//,
-=======
-          Boolean.TRUE
->>>>>>> 0a69c7d777dd7d9538d179d364c91d50bbaf5ad9
-          //fuenteAsociada
+          Boolean.TRUE,
+          fuenteAsociada
       );
 
       // SolicitudDeEliminacion soli = new SolicitudDeEliminacion(hecho1, "abc", EstadoSolicitud.PENDIENTE, true);
