@@ -50,7 +50,6 @@ public class EstadisticaCategoriaMaxima implements Estadistica, WithSimplePersis
         new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8))) {
       String[] header = {"Fecha", "Categoria", "Cantidad Hechos"};
 
-      // Escribir encabezado solo si el archivo está vacío
       if (file.length() == 0) {
         writer.writeNext(header);
       }

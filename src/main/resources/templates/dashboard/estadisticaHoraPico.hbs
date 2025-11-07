@@ -24,14 +24,16 @@
         <section class="solicitudes-lista">
 
             <h2>Horas Pico de Hechos</h2>
+            <style> table, th, td {border: 1px solid black;} table { border-collapse: collapse; } </style>
             <table class="tabla">
-            <thead><tr><th>Fecha</th><th>Categoria</th><th>Horario Pico</th></tr></thead>
+            <thead><tr><th>Fecha</th><th>Categoria</th><th>Horario Pico</th><th>Cantidad de Hechos</th></tr></thead>
             <tbody>
             {{#each reporte}}
                         <tr>
-                            <td>{{fecha}}</td>
-                            <td>{{this.categoria}}</td>
-                            <td>{{this.hora_pico}}</td>
+                            <td style="text-align: center;">{{fecha}}</td>
+                            <td style="text-align: center;">{{this.categoria}}</td>
+                            <td style="text-align: center;">{{this.hora_pico}}</td>
+                            <td style="text-align: center;">{{this.cantidad}}</td>
                         </tr>
             {{/each}}
             </tbody>

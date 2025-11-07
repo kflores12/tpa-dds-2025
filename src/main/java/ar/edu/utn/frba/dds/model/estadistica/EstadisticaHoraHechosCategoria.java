@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -23,26 +24,33 @@ public class EstadisticaHoraHechosCategoria implements Estadistica, WithSimplePe
 
   List<EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO> reporte = new ArrayList<EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO>();
 
-  public record categoriaHoraPicoDTO(String categoria, String hora_pico) {}
+  public record categoriaHoraPicoDTO(String categoria, String hora_pico, BigInteger cantidad) {}
 
   @Override
   public void calcularEstadistica() {
 
     List<Object[]> listaDTO = entityManager()
-        .createNativeQuery("SELECT subq.categoria, DATE_FORMAT(subq.fechaAcontecimiento, '%H:%i:%s') as hora_pico\n" +
-            "            FROM (\n" +
-            "              SELECT\n" +
-            "                h.categoria,\n" +
-            "                h.fechaAcontecimiento,\n" +
-            "                COUNT(*) AS cantidad,\n" +
-            "                ROW_NUMBER() OVER (\n" +
-            "                  PARTITION BY categoria\n" +
-            "                  ORDER BY COUNT(*) DESC, h.fechaAcontecimiento\n" +
-            "                ) AS rn\n" +
-            "              FROM hechos h\n" +
-            "              GROUP BY h.categoria, h.fechaAcontecimiento\n" +
-            "            ) subq\n" +
-            "            WHERE subq.rn = 1;")
+        .createNativeQuery("SELECT subq.categoria, subq.fechaAcontecimiento as hora_pico, subq.cantidad\n" +
+            "                        FROM (\n" +
+            "                          SELECT\n" +
+            "                            h.categoria,\n" +
+            "                            'hora pico' as fechaAcontecimiento,\n" +
+            "                            COUNT(*) AS cantidad \n" +
+            "                          FROM hechos h\n" +
+            "                          GROUP BY h.categoria, h.fechaAcontecimiento\n" +
+            "                        ) subq\n" +
+            "                        LEFT JOIN (\n" +
+            "                          SELECT\n" +
+            "                            h.categoria,\n" +
+            "                            'hora pico' as fechaAcontecimiento,\n" +
+            "                            COUNT(*) AS cantidad \n" +
+            "                          FROM hechos h\n" +
+            "                          GROUP BY h.categoria, h.fechaAcontecimiento\n" +
+            "                        ) subq2\n" +
+            "                        ON subq.categoria = subq2.categoria\n" +
+            "                AND subq2.cantidad > subq.cantidad\n" +
+            "                WHERE subq2.categoria IS NULL;"
+        )
         .getResultList();
 
     List<EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO> lista = new ArrayList<>();
@@ -50,10 +58,11 @@ public class EstadisticaHoraHechosCategoria implements Estadistica, WithSimplePe
     for (Object[] r : listaDTO) {
       String categoria = (String) r[0];
       String hora_pico  = (String) r[1];
-      reporte.add(new EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO(categoria, hora_pico));
+      BigInteger cantidad  = (BigInteger) r[2];
+      reporte.add(new EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO(categoria, hora_pico, cantidad));
     }
 
-    reporte.forEach(dto -> System.out.printf("Categoria: %s | Hora: %s%n", dto.categoria(), dto.hora_pico()));
+    reporte.forEach(dto -> System.out.printf("Categoria: %s | Hora: %s | Cantidad: %d%n", dto.categoria(), dto.hora_pico(), dto.cantidad()));
   }
 
 
@@ -66,7 +75,7 @@ public class EstadisticaHoraHechosCategoria implements Estadistica, WithSimplePe
     }
     try (CSVWriter writer = new CSVWriter(
         new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8))) {
-      String[] header = {"Fecha", "Categoria", "HoraPico"};
+      String[] header = {"Fecha", "Categoria", "HoraPico", "Cantidad"};
 
       if (file.length() == 0) {
         writer.writeNext(header);

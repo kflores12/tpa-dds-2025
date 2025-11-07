@@ -24,14 +24,16 @@
         <section class="solicitudes-lista">
 
             <h2>Coleccion Provincia Maxima</h2>
+            <style> table, th, td {border: 1px solid black;} table { border-collapse: collapse; } </style>
             <table class="tabla">
-            <thead><tr><th>Fecha</th><th>Coleccion</th><th>Provincia</th></tr></thead>
+            <thead><tr><th>Fecha</th><th>Coleccion</th><th>Provincia</th><th>Cantidad de hechos</th></tr></thead>
             <tbody>
             {{#each reporte}}
                         <tr>
-                            <td>{{fecha}}</td>
-                            <td>{{this.coleccion}}</td>
-                            <td>{{this.provincia}}</td>
+                            <td style="text-align: center;">{{fecha}}</td>
+                            <td style="text-align: center;">{{this.coleccion}}</td>
+                            <td style="text-align: center;">{{this.provincia}}</td>
+                            <td style="text-align: center;">{{this.cantidad}}</td>
                         </tr>
             {{/each}}
             </tbody>

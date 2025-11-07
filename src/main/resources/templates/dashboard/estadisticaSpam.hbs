@@ -24,14 +24,15 @@
         <section class="solicitudes-lista">
 
             <h2>Cantidad de Solicitudes</h2>
+            <style> table, th, td {border: 1px solid black;} table { border-collapse: collapse; } </style>
             <table class="tabla">
             <thead><tr><th>Fecha</th><th>Cantidad de Solicitudes</th></tr></thead>
             <tbody>
             {{#each cantidadSpam}}
                 {{#if @first}}
                         <tr>
-                            <td>{{fecha}}</td>
-                            <td>{{cantidadSpam}}</td>
+                            <td style="text-align: center;">{{fecha}}</td>
+                            <td style="text-align: center;">{{cantidadSpam}}</td>
                         </tr>
                 {{/if }}
             {{/each}}

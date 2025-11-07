@@ -66,8 +66,6 @@ public class EstadisticasController implements WithSimplePersistenceUnit {
   }
 
   public static Map<String, Object> mostrarHoraPico(Context ctx) throws IOException {
-
-
     EstadisticaHoraHechosCategoria estadisticaHHC = new EstadisticaHoraHechosCategoria();
     estadisticaHHC.calcularEstadistica();
 
