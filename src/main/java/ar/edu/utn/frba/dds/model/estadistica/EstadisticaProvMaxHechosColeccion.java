@@ -34,7 +34,7 @@ public class EstadisticaProvMaxHechosColeccion implements Estadistica, WithSimpl
             "    c.titulo as coleccion,\n" +
             "    h.provincia,\n" +
             "    COUNT(*) AS cantidad,\n" +
-            "    ROW_NUMBER() OVER (\n" +
+            "    ROW_NUMBER() (\n" +
             "      PARTITION BY c.titulo\n" +
             "      ORDER BY COUNT(*) DESC, h.provincia\n" +
             "    ) AS rn\n" +

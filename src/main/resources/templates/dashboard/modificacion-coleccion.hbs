@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editando {{coleccion.titulo}}</title>
+    <link rel="stylesheet" href="/assets/dashboard.css">
+</head>
+<body class="dashboard-body">
+<div class="dashboard-container">
+
+    {{> templates/dashboard/_sidebar}}
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Editando: {{coleccion.titulo}}</h1>
+        </header>
+
+        <div class="form-container">
+            <form method="POST">
+
+                <label for="fuenteId">Fuente </label>
+                <select id="fuenteId" name="fuenteId" required>
+                    {{#each todasLasFuentes}}
+                        <option value="{{this.id}}" {{#if this.seleccionada}}selected{{/if}}>
+                            ID: {{this.id}}
+                        </option>
+                    {{/each}}
+                </select>
+
+                <label for="algoritmo">Algoritmo de Consenso</label>
+                <select id="algoritmo" name="algoritmo" required>
+                    {{#each todosLosAlgoritmos}}
+                        <option value="{{this.name}}" {{#if this.seleccionado}}selected{{/if}}>
+                            {{this.name}}
+                        </option>
+                    {{/each}}
+                </select>
+
+                <button type="submit" class="btn-guardar">Guardar Cambios</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

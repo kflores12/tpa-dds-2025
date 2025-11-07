@@ -54,12 +54,20 @@ public class Router {
     app.post("solicitud/carga/{id}/rechazar", gestionSolicitudesController::rechazarSolicitudCarga);
     app.post("solicitud/eliminacion/{id}/aceptar", gestionSolicitudesController::aceptarSolicitudEliminacion);
     app.post("solicitud/eliminacion/{id}/rechazar", gestionSolicitudesController::rechazarSolicitudEliminacion);
-    app.get("/dashboard/colecciones/crear", coleccionController::mostrarFormulario);
+    app.get("/dashboard/colecciones/crear", coleccionController::mostrarFormularioCreacion);
     app.post("/dashboard/colecciones/crear", coleccionController::crearColeccion);
+    app.get("/dashboard/colecciones/modificar", coleccionController::mostrarColecciones);
+    app.post("/dashboard/colecciones/modificar/{id}", coleccionController::editarColeccion);
+    app.get("/dashboard/colecciones/modificar/{id}", coleccionController::mostrarFormularioEdicion);
+
+
 
     //Estadisticas
     app.get("/dashboard/estadisticas/cantidadSpam",ctx -> ctx.render("dashboard/estadisticaSpam.hbs",EstadisticasController.mostrarSpam(ctx)));
     app.get("/dashboard/estadisticas/horaPicoCategoria",ctx -> ctx.render("dashboard/estadisticaHoraPico.hbs",EstadisticasController.mostrarHoraPico(ctx)));
+    app.get("/dashboard/estadisticas/categoriaMaxima",ctx -> ctx.render("dashboard/estadisticaCategoriaMaxima.hbs",EstadisticasController.mostrarCategoriaMaxima(ctx)));
+    app.get("/dashboard/estadisticas/categoriaProvinciaMax",ctx -> ctx.render("dashboard/estadisticaCategoriaProvinciaMax.hbs",EstadisticasController.mostrarCategoriaProvinciaMaxHechos(ctx)));
+    app.get("/dashboard/estadisticas/coleccionProvinciaMax",ctx -> ctx.render("dashboard/estadisticaColeccionProvinciaMax.hbs",EstadisticasController.mostrarColeccionProvinciaMaxHechos(ctx)));
 
   }
 }

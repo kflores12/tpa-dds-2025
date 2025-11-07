@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Hora Pico de cada Categoria</title>
+    <title>Provincia maxima de cada Categoria</title>
     <link rel="stylesheet" href="/assets/dashboard.css">
 
     <style>
@@ -18,27 +18,27 @@
 
     <main class="main-content">
         <header class="main-header">
-            <h1>Hora Pico de cada Categoria</h1>
+            <h1>La provincia con mayor cantidad de Hechos</h1>
         </header>
 
         <section class="solicitudes-lista">
 
-            <h2>Horas Pico de Hechos</h2>
+            <h2>Categoria Provincia Maxima</h2>
             <table class="tabla">
-            <thead><tr><th>Fecha</th><th>Categoria</th><th>Horario Pico</th></tr></thead>
+            <thead><tr><th>Fecha</th><th>Categoria</th><th>Provincia</th></tr></thead>
             <tbody>
             {{#each reporte}}
                         <tr>
                             <td>{{fecha}}</td>
                             <td>{{this.categoria}}</td>
-                            <td>{{this.hora_pico}}</td>
+                            <td>{{this.provincia}}</td>
                         </tr>
             {{/each}}
             </tbody>
             </table>
 
             <h3>Exportar Archivo</h3>
-                <a class="btn" href="/uploads/estadisticas_categoria_horaspico.csv" download>Exportar CSV<a/>
+                <a class="btn" href="/uploads/estadisticas_categoria_hechosmaximos.csv" download>Exportar CSV<a/>
 
         </section>
 

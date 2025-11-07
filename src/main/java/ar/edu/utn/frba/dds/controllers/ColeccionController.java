@@ -14,6 +14,7 @@ import io.javalin.http.Context;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class ColeccionController implements WithSimplePersistenceUnit {
 
@@ -21,7 +22,7 @@ public class ColeccionController implements WithSimplePersistenceUnit {
   private final RepositorioFuentes repoFuentes = RepositorioFuentes.getInstance();
   private final RepositorioCriterios repoCriterios = RepositorioCriterios.getInstance();
 
-  public void mostrarFormulario(Context ctx) {
+  public void mostrarFormularioCreacion(Context ctx) {
 
     var todasLasFuentes = repoFuentes.getFuentes();
     var todosLosCriterios = repoCriterios.obtenerTodos();
@@ -81,5 +82,74 @@ public class ColeccionController implements WithSimplePersistenceUnit {
     }
 
     ctx.redirect("/dashboard/colecciones/crear");
+  }
+
+  public void mostrarColecciones(Context ctx) {
+    var colecciones = repoColecciones.getColecciones();
+
+    Map<String, Object> model = new HashMap<>();
+    model.put("colecciones", colecciones);
+
+    String flashMessage = ctx.sessionAttribute("flash_message");
+    if (flashMessage != null) {
+      model.put("flash_message", flashMessage);
+      ctx.sessionAttribute("flash_message", null);
+    }
+
+    ctx.render("/dashboard/listado-colecciones.hbs", model);
+  }
+
+  public void mostrarFormularioEdicion(Context ctx) {
+    Long id = ctx.pathParamAsClass("id", Long.class).get();
+    Coleccion coleccionAEditar = repoColecciones.getColeccionById(id);
+
+    if (coleccionAEditar == null) {
+      ctx.status(404).result("Colección no encontrada");
+      return;
+    }
+
+    var todasLasFuentes = repoFuentes.getFuentes().stream()
+        .map(fuente -> Map.of(
+            "id", fuente.getId(),
+            "seleccionada", fuente.getId().equals(coleccionAEditar.getFuente().getId())
+        )).toList();
+
+    var todosLosAlgoritmos = Stream.of(AlgoritmoDeConsenso.values())
+        .map(algoritmo -> Map.of(
+            "name", algoritmo.name(),
+            "seleccionado", algoritmo.equals(coleccionAEditar.getAlgoritmo())
+        )).toList();
+
+    Map<String, Object> model = Map.of(
+        "coleccion", coleccionAEditar,
+        "todasLasFuentes", todasLasFuentes,
+        "todosLosAlgoritmos", todosLosAlgoritmos
+    );
+
+    ctx.render("/dashboard/modificacion-coleccion.hbs", model);
+  }
+
+  public void editarColeccion(Context ctx) {
+    Long id = ctx.pathParamAsClass("id", Long.class).get();
+
+    Long nuevaFuenteId = ctx.formParamAsClass("fuenteId", Long.class).get();
+    AlgoritmoDeConsenso nuevoAlgoritmo = AlgoritmoDeConsenso.valueOf(ctx.formParam("algoritmo"));
+
+    try {
+      withTransaction(() -> {
+        Coleccion coleccion = repoColecciones.getColeccionById(id);
+        Fuente nuevaFuente = repoFuentes.getFuente(nuevaFuenteId);
+        coleccion.setFuente(nuevaFuente);
+        coleccion.setAlgoritmo(nuevoAlgoritmo);
+        entityManager().merge(coleccion);
+      });
+
+      ctx.sessionAttribute("flash_message", "Colección actualizada exitosamente!");
+    } catch (Exception e) {
+      e.printStackTrace();
+      ctx.sessionAttribute("flash_error", "Error al actualizar la colección: " + e.getMessage());
+    }
+
+    ctx.redirect("/dashboard/colecciones/modificar");
   }
 }

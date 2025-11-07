@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Seleccionar Colección</title>
+    <link rel="stylesheet" href="/assets/dashboard.css">
+</head>
+<body class="dashboard-body">
+<div class="dashboard-container">
+
+    {{> templates/dashboard/_sidebar}}
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Modificar Colección</h1>
+            <p>Selecciona la colección que deseas editar.</p>
+        </header>
+
+        <section class="lista-colecciones">
+            {{#if flash_message}}
+                <div class="flash success">{{flash_message}}</div>
+            {{/if}}
+
+            {{#each colecciones}}
+                <div class="coleccion-item">
+                    <strong>{{this.titulo}}</strong> ({{this.descripcion}})
+                    <a href="/dashboard/colecciones/modificar/{{this.id}}" class="btn-editar">Editar</a>
+                </div>
+            {{/each}}
+            {{#unless colecciones}}
+                <p>No hay colecciones creadas para modificar.</p>
+            {{/unless}}
+        </section>
+    </main>
+</div>
+</body>
+</html>

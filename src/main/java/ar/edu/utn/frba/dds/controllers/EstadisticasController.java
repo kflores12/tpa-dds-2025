@@ -13,13 +13,17 @@ import ar.edu.utn.frba.dds.repositories.RepositorioSolicitudesEliminacion;
 import ar.edu.utn.frba.dds.server.AppRole;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
 public class EstadisticasController implements WithSimplePersistenceUnit {
+
+  //LocalDateTime fechaAhora = LocalDateTime.now();
 
   EstadisticaCantidadSpam estadisticaSpam = new EstadisticaCantidadSpam();
   EstadisticaCategoriaMaxima estadisticaCm =
@@ -43,12 +47,14 @@ public class EstadisticasController implements WithSimplePersistenceUnit {
   }
 
   // --- Mostrar Estadisticas ---
-  public static Map<String, Object> mostrarSpam(Context ctx) {
+  public static Map<String, Object> mostrarSpam(Context ctx) throws IOException {
 
     EstadisticaCantidadSpam estadisticaSpam = new EstadisticaCantidadSpam();
     estadisticaSpam.calcularEstadistica();
+    estadisticaSpam.exportarEstadistica("estadisticas_cantidad_spam.csv");
+
     var cantSpam =  estadisticaSpam.getCantidadSpam();
-    var fechaAhora = LocalDate.now();
+    var fechaAhora = LocalDateTime.now();
 
     Map<String, Object> model = Map.of(
         "cantidadSpam", cantSpam,
@@ -59,27 +65,80 @@ public class EstadisticasController implements WithSimplePersistenceUnit {
     return model;
   }
 
-  public static Map<String, Object> mostrarHoraPico(Context ctx) {
+  public static Map<String, Object> mostrarHoraPico(Context ctx) throws IOException {
 
-    /*
-    EstadisticaHoraHechosCategoria estadisticaHHC = new EstadisticaHoraHechosCategoria("cortes");
+
+    EstadisticaHoraHechosCategoria estadisticaHHC = new EstadisticaHoraHechosCategoria();
     estadisticaHHC.calcularEstadistica();
-    var cantSpam =  estadisticaHHC.gethoraPicoCategoria();
-    var fechaAhora = LocalDate.now();
-    */
 
-    var fechaAhora = LocalDate.now();
-    var categoria = "Categoria Random";
-    var horaPico = LocalDate.now();
+    estadisticaHHC.exportarEstadistica("estadisticas_categoria_horaspico.csv");
+
+    var reporte =  estadisticaHHC.getReporte();
+    var fechaAhora = LocalDateTime.now();
 
     Map<String, Object> model = Map.of(
-        "categoria", categoria,
-        "fecha",fechaAhora,
-        "horaPico", horaPico
+        "fecha", fechaAhora,
+        "reporte",reporte
     );
 
     ctx.render("dashboard/estadisticaHoraPico.hbs", model);
     return model;
   }
+
+  public static Map<String, Object> mostrarCategoriaMaxima(Context ctx) throws IOException {
+
+
+    EstadisticaCategoriaMaxima estadisticaCM = new EstadisticaCategoriaMaxima();
+    estadisticaCM.calcularEstadistica();
+
+    estadisticaCM.exportarEstadistica("estadisticas_categoria_horaspico.csv");
+
+    var reporte =  estadisticaCM.getReporte();
+    var fechaAhora = LocalDateTime.now();
+
+    Map<String, Object> model = Map.of(
+        "fecha", fechaAhora,
+        "reporte",reporte
+    );
+    ctx.render("dashboard/estadisticaCategoriaMaxima.hbs", model);
+    return model;
+  }
+
+  public static Map<String, Object> mostrarCategoriaProvinciaMaxHechos(Context ctx) throws IOException {
+
+    EstadisticaProvMaxHechosCategoria estadisticaPMHCat = new EstadisticaProvMaxHechosCategoria();
+    estadisticaPMHCat.calcularEstadistica();
+
+    estadisticaPMHCat.exportarEstadistica("estadisticas_categoria_hechosmaximos.csv");
+
+    var reporte =  estadisticaPMHCat.getReporte();
+    var fechaAhora = LocalDateTime.now();
+
+    Map<String, Object> model = Map.of(
+        "fecha", fechaAhora,
+        "reporte",reporte
+    );
+    ctx.render("dashboard/estadisticaCategoriaProvinciaMax.hbs", model);
+    return model;
+  }
+
+  public static Map<String, Object> mostrarColeccionProvinciaMaxHechos(Context ctx) throws IOException {
+
+    EstadisticaProvMaxHechosColeccion estadisticaPMHCol = new EstadisticaProvMaxHechosColeccion();
+    estadisticaPMHCol.calcularEstadistica();
+
+    estadisticaPMHCol.exportarEstadistica("estadisticas_coleccion_hechosmaximos.csv");
+
+    var reporte =  estadisticaPMHCol.getReporte();
+    var fechaAhora = LocalDateTime.now();
+
+    Map<String, Object> model = Map.of(
+        "fecha", fechaAhora,
+        "reporte",reporte
+    );
+    ctx.render("dashboard/estadisticaColeccionProvinciaMax.hbs", model);
+    return model;
+  }
+
 
 }

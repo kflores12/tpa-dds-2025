@@ -35,6 +35,10 @@ public class RepositorioColecciones implements WithSimplePersistenceUnit  {
     colecciones.forEach(Coleccion::actualizarHechosConsensuados);
   }
 
+  public Coleccion getColeccionById(Long id) {
+    return entityManager().find(Coleccion.class, id);
+  }
+
   public RepositorioColecciones() {
   }
 }

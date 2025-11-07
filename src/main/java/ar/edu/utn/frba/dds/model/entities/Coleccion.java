@@ -93,6 +93,8 @@ public class Coleccion {
     return fuente;
   }
 
+  public AlgoritmoDeConsenso getAlgoritmo() { return algoritmo; }
+
   public List<Hecho> obtnerHechos() {
     List<Hecho> hechosAgregados = new ArrayList<>();
 
@@ -100,6 +102,10 @@ public class Coleccion {
 
     return this.filtrarPorCriteriosColeccion(hechosAgregados);
   }
+
+  public void setFuente(Fuente fuente) { this.fuente = fuente; }
+
+  public void setAlgoritmo(AlgoritmoDeConsenso algoritmo) {this.algoritmo = algoritmo; }
 
   private List<Hecho> filtrarPorCriteriosColeccion(List<Hecho> hechos) {
     if (criteriosPertenencia.isEmpty()) {
