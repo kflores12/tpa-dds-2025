@@ -18,13 +18,16 @@ public class TestAbsoluto{
 
 
   private Hecho hecho(String titulo) {
+    FuenteDinamica fuenteDinamica;
+    fuenteDinamica = new FuenteDinamica();
     return new Hecho(
         titulo, "desc", "cat",
         0.0, 0.0,
         LocalDateTime.now(), LocalDateTime.now(),
         TipoFuente.DATASET, // el algoritmo ya no se basa en TipoFuente
         null,
-        true
+        true,
+        fuenteDinamica
     );
   }
 
@@ -58,10 +61,9 @@ public class TestAbsoluto{
     Hecho h2 = hecho("Crisis");
     Hecho otro = hecho("Otro");
 
-    FuenteDinamica f1 = new FuenteDinamica();
-    f1.getHechos().add(h1);
 
     Conexion conexionMock = mock(Conexion.class);
+    FuenteProxyDemo f1 = new FuenteProxyDemo(conexionMock, "", List.of(h1));
     FuenteProxyDemo f2 = new FuenteProxyDemo(conexionMock, "http://fake-url", List.of(h2));
 
     FuenteDataSet f3 = mock(FuenteDataSet.class);

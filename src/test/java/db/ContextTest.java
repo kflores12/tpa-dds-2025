@@ -1,43 +1,35 @@
 package db;
 
-import ar.edu.utn.frba.dds.dominio.Coleccion;
-import ar.edu.utn.frba.dds.dominio.GeneradorHandleUuid;
-import ar.edu.utn.frba.dds.dominio.Hecho;
-import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AlgoritmoDeConsenso;
-import ar.edu.utn.frba.dds.dominio.algoritmosconcenso.NavegacionIrrestricta;
-import ar.edu.utn.frba.dds.dominio.criterios.Criterio;
-import ar.edu.utn.frba.dds.dominio.criterios.CriterioBase;
-import ar.edu.utn.frba.dds.dominio.estadistica.*;
-import ar.edu.utn.frba.dds.dominio.fuentes.Agregador;
-import ar.edu.utn.frba.dds.dominio.fuentes.FuenteDataSet;
-import ar.edu.utn.frba.dds.dominio.fuentes.FuenteDinamica;
-import ar.edu.utn.frba.dds.dominio.fuentes.TipoFuente;
-import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioColecciones;
-import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioFuentes;
-import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioHechos;
-import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioSolicitudesDeCarga;
-import ar.edu.utn.frba.dds.dominio.repositorios.RepositorioSolicitudesEliminacion;
-import ar.edu.utn.frba.dds.dominio.solicitudes.DetectorDeSpam;
-import ar.edu.utn.frba.dds.dominio.solicitudes.FactorySolicitudDeEliminacion;
-import ar.edu.utn.frba.dds.dominio.solicitudes.SolicitudDeEliminacion;
+import ar.edu.utn.frba.dds.model.entities.Coleccion;
+import ar.edu.utn.frba.dds.model.entities.GeneradorHandleUuid;
+import ar.edu.utn.frba.dds.model.entities.Hecho;
+import ar.edu.utn.frba.dds.model.entities.criterios.Criterio;
+import ar.edu.utn.frba.dds.model.entities.criterios.CriterioBase;
+import ar.edu.utn.frba.dds.model.entities.fuentes.Fuente;
+import ar.edu.utn.frba.dds.model.estadistica.*;
+import ar.edu.utn.frba.dds.model.entities.fuentes.FuenteDinamica;
+import ar.edu.utn.frba.dds.model.entities.fuentes.TipoFuente;
+import ar.edu.utn.frba.dds.repositories.RepositorioColecciones;
+import ar.edu.utn.frba.dds.repositories.RepositorioFuentes;
+import ar.edu.utn.frba.dds.repositories.RepositorioHechos;
+import ar.edu.utn.frba.dds.repositories.RepositorioSolicitudesEliminacion;
+import ar.edu.utn.frba.dds.model.entities.solicitudes.DetectorDeSpam;
+import ar.edu.utn.frba.dds.model.entities.solicitudes.FactorySolicitudDeEliminacion;
+import ar.edu.utn.frba.dds.model.entities.solicitudes.SolicitudDeEliminacion;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import javax.persistence.EntityTransaction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ar.edu.utn.frba.dds.dominio.fuentes.Fuente;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static ar.edu.utn.frba.dds.dominio.algoritmosconcenso.AlgoritmoDeConsenso.Aabsoluta;
+import static ar.edu.utn.frba.dds.model.entities.algoritmosconcenso.AlgoritmoDeConsenso.Aabsoluta;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -51,6 +43,7 @@ public class ContextTest implements SimplePersistenceTest {
 
   @BeforeEach
   public void fixtureBeforeEach() {
+    FuenteDinamica fuente = new FuenteDinamica();
   hecho = new Hecho(
       "Corte de luz modificado",
       "Corte de luz en zona oeste",
@@ -59,7 +52,8 @@ public class ContextTest implements SimplePersistenceTest {
       LocalDateTime.now(),
       TipoFuente.DINAMICA,
       "http://multimediavalue",
-      Boolean.TRUE
+      Boolean.TRUE,
+      fuente
   );
 
   hecho2 = new Hecho(
@@ -70,7 +64,8 @@ public class ContextTest implements SimplePersistenceTest {
       LocalDateTime.now(),
       TipoFuente.DINAMICA,
       "http://multimediavalue",
-      Boolean.TRUE
+      Boolean.TRUE,
+      fuente
   );
 
   hecho3 = new Hecho(
@@ -81,7 +76,8 @@ public class ContextTest implements SimplePersistenceTest {
       LocalDateTime.now(),
       TipoFuente.DINAMICA,
       "http://multimediavalue",
-      Boolean.TRUE
+      Boolean.TRUE,
+      fuente
   );
 
     hecho4 = new Hecho(
@@ -92,7 +88,8 @@ public class ContextTest implements SimplePersistenceTest {
         LocalDateTime.now(),
         TipoFuente.DINAMICA,
         "http://multimediavalue",
-        Boolean.TRUE
+        Boolean.TRUE,
+        fuente
     );
 
   }
@@ -129,25 +126,28 @@ public class ContextTest implements SimplePersistenceTest {
   @Test
   public void testEstadisticaCantidadSpam() {
     RepositorioHechos repositorioH = new RepositorioHechos();
+    withTransaction(() -> {
+      FactorySolicitudDeEliminacion factory;
+      DetectorDeSpam inter = mock(DetectorDeSpam.class);
+      when(inter.esSpam("Motivo válido")).thenReturn(false);
+      when(inter.esSpam("Motivo invalido")).thenReturn(true);
+      RepositorioSolicitudesEliminacion  repositorio = new RepositorioSolicitudesEliminacion();
 
-    FactorySolicitudDeEliminacion factory;
-    DetectorDeSpam inter = mock(DetectorDeSpam.class);
-    when(inter.esSpam("Motivo válido")).thenReturn(false);
-    when(inter.esSpam("Motivo invalido")).thenReturn(true);
-    RepositorioSolicitudesEliminacion  repositorio = new RepositorioSolicitudesEliminacion();
+      repositorioH.cargarHecho(hecho); //Se necesita cargar el hecho para poder cargar la solicitud
 
-    repositorioH.cargarHecho(hecho); //Se necesita cargar el hecho para poder cargar la solicitud
+      factory = new FactorySolicitudDeEliminacion(inter);
 
-    factory = new FactorySolicitudDeEliminacion(inter);
+      SolicitudDeEliminacion solicitud1 = factory.crear(hecho, "Motivo invalido");
 
-    SolicitudDeEliminacion solicitud1 = factory.crear(hecho, "Motivo invalido");
-    repositorio.cargarSolicitudEliminacion(solicitud1);
+      repositorio.cargarSolicitudEliminacion(solicitud1);
 
 
-    EstadisticaCantidadSpam estadisticaCS = new EstadisticaCantidadSpam();
-    estadisticaCS.calcularEstadistica();
+      EstadisticaCantidadSpam estadisticaCS = new EstadisticaCantidadSpam();
+      estadisticaCS.calcularEstadistica();
 
-    Assertions.assertEquals(1, estadisticaCS.getCantidadSpam());
+      Assertions.assertEquals(1, estadisticaCS.getCantidadSpam());
+    });
+
 
   }
 
@@ -166,30 +166,37 @@ public class ContextTest implements SimplePersistenceTest {
   @Test
   public void testEstadisticaProvMaxHechosColeccion() {
     GeneradorHandleUuid generador = new GeneradorHandleUuid();
-    RepositorioHechos repositorioHechos = new RepositorioHechos();
-    RepositorioColecciones repositorioColecciones = new RepositorioColecciones();
-    RepositorioFuentes repositorioFuentes = new RepositorioFuentes();
+    RepositorioHechos repoHechos = new RepositorioHechos();
+    RepositorioFuentes repoFuentes = new RepositorioFuentes();
+    RepositorioColecciones repoColecciones = new RepositorioColecciones();
 
     FuenteDinamica dinamica = new FuenteDinamica();
     CriterioBase criterio = new CriterioBase();
-    List<Criterio> criterios = new ArrayList<>(Arrays.asList(criterio));
+    List<Criterio> criterios = List.of(criterio);
 
-    Coleccion coleccion = new Coleccion("incendios forestales",
-        "incendios en la patagonia",
-        dinamica, criterios, generador.generar(), Aabsoluta);
+    Coleccion coleccion = new Coleccion(
+        "Incendios forestales",
+        "Incendios en la Patagonia",
+        dinamica,
+        criterios,
+        generador.generar(),
+        Aabsoluta
+    );
 
-    repositorioHechos.cargarHecho(hecho);
-    repositorioHechos.cargarHecho(hecho2);
-    repositorioHechos.cargarHecho(hecho3);
-    repositorioFuentes.registrarFuente(dinamica);
-    repositorioColecciones.cargarColeccion(coleccion);
-    dinamica.actualiza(repositorioHechos);
+    repoHechos.cargarHecho(hecho);
+    repoHechos.cargarHecho(hecho2);
+    repoHechos.cargarHecho(hecho3);
+
+    repoFuentes.registrarFuente(dinamica);
+    repoColecciones.cargarColeccion(coleccion);
+
+    dinamica.actualizarHechos();
     coleccion.actualizarHechosConsensuados();
 
-    EstadisticaProvMaxHechosColeccion estadisticaPMHC = new EstadisticaProvMaxHechosColeccion();
-    estadisticaPMHC.calcularEstadistica();
+    EstadisticaProvMaxHechosColeccion estadistica = new EstadisticaProvMaxHechosColeccion();
+    estadistica.calcularEstadistica();
 
-    Assertions.assertEquals("Chubut", estadisticaPMHC.getReporte().get(0).provincia());
+    assertEquals("Chubut", estadistica.getReporte().get(0).provincia());
   }
 
   @Test
@@ -285,7 +292,6 @@ public class ContextTest implements SimplePersistenceTest {
     repositorioHechos.cargarHecho(hecho2);
     repositorioHechos.cargarHecho(hecho3);
 
-    dinamica.actualiza(repositorioHechos);
 
     Coleccion coleccion = new Coleccion("incendios forestales",
         "incendios en la patagonia",
@@ -293,7 +299,6 @@ public class ContextTest implements SimplePersistenceTest {
 
     repositorioFuentes.registrarFuente(dinamica);
     repositorioColecciones.cargarColeccion(coleccion);
-    dinamica.actualiza(repositorioHechos);
     coleccion.actualizarHechosConsensuados();
 
     EstadisticaProvMaxHechosColeccion estadistica = new EstadisticaProvMaxHechosColeccion();

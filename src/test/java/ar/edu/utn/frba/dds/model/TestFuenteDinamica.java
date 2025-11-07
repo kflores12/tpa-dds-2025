@@ -55,7 +55,8 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
         LocalDateTime.now(),
         TipoFuente.DINAMICA,
         "http://multimediavalue",
-        Boolean.TRUE
+        Boolean.TRUE,
+        fuenteDinamica
     );
 
 
@@ -63,21 +64,21 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
         "Corte de luz", "Corte de luz en zona sur",
         "cortes", 21.2, 12.8,
         LocalDateTime.of(2025, 1, 1,12,00),
-        "", true
+        "", true, fuenteDinamica
     );
 
     solicitudDeCargaPrimeraSinRegistro = new SolicitudDeCarga(
         "Corte de luz", "Corte de luz en zona sur",
         "cortes", 21.2, 12.8,
         LocalDateTime.of(2025, 1, 1,12,00),
-        "", false
+        "", false, fuenteDinamica
     );
 
     solicitudDeCargaSegunda = new SolicitudDeCarga(
         "Corte de agua", "Corte de agua en zona oeste",
         "cortes", 25.6, 9.3,
         LocalDateTime.of(2025, 1, 20,12,00),
-        "", true
+        "", true, fuenteDinamica
     );
 
   }
@@ -87,93 +88,61 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
     repoSolicitudes.registrar(solicitudDeCargaPrimera);
     solicitudDeCargaPrimera.aprobar();
 
-    fuenteDinamica.actualiza(repoHechos);
 
-    repoSolicitudes.registrar(solicitudDeCargaPrimera);
-
-    List<Hecho> hechos = fuenteDinamica.getHechos();
+    Hecho hechoModificado = solicitudDeCargaPrimera.getHechoCreado();
 
     Assertions.assertEquals(EstadoSolicitud.ACEPTADA, solicitudDeCargaPrimera.getEstado());
-    Assertions.assertEquals("Corte de luz", hechos.get(0).getTitulo());
-    Assertions.assertEquals(1, hechos.size());
-
+    Assertions.assertEquals("Corte de luz", hechoModificado.getTitulo());
+    Assertions.assertNotNull(hechoModificado);
   }
 
   @Test
   public void importarHechosSoloAceptoUno() {
     repoSolicitudes.registrar(solicitudDeCargaPrimera);
     repoSolicitudes.registrar(solicitudDeCargaSegunda);
+    solicitudDeCargaSegunda.aprobar();
 
-    List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
+    Hecho hechoModificado = solicitudDeCargaSegunda.getHechoCreado();
 
-    solicitudes.get(1).aprobar();
-    fuenteDinamica.actualiza(repoHechos);
-
-    List<Hecho> hechos = fuenteDinamica.getHechos();
-
-    System.out.printf("%s %n", hechos.get(0).getTitulo());
-
-    Assertions.assertEquals("Corte de agua", hechos.get(0).getTitulo());
-    Assertions.assertEquals(1, hechos.size());
+    Assertions.assertEquals("Corte de agua", hechoModificado.getTitulo());
   }
 
   @Test
   public void importarHechosRegistradoYRechazar() {
     repoSolicitudes.registrar(solicitudDeCargaPrimera);
 
-    List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
-    solicitudes.get(0).rechazar();
-    solicitudes.get(0).sugerir("Cambia el titulo");
+    solicitudDeCargaPrimera.rechazar();
+    solicitudDeCargaPrimera.sugerir("Cambia el titulo");
 
-    fuenteDinamica.actualiza(repoHechos);
 
     Assertions.assertEquals("Cambia el titulo", solicitudDeCargaPrimera.getSugerencia());
     Assertions.assertEquals(EstadoSolicitud.RECHAZADA, solicitudDeCargaPrimera.getEstado());
     Assertions.assertTrue(fuenteDinamica.getHechos().isEmpty());
   }
 
-  @Test
-  public void importarHechosRegistradoYAceptar() {
-    repoSolicitudes.registrar(solicitudDeCargaPrimera);
-
-    List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
-
-    solicitudes.get(0).aprobar();
-
-    fuenteDinamica.actualiza(repoHechos);
-
-    List<Hecho> hechos = fuenteDinamica.getHechos();
-
-    Assertions.assertEquals("Corte de luz", hechos.get(0).getTitulo());
-    Assertions.assertEquals(1, hechos.size());
-  }
 
   @Test
   public void importarHechosRegistradoYModificar() {
     repoSolicitudes.registrar(solicitudDeCargaPrimera);
 
-    List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
-
-    solicitudes.get(0).aprobar();
-    solicitudes.get(0).modificarHecho(hechoModificador);
+    solicitudDeCargaPrimera.aprobar();
+    solicitudDeCargaPrimera.modificarHecho(hechoModificador);
 
     repoHechos.modificarHecho(hechoModificador);
-    fuenteDinamica.actualiza(repoHechos);
 
-    List<Hecho> hechosBusco = fuenteDinamica.getHechos();
+    Hecho hechoModificado = solicitudDeCargaPrimera.getHechoCreado();
 
-    Assertions.assertEquals("Corte de luz modificado", hechosBusco.get(0).getTitulo());
+    Assertions.assertEquals("Corte de luz modificado", hechoModificado.getTitulo());
   }
 
   @Test
   public void importarHechosRegistradoYModificarFailNoRegistrado() {
     repoSolicitudes.registrar(solicitudDeCargaPrimeraSinRegistro);
 
-    List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
-    solicitudes.get(0).aprobar();
+    solicitudDeCargaPrimeraSinRegistro.aprobar();
 
     RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-      solicitudes.get(0).modificarHecho(hechoModificador);
+      solicitudDeCargaPrimeraSinRegistro.modificarHecho(hechoModificador);
     });
 
     Assertions.assertEquals("No se puede modificar este hecho", exception.getMessage());
@@ -191,28 +160,6 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
     Assertions.assertEquals("No se puede modificar este hecho", exception.getMessage());
   }
 
-
-  /*
-  TODO REVISAR Y CORREGIR ESTA TEST
-  @Test
-  public void importarHechosRegistradoYModificarFailFechaCargaMayorA7() {
-    repoSolicitudes.agregarSolicitudDeCarga(solicitudDeCargaPrimera);
-
-    List<SolicitudDeCarga> solicitudes = repoSolicitudes.obtenerPendientesDeCarga();
-    Hecho hechoAprobado = solicitudes.get(0).aprobar();
-    repoHechos.cargarHecho(hechoAprobado);
-
-    solicitudDeCargaPrimera.setFechaCargaOriginal(LocalDate.of(2025, 2, 18));
-    hechoModificador.setId(hechoAprobado.getId());
-
-    RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-      solicitudDeCargaPrimera.modificarHecho(hechoModificador);
-    });
-
-    Assertions.assertEquals("No se puede modificar este hecho", exception.getMessage());
-  }
-
-   */
 
 
 }

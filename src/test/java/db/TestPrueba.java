@@ -1,6 +1,7 @@
 package db;
 
 import ar.edu.utn.frba.dds.model.entities.Hecho;
+import ar.edu.utn.frba.dds.model.entities.fuentes.FuenteDinamica;
 import ar.edu.utn.frba.dds.model.estadistica.EstadisticaCategoriaMaxima;
 import ar.edu.utn.frba.dds.model.entities.fuentes.TipoFuente;
 import ar.edu.utn.frba.dds.repositories.RepositorioHechos;
@@ -13,6 +14,8 @@ public class TestPrueba implements SimplePersistenceTest {
   @Test
   public void testEstadistica() {
     RepositorioHechos repositorio = new RepositorioHechos();
+    FuenteDinamica fuenteDinamica;
+    fuenteDinamica = new FuenteDinamica();
     Hecho hecho = new Hecho(
         "Corte de luz modificado",
         "Corte de luz en zona oeste",
@@ -21,7 +24,8 @@ public class TestPrueba implements SimplePersistenceTest {
         LocalDateTime.now(),
         TipoFuente.DINAMICA,
         "http://multimediavalue",
-        Boolean.TRUE
+        Boolean.TRUE,
+        fuenteDinamica
     );
 
     Hecho hecho2 = new Hecho(
@@ -32,7 +36,8 @@ public class TestPrueba implements SimplePersistenceTest {
         LocalDateTime.now(),
         TipoFuente.DINAMICA,
         "http://multimediavalue",
-        Boolean.TRUE
+        Boolean.TRUE,
+        fuenteDinamica
     );
 
     Hecho hecho3 = new Hecho(
@@ -43,7 +48,8 @@ public class TestPrueba implements SimplePersistenceTest {
         LocalDateTime.now(),
         TipoFuente.DINAMICA,
         "http://multimediavalue",
-        Boolean.TRUE
+        Boolean.TRUE,
+        fuenteDinamica
     );
     repositorio.cargarHecho(hecho);
     repositorio.cargarHecho(hecho2);

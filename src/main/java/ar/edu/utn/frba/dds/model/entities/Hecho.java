@@ -1,19 +1,26 @@
-package ar.edu.utn.frba.dds.dominio;
+package ar.edu.utn.frba.dds.model.entities;
 
-import static ar.edu.utn.frba.dds.dominio.estadistica.LocalizadorDeProvincias.getProvincia;
+import static ar.edu.utn.frba.dds.model.estadistica.LocalizadorDeProvincias.getProvincia;
 import static java.util.Objects.requireNonNull;
 
-import ar.edu.utn.frba.dds.dominio.fuentes.TipoFuente;
+import ar.edu.utn.frba.dds.model.entities.fuentes.Fuente;
+import ar.edu.utn.frba.dds.model.entities.fuentes.TipoFuente;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Proxy;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
@@ -24,6 +31,7 @@ import org.hibernate.search.annotations.Store;
 @Entity
 @Table(name = "hechos")
 @Indexed
+@Proxy(lazy = false)
 public class Hecho {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,11 +60,14 @@ public class Hecho {
   private Boolean disponibilidad = Boolean.TRUE;
   @Column
   private String provincia;
-
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "fuente_origen_id")
+  private Fuente fuenteOrigen;
 
   public Hecho(String titulo, String descripcion, String categoria, Double latitud,
                Double longitud, LocalDateTime fechaAcontecimiento, LocalDateTime fechaDeCarga,
-               TipoFuente origen, String multimedia, Boolean disponibilidad) {
+               TipoFuente origen, String multimedia, Boolean disponibilidad,
+               Fuente fuenteOrigen) {
     this.titulo = requireNonNull(titulo);
     this.descripcion = requireNonNull(descripcion);
     this.categoria = requireNonNull(categoria);
@@ -68,6 +79,7 @@ public class Hecho {
     this.multimedia = multimedia;
     this.disponibilidad = requireNonNull(disponibilidad);
     this.provincia = getProvincia(this.latitud, this.longitud);
+    this.fuenteOrigen = requireNonNull(fuenteOrigen);
   }
 
   public Hecho() {
@@ -170,6 +182,19 @@ public class Hecho {
 
   public void setLongitud(Double longitud) {
     this.longitud = longitud;
+  }
+
+  public void setFuenteOrigen(Fuente fuenteOrigen) {
+    this.fuenteOrigen = fuenteOrigen;
+  }
+
+
+  public Fuente getFuenteOrigen() {
+    return fuenteOrigen;
+  }
+
+  public void setProvincia(String provincia) {
+    this.provincia = provincia;
   }
 
   public void setFechaAcontecimiento(LocalDateTime fechaAcontecimiento) {

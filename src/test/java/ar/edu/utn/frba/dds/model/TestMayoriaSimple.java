@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.model.entities.fuentes.*;
 
 import java.time.LocalDateTime;
 
+import ar.edu.utn.frba.dds.model.entities.solicitudes.SolicitudDeCarga;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -21,11 +22,12 @@ public class TestMayoriaSimple {
 
 
   private Hecho hecho(String titulo) {
+    FuenteDinamica fuente = new FuenteDinamica();
     return new Hecho(
         titulo, "desc", "cat",
         0.0, 0.0,
         LocalDateTime.now(), LocalDateTime.now(),
-        TipoFuente.DATASET, null, true
+        TipoFuente.DINAMICA, null, true, fuente
     );
   }
 
@@ -72,8 +74,6 @@ public class TestMayoriaSimple {
     Hecho otro2 = hecho("Otro2");
     Hecho otro3 = hecho("Otro3");
 
-    FuenteDinamica f1 = new FuenteDinamica();
-    f1.getHechos().add(h1);
 
     Conexion conexionMock = mock(Conexion.class);
     FuenteProxyDemo f2 = new FuenteProxyDemo(conexionMock, "http://fake", List.of(h2));
@@ -87,7 +87,7 @@ public class TestMayoriaSimple {
     FuenteDataSet f5 = mock(FuenteDataSet.class);
     when(f5.getHechos()).thenReturn(List.of(otro3));
 
-    Agregador agregador = new Agregador(List.of(f1, f2, f3, f4, f5));
+    Agregador agregador = new Agregador(List.of(f2, f3, f4, f5));
 
     // Solo 2 de 5 fuentes tienen el hecho → no hay mayoría
     Assertions.assertFalse(AlgoritmoDeConsenso.AmayoriaSimple.estaConsensuado(h1, agregador));

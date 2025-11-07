@@ -16,11 +16,12 @@ import static org.mockito.Mockito.when;
 public class TestMultiplesMenciones {
 
   private Hecho hecho(String titulo, String descripcion) {
+    FuenteDinamica fuente = new FuenteDinamica();
     return new Hecho(
         titulo, descripcion, "Categoria",
         1.0, 1.0,
         LocalDateTime.now(), LocalDateTime.now(),
-        TipoFuente.DATASET, null, true
+        TipoFuente.DATASET, null, true, fuente
     );
   }
 
@@ -51,8 +52,9 @@ public class TestMultiplesMenciones {
     Hecho h1 = hecho("Inundación", "Barrio A");
     Hecho h2 = hecho("Inundación", "Barrio Z"); // mismo título, distinto contenido
 
-    FuenteDinamica f1 = new FuenteDinamica();
-    f1.getHechos().add(h1);
+
+    FuenteDataSet f1 = mock(FuenteDataSet.class);
+    when(f1.getHechos()).thenReturn(List.of(h1));
 
     FuenteDataSet f2 = mock(FuenteDataSet.class);
     when(f2.getHechos()).thenReturn(List.of(h2));
@@ -66,8 +68,8 @@ public class TestMultiplesMenciones {
   public void hechoNoEsConsensuadoPorUnaSolaFuente() {
     Hecho h1 = hecho("Corte de luz", "Zona sur");
 
-    FuenteDinamica f1 = new FuenteDinamica();
-    f1.getHechos().add(h1);
+    FuenteDataSet f1 = mock(FuenteDataSet.class);
+    when(f1.getHechos()).thenReturn(List.of(h1));
 
     Agregador agregador = new Agregador(List.of(f1));
 

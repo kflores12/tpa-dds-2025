@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.model;
 
 import ar.edu.utn.frba.dds.model.entities.Hecho;
+import ar.edu.utn.frba.dds.model.entities.fuentes.FuenteDinamica;
 import ar.edu.utn.frba.dds.model.entities.fuentes.TipoFuente;
 import ar.edu.utn.frba.dds.model.entities.solicitudes.DetectorDeSpam;
 import ar.edu.utn.frba.dds.model.entities.solicitudes.EstadoSolicitud;
@@ -18,9 +19,11 @@ public class TestSolicituDeEliminacion {
   private Hecho hechoEjemplo;
   FactorySolicitudDeEliminacion factory;
   DetectorDeSpam inter = mock(DetectorDeSpam.class);
+  FuenteDinamica fuenteDinamica;
 
   @BeforeEach
   void setUp() {
+    fuenteDinamica = new FuenteDinamica();
     hechoEjemplo = new Hecho(
         "Título ejemplo",
         "Descripción ejemplo",
@@ -31,7 +34,8 @@ public class TestSolicituDeEliminacion {
         LocalDateTime.now(),
         TipoFuente.DATASET,
         null,
-        true
+        true,
+        fuenteDinamica
     );
     factory = new FactorySolicitudDeEliminacion(inter);
   }

@@ -26,7 +26,7 @@ public class TestBusquedaTextoLibre {
 
     @BeforeEach
     void setUp() {
-
+        FuenteDinamica fuenteDinamica = new FuenteDinamica();
         MockitoAnnotations.openMocks(this);
 
         busquedaTextoLibre = new BusquedaTextoLibre(repositorioHechosMock);
@@ -41,7 +41,8 @@ public class TestBusquedaTextoLibre {
             LocalDateTime.now(),
             TipoFuente.DINAMICA,
             "",
-            Boolean.TRUE
+            Boolean.TRUE,
+            fuenteDinamica
         );
     }
 

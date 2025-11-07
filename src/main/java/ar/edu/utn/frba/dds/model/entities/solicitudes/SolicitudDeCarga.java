@@ -223,6 +223,7 @@ public class SolicitudDeCarga {
   }
 
 
+
   public void setFechaCargaOriginal(LocalDateTime fechaCargaOriginal) {
     this.fechaCargaOriginal = fechaCargaOriginal;
   }
