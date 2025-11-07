@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.controllers.HechoController;
 import ar.edu.utn.frba.dds.controllers.HomeController;
 import ar.edu.utn.frba.dds.controllers.SolicitudController;
 import ar.edu.utn.frba.dds.controllers.*;
+import ar.edu.utn.frba.dds.model.estadistica.ComponenteEstadistico;
 import io.javalin.Javalin;
 
 public class Router {
@@ -16,6 +17,9 @@ public class Router {
     RegistroController registroController = new RegistroController();
     GestionSolicitudesController gestionSolicitudesController = new GestionSolicitudesController();
     ColeccionController coleccionController = new ColeccionController();
+    //--
+    EstadisticasController estadisticasController = new EstadisticasController();
+    ComponenteEstadistico compEstadistico = new ComponenteEstadistico();
 
     // HOME
     app.get("/", ctx -> ctx.redirect("/home"));
@@ -63,11 +67,11 @@ public class Router {
 
 
     //Estadisticas
-    app.get("/dashboard/estadisticas/cantidadSpam",ctx -> ctx.render("dashboard/estadisticaSpam.hbs",EstadisticasController.mostrarSpam(ctx)));
-    app.get("/dashboard/estadisticas/horaPicoCategoria",ctx -> ctx.render("dashboard/estadisticaHoraPico.hbs",EstadisticasController.mostrarHoraPico(ctx)));
-    app.get("/dashboard/estadisticas/categoriaMaxima",ctx -> ctx.render("dashboard/estadisticaCategoriaMaxima.hbs",EstadisticasController.mostrarCategoriaMaxima(ctx)));
-    app.get("/dashboard/estadisticas/categoriaProvinciaMax",ctx -> ctx.render("dashboard/estadisticaCategoriaProvinciaMax.hbs",EstadisticasController.mostrarCategoriaProvinciaMaxHechos(ctx)));
-    app.get("/dashboard/estadisticas/coleccionProvinciaMax",ctx -> ctx.render("dashboard/estadisticaColeccionProvinciaMax.hbs",EstadisticasController.mostrarColeccionProvinciaMaxHechos(ctx)));
+    app.get("/dashboard/estadisticas/cantidadSpam",ctx -> ctx.render("dashboard/estadisticaSpam.hbs",estadisticasController.mostrarSpam(ctx)));
+    app.get("/dashboard/estadisticas/horaPicoCategoria",ctx -> ctx.render("dashboard/estadisticaHoraPico.hbs",estadisticasController.mostrarHoraPico(ctx)));
+    app.get("/dashboard/estadisticas/categoriaMaxima",ctx -> ctx.render("dashboard/estadisticaCategoriaMaxima.hbs",estadisticasController.mostrarCategoriaMaxima(ctx)));
+    app.get("/dashboard/estadisticas/categoriaProvinciaMax",ctx -> ctx.render("dashboard/estadisticaCategoriaProvinciaMax.hbs",estadisticasController.mostrarCategoriaProvinciaMaxHechos(ctx)));
+    app.get("/dashboard/estadisticas/coleccionProvinciaMax",ctx -> ctx.render("dashboard/estadisticaColeccionProvinciaMax.hbs",estadisticasController.mostrarColeccionProvinciaMaxHechos(ctx)));
 
     //Descargas
     app.get("/descargar/estadisticas_cantidad_spam.csv", ctx -> {ctx.result(java.nio.file.Files.newInputStream(java.nio.file.Paths.get("./descargar/estadisticas_cantidad_spam.csv")));});
