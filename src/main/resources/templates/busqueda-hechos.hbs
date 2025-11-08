@@ -3,114 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <title>Búsqueda de Hechos</title>
-    <link rel="stylesheet" href="/assets/main.css">
+    <link rel="stylesheet" href="/assets/busqueda-hechos.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
 <div class="container">
-    <h1 class="page-title">🔍 Búsqueda de Hechos</h1>
+    <header class="page-header">
+        <h1>🔍 Búsqueda de Hechos</h1>
+        <nav>
+            <a href="/home" class="btn-link">⬅️ Volver al Inicio</a>
+        </nav>
+    </header>
 
-    <div class="search-form">
-        <form action="/hechos/buscar" method="GET">
+    <div class="search-section">
+        <form action="/hechos/buscar" method="GET" class="search-form">
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="titulo">Título:</label>
-                    <input type="text" id="titulo" name="titulo" value="{{filtros.titulo}}" placeholder="Buscar por título">
+                    <label for="titulo">Título</label>
+                    <input type="text" name="titulo" id="titulo"
+                           placeholder="Buscar por título..."
+                           value="{{filtros.titulo}}">
                 </div>
 
                 <div class="form-group">
-                    <label for="categoria">Categoría:</label>
-                    <input type="text" id="categoria" name="categoria" value="{{filtros.categoria}}" placeholder="Ej: Accidente, Evento">
+                    <label for="categoria">Categoría</label>
+                    <input type="text" name="categoria" id="categoria"
+                           placeholder="Ej: Incendios, Accidentes..."
+                           value="{{filtros.categoria}}">
                 </div>
 
                 <div class="form-group">
-                    <label for="descripcion">Descripción:</label>
-                    <input type="text" id="descripcion" name="descripcion" value="{{filtros.descripcion}}" placeholder="Buscar en descripción">
+                    <label for="descripcion">Descripción</label>
+                    <input type="text" name="descripcion" id="descripcion"
+                           placeholder="Palabras clave..."
+                           value="{{filtros.descripcion}}">
                 </div>
 
                 <div class="form-group">
-                    <label for="longitud">Longitud:</label>
-                    <input type="number" step="any" id="longitud" name="longitud" value="{{filtros.longitud}}" placeholder="Ej: -58.3816">
+                    <label for="latitud">Latitud</label>
+                    <input type="number" step="0.0001" name="latitud" id="latitud"
+                           placeholder="-34.6037"
+                           value="{{filtros.latitud}}">
                 </div>
 
                 <div class="form-group">
-                    <label for="latitud">Latitud:</label>
-                    <input type="number" step="any" id="latitud" name="latitud" value="{{filtros.latitud}}" placeholder="Ej: -34.6037">
+                    <label for="longitud">Longitud</label>
+                    <input type="number" step="0.0001" name="longitud" id="longitud"
+                           placeholder="-58.3816"
+                           value="{{filtros.longitud}}">
                 </div>
 
                 <div class="form-group">
-                    <label for="fechaAcontecimiento">Fecha de Acontecimiento:</label>
-                    <input type="date" id="fechaAcontecimiento" name="fechaAcontecimiento" value="{{filtros.fechaAcontecimiento}}">
+                    <label for="fechaAcontecimiento">Fecha del Hecho</label>
+                    <input type="date" name="fechaAcontecimiento" id="fechaAcontecimiento"
+                           value="{{filtros.fechaAcontecimiento}}">
                 </div>
 
                 <div class="form-group">
-                    <label for="fechaCarga">Fecha de Carga:</label>
-                    <input type="date" id="fechaCarga" name="fechaCarga" value="{{filtros.fechaCarga}}">
+                    <label for="fechaCarga">Fecha de Carga</label>
+                    <input type="date" name="fechaCarga" id="fechaCarga"
+                           value="{{filtros.fechaCarga}}">
                 </div>
 
                 <div class="form-group">
-                    <label for="fechaDesde">Rango desde:</label>
-                    <input type="date" id="fechaDesde" name="fechaDesde" value="{{filtros.fechaDesde}}">
+                    <label for="fechaDesde">Desde</label>
+                    <input type="date" name="fechaDesde" id="fechaDesde"
+                           value="{{filtros.fechaDesde}}">
                 </div>
 
                 <div class="form-group">
-                    <label for="fechaHasta">Rango hasta:</label>
-                    <input type="date" id="fechaHasta" name="fechaHasta" value="{{filtros.fechaHasta}}">
+                    <label for="fechaHasta">Hasta</label>
+                    <input type="date" name="fechaHasta" id="fechaHasta"
+                           value="{{filtros.fechaHasta}}">
                 </div>
             </div>
 
-            <div class="search-buttons">
-                <button type="submit" class="btn-search">🔍 Buscar</button>
-                <button type="button" class="btn-clear" onclick="window.location.href='/hechos/buscar'">🗑️ Limpiar filtros</button>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    🔍 Buscar
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">
+                    🗑️ Limpiar
+                </button>
             </div>
         </form>
     </div>
 
     {{#if resultadosBusqueda}}
         <div class="results-section">
-            <h2>📋 Resultados de la búsqueda ({{cantidadResultados}} hechos encontrados)</h2>
+            <div class="results-header">
+                <h2>Resultados de búsqueda: <span class="badge">{{cantidadResultados}}</span></h2>
+
+                <div class="view-controls">
+                    <button class="btn-view active" data-view="lista" onclick="cambiarVista('lista')">
+                        📋 Lista
+                    </button>
+                    <button class="btn-view" data-view="mapa" onclick="cambiarVista('mapa')">
+                        🗺️ Mapa
+                    </button>
+                </div>
+            </div>
 
             {{#if hechos}}
-                {{#each hechos}}
-                    <div class="result-item">
-                        <h3>{{this.titulo}}</h3>
-                        <p>{{this.descripcion}}</p>
-                        <div class="result-meta">
-                            <div class="result-meta-item">
-                                <strong>Categoría:</strong>
-                                <span>{{this.categoria}}</span>
+                <div id="vista-lista" class="view-container active">
+                    <div class="hechos-grid">
+                        {{#each hechos}}
+                            <div class="hecho-card">
+                                <div class="hecho-header">
+                                    <h3>{{this.titulo}}</h3>
+                                    <span class="categoria-badge">{{this.categoria}}</span>
+                                </div>
+
+                                <p class="hecho-descripcion">{{this.descripcion}}</p>
+
+                                <div class="hecho-details">
+                                    <div class="detail-item">
+                                        <span class="icon">📍</span>
+                                        <span>Lat: {{this.latitud}}, Lon: {{this.longitud}}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="icon">📅</span>
+                                        <span>{{this.fechaAcontecimiento}}</span>
+                                    </div>
+                                    {{#if this.urlMultimedia}}
+                                        <div class="detail-item">
+                                            <span class="icon">📎</span>
+                                            <a href="{{this.urlMultimedia}}" target="_blank">Ver multimedia</a>
+                                        </div>
+                                    {{/if}}
+                                </div>
+
+                                <div class="hecho-footer">
+                                    <small>Cargado: {{this.fechaDeCarga}}</small>
+                                    <a href="/hechos/{{this.id}}/solicitud" class="btn-small">
+                                        🗑️ Solicitar Eliminación
+                                    </a>
+                                </div>
                             </div>
-                            <div class="result-meta-item">
-                                <strong>Fecha de acontecimiento:</strong>
-                                <span>{{this.fechaAcontecimiento}}</span>
-                            </div>
-                            <div class="result-meta-item">
-                                <strong>Fecha de carga:</strong>
-                                <span>{{this.fechaDeCarga}}</span>
-                            </div>
-                            <div class="result-meta-item">
-                                <strong>Ubicación:</strong>
-                                <span>{{this.latitud}}, {{this.longitud}}</span>
-                            </div>
-                        </div>
-                        <div class="result-actions">
-                            <a href="/hechos/{{this.id}}/solicitud" class="btn btn-delete">
-                                  🗑️ Enviar solicitud de eliminación
-                            </a>
-                         </div>
+                        {{/each}}
                     </div>
-                {{/each}}
+                </div>
+
+                <div id="vista-mapa" class="view-container">
+                    <div id="map"></div>
+                    <div id="mapa-leyenda" class="mapa-leyenda">
+                        <h4>Leyenda</h4>
+                        <p>📍 Haz clic en los marcadores para ver detalles</p>
+                    </div>
+                </div>
             {{else}}
                 <div class="no-results">
-                    <p>😔 No se encontraron hechos con los filtros especificados.</p>
-                    <p>Intenta modificar los criterios de búsqueda.</p>
+                    <p>😔 No se encontraron hechos con los criterios especificados.</p>
+                    <button class="btn btn-secondary" onclick="limpiarFormulario()">
+                        Limpiar filtros
+                    </button>
                 </div>
             {{/if}}
         </div>
     {{/if}}
-
-    <hr>
-    <p><a href="/home" class="btn">🏠 Volver al inicio</a></p>
 </div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    function limpiarFormulario() {
+        document.querySelectorAll('.search-form input').forEach(input => {
+            input.value = '';
+        });
+        window.location.href = '/hechos/buscar';
+    }
+
+    function cambiarVista(vista) {
+        document.querySelectorAll('.btn-view').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-view="${vista}"]`).classList.add('active');
+
+        document.querySelectorAll('.view-container').forEach(container => {
+            container.classList.remove('active');
+        });
+
+        if (vista === 'lista') {
+            document.getElementById('vista-lista').classList.add('active');
+        } else if (vista === 'mapa') {
+            document.getElementById('vista-mapa').classList.add('active');
+            inicializarMapa();
+        }
+    }
+
+    let mapaInicializado = false;
+    let mapa = null;
+
+    function inicializarMapa() {
+        if (mapaInicializado) return;
+
+        const hechos = [
+            {{#each hechos}}
+            {
+                titulo: "{{this.titulo}}",
+                descripcion: "{{this.descripcion}}",
+                categoria: "{{this.categoria}}",
+                latitud: {{this.latitud}},
+                longitud: {{this.longitud}},
+                fechaAcontecimiento: "{{this.fechaAcontecimiento}}",
+                id: {{this.id}}
+            }{{#unless @last}},{{/unless}}
+            {{/each}}
+        ];
+
+        if (hechos.length === 0) return;
+
+        const latPromedio = hechos.reduce((sum, h) => sum + h.latitud, 0) / hechos.length;
+        const lonPromedio = hechos.reduce((sum, h) => sum + h.longitud, 0) / hechos.length;
+
+        mapa = L.map('map').setView([latPromedio, lonPromedio], 10);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 18
+        }).addTo(mapa);
+
+        hechos.forEach(hecho => {
+            const marker = L.marker([hecho.latitud, hecho.longitud]).addTo(mapa);
+
+            const popupContent = `
+                <div class="popup-content">
+                    <h4>${hecho.titulo}</h4>
+                    <p><strong>Categoría:</strong> ${hecho.categoria}</p>
+                    <p>${hecho.descripcion}</p>
+                    <p><small>📅 ${hecho.fechaAcontecimiento}</small></p>
+                    <a href="/hechos/${hecho.id}/solicitud" class="btn-small">Solicitar Eliminación</a>
+                </div>
+            `;
+
+            marker.bindPopup(popupContent);
+        });
+
+        mapaInicializado = true;
+    }
+</script>
 </body>
 </html>
 

@@ -8,9 +8,9 @@
 <body>
   <div class="container">
     {{#if esSpam}}
-      <h1 style="color: #f56565;">❌ Solicitud Rechazada (SPAM)</h1>
+      <h1 class="error-title">❌ Solicitud Rechazada (SPAM)</h1>
     {{else}}
-      <h1 style="color: #48bb78;">✅ Solicitud Procesada</h1>
+      <h1 class="success-title">✅ Solicitud Procesada</h1>
     {{/if}}
 
     {{#if mensajeFlash}}

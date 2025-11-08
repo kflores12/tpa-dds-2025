@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <title>Hora Pico de cada Categoria</title>
     <link rel="stylesheet" href="/assets/dashboard.css">
-
-    <style>
-        .solicitud-botones form {
-            display: inline-block;
-        }
-    </style>
 </head>
 <body class="dashboard-body">
 
@@ -24,16 +18,15 @@
         <section class="solicitudes-lista">
 
             <h2>Horas Pico de Hechos</h2>
-            <style> table, th, td {border: 1px solid black;} table { border-collapse: collapse; } </style>
-            <table class="tabla">
+            <table class="tabla tabla-bordered">
             <thead><tr><th>Fecha</th><th>Categoria</th><th>Horario Pico</th><th>Cantidad de Hechos</th></tr></thead>
             <tbody>
             {{#each reporte}}
                         <tr>
-                            <td style="text-align: center;">{{fecha}}</td>
-                            <td style="text-align: center;">{{this.categoria}}</td>
-                            <td style="text-align: center;">{{this.hora_pico}}</td>
-                            <td style="text-align: center;">{{this.cantidad}}</td>
+                            <td class="text-center">{{fecha}}</td>
+                            <td class="text-center">{{this.categoria}}</td>
+                            <td class="text-center">{{this.hora_pico}}</td>
+                            <td class="text-center">{{this.cantidad}}</td>
                         </tr>
             {{/each}}
             </tbody>

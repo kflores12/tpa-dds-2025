@@ -12,18 +12,12 @@ body.dashboard-body {
     line-height: 1.6;
 }
 
-/* ==============================================
-   CONTENEDOR PRINCIPAL DEL DASHBOARD
-   ============================================== */
 
 .dashboard-container {
     display: flex;
     min-height: 100vh;
 }
 
-/* ==============================================
-   SIDEBAR (MENÚ LATERAL)
-   ============================================== */
 
 .sidebar {
     width: 260px;
@@ -118,9 +112,7 @@ body.dashboard-body {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* ==============================================
-   CONTENIDO PRINCIPAL
-   ============================================== */
+
 
 .main-content {
     flex: 1;
@@ -145,9 +137,6 @@ body.dashboard-body {
     margin: 0;
 }
 
-/* ==============================================
-   WIDGETS Y TARJETAS
-   ============================================== */
 
 .widgets-grid {
     display: grid;
@@ -186,9 +175,6 @@ body.dashboard-body {
     margin: 0;
 }
 
-/* ==============================================
-   SECCIONES Y CONTENIDO
-   ============================================== */
 
 .section {
     background: white;
@@ -213,9 +199,6 @@ body.dashboard-body {
     font-size: 20px;
 }
 
-/* ==============================================
-   TABLAS
-   ============================================== */
 
 .table-container {
     overflow-x: auto;
@@ -226,6 +209,12 @@ table {
     width: 100%;
     border-collapse: collapse;
     background: white;
+}
+
+table.tabla-bordered,
+table.tabla-bordered th,
+table.tabla-bordered td {
+    border: 1px solid black;
 }
 
 table thead {
@@ -249,6 +238,11 @@ table td {
     color: #666;
 }
 
+table td.text-center,
+table th.text-center {
+    text-align: center;
+}
+
 table tbody tr {
     transition: all 0.3s ease;
 }
@@ -257,9 +251,6 @@ table tbody tr:hover {
     background: #f8f9fa;
 }
 
-/* ==============================================
-   FORMULARIOS EN DASHBOARD
-   ============================================== */
 
 .form-group {
     margin-bottom: 20px;
@@ -298,9 +289,6 @@ table tbody tr:hover {
     min-height: 100px;
 }
 
-/* ==============================================
-   BOTONES
-   ============================================== */
 
 .btn {
     display: inline-block;
@@ -371,9 +359,6 @@ table tbody tr:hover {
     font-size: 16px;
 }
 
-/* ==============================================
-   MENSAJES Y ALERTAS
-   ============================================== */
 
 .alert {
     padding: 15px 20px;
@@ -419,9 +404,6 @@ table tbody tr:hover {
     border: 1px solid #90cdf4;
 }
 
-/* ==============================================
-   ESTADÍSTICAS Y GRÁFICOS
-   ============================================== */
 
 .stats-container {
     display: grid;
@@ -451,9 +433,6 @@ table tbody tr:hover {
     color: #667eea;
 }
 
-/* ==============================================
-   LISTAS
-   ============================================== */
 
 .list-group {
     list-style: none;
@@ -482,10 +461,6 @@ table tbody tr:hover {
 .list-group-item:hover {
     background: #f8f9fa;
 }
-
-/* ==============================================
-   BADGES Y ETIQUETAS
-   ============================================== */
 
 .badge {
     display: inline-block;
@@ -521,9 +496,11 @@ table tbody tr:hover {
     color: white;
 }
 
-/* ==============================================
-   RESPONSIVE
-   ============================================== */
+/* Forms inline */
+.solicitud-botones form,
+form.inline-form {
+    display: inline-block;
+}
 
 @media (max-width: 1024px) {
     .sidebar {
@@ -570,9 +547,7 @@ table tbody tr:hover {
     }
 }
 
-/* ==============================================
-   UTILIDADES
-   ============================================== */
+
 
 .text-center {
     text-align: center;

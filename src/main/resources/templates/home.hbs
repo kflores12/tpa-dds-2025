@@ -7,10 +7,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="page-title">{{titulo}}</h1>
-    <p class="page-message">{{mensaje}}</p>
-  <div class="container">
-    <header style="display:flex;justify-content:space-between;align-items:center;">
+    <header class="page-header">
       <h1>{{titulo}}</h1>
       <nav>
         {{#if esRegistrado}}
@@ -29,6 +26,15 @@
     <p>{{mensaje}}</p>
 
     <hr>
+
+    {{#if esAdmin}}
+    <div class="admin-section">
+        <h3>🛡️ Panel de Administrador</h3>
+        <p>Accede a todas las funciones administrativas: gestión de solicitudes, estadísticas, colecciones y más.</p>
+        <a href="/dashboard" class="btn btn-admin">⚙️ Ir al Panel de Administración</a>
+    </div>
+    <hr>
+    {{/if}}
 
     <div class="user-section">
         <a href="/hechos/buscar" class="btn">🔍 Buscar Hechos</a>

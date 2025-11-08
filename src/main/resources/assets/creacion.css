@@ -1,7 +1,3 @@
-/* ==============================================
-   ESTILOS PARA FORMULARIO DE CREACIÓN
-   ============================================== */
-
 * {
     margin: 0;
     padding: 0;
@@ -16,10 +12,6 @@ body {
     line-height: 1.6;
     color: #333;
 }
-
-/* ==============================================
-   CONTENEDOR DEL FORMULARIO
-   ============================================== */
 
 .form-container {
     max-width: 700px;
@@ -41,11 +33,6 @@ body {
         transform: translateY(0);
     }
 }
-
-/* ==============================================
-   TIPOGRAFÍA
-   ============================================== */
-
 h1 {
     color: #667eea;
     margin-bottom: 30px;
@@ -54,9 +41,6 @@ h1 {
     font-weight: 600;
 }
 
-/* ==============================================
-   MENSAJES FLASH
-   ============================================== */
 
 .flash {
     padding: 15px 20px;
@@ -88,10 +72,6 @@ h1 {
     color: #22543d;
     border: 1px solid #9ae6b4;
 }
-
-/* ==============================================
-   FORMULARIO
-   ============================================== */
 
 form {
     display: flex;
@@ -138,15 +118,10 @@ input[type="file"] {
     cursor: pointer;
 }
 
-/* Placeholder personalizado */
 ::placeholder {
     color: #aaa;
     font-style: italic;
 }
-
-/* ==============================================
-   VISTA PREVIA MULTIMEDIA
-   ============================================== */
 
 .preview {
     margin-top: 20px;
@@ -175,10 +150,6 @@ input[type="file"] {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* ==============================================
-   BOTONES
-   ============================================== */
-
 button[type="submit"] {
     width: 100%;
     padding: 14px 20px;
@@ -202,9 +173,6 @@ button[type="submit"]:active {
     transform: translateY(0);
 }
 
-/* ==============================================
-   ENLACES DE NAVEGACIÓN
-   ============================================== */
 
 p a {
     color: #667eea;
@@ -218,9 +186,9 @@ p a:hover {
     text-decoration: underline;
 }
 
-/* ==============================================
-   RESPONSIVE
-   ============================================== */
+p.mt-20 {
+    margin-top: 20px;
+}
 
 @media (max-width: 768px) {
     .form-container {
@@ -235,7 +203,7 @@ p a:hover {
     input[type="number"],
     input[type="datetime-local"],
     textarea {
-        font-size: 16px; /* Previene zoom en iOS */
+        font-size: 16px;
     }
 }
 

@@ -1,7 +1,3 @@
-/* ==============================================
-   ESTILOS GLOBALES
-   ============================================== */
-
 * {
     margin: 0;
     padding: 0;
@@ -17,9 +13,6 @@ body {
     color: #333;
 }
 
-/* ==============================================
-   CONTENEDOR PRINCIPAL
-   ============================================== */
 
 .container {
     max-width: 1200px;
@@ -30,9 +23,11 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* ==============================================
-   TIPOGRAFÍA Y TÍTULOS
-   ============================================== */
+header.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .page-title {
     text-align: center;
@@ -49,9 +44,6 @@ body {
     margin-bottom: 30px;
 }
 
-/* ==============================================
-   SECCIÓN DE USUARIO
-   ============================================== */
 
 .user-section {
     margin-bottom: 25px;
@@ -73,9 +65,6 @@ body {
     font-style: italic;
 }
 
-/* ==============================================
-   BOTONES
-   ============================================== */
 
 .btn {
     display: inline-block;
@@ -110,11 +99,41 @@ body {
     box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
 }
 
-/* ==============================================
-   SECCIÓN DE HECHOS
-   ============================================== */
+.btn-admin {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    margin: 20px 0;
+    font-size: 18px;
+    padding: 16px 32px;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
 
-/* Sección de hechos oculta por defecto */
+.btn-admin:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+}
+
+.admin-section {
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 12px;
+    padding: 25px;
+    margin: 25px 0;
+    text-align: center;
+}
+
+.admin-section h3 {
+    color: #d97706;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.admin-section p {
+    color: #92400e;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
 .hechos-section {
     display: none;
 }
@@ -123,7 +142,6 @@ body {
     display: block;
 }
 
-/* Estilos para las tarjetas de hechos */
 .hecho-card {
     border: 1px solid #e0e0e0;
     border-radius: 12px;
@@ -166,9 +184,7 @@ body {
     text-decoration: underline;
 }
 
-/* ==============================================
-   MENSAJES
-   ============================================== */
+
 
 .no-hechos {
     color: #718096;
@@ -177,9 +193,7 @@ body {
     font-style: italic;
 }
 
-/* ==============================================
-   FORMULARIO DE BÚSQUEDA
-   ============================================== */
+
 
 .search-form {
     background: #f8f9fa;
@@ -271,7 +285,6 @@ body {
     box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
 }
 
-/* Estilos para resultados de búsqueda */
 .results-section {
     margin-top: 30px;
 }
@@ -340,9 +353,6 @@ body {
     text-decoration: none;
 }
 
-/* ==============================================
-   RESPONSIVE
-   ============================================== */
 
 @media (max-width: 768px) {
     .container {

@@ -94,7 +94,91 @@ Este proyecto ahora cuenta con un sistema de estilos CSS consistente y moderno q
 
 ---
 
-### 4. **dashboard.css** - Estilos para Panel Administrativo
+### 4. **busqueda-hechos.css** - Estilos para Búsqueda de Hechos con Vista Dual
+**Ubicación:** `/src/main/resources/assets/busqueda-hechos.css`  
+**Uso:** Vista de búsqueda de hechos con lista y mapa
+
+**Características:**
+- ✅ Vista dual: Lista de tarjetas y Mapa interactivo (Leaflet)
+- ✅ Formulario de búsqueda con grid responsivo
+- ✅ Controles de vista con botones de alternancia
+- ✅ Tarjetas de hechos con hover effects y badges
+- ✅ Mapa integrado con popups personalizados
+- ✅ Animaciones de transición entre vistas
+- ✅ Totalmente responsivo
+
+**Clases principales:**
+```css
+.container              /* Contenedor principal */
+.page-header            /* Encabezado con gradiente */
+.search-section         /* Sección del formulario */
+.search-form            /* Formulario de búsqueda */
+.form-grid              /* Grid para campos de búsqueda */
+.form-group             /* Grupo de formulario */
+.form-actions           /* Contenedor de botones */
+.btn-primary            /* Botón de búsqueda */
+.btn-secondary          /* Botón de limpiar */
+.results-section        /* Sección de resultados */
+.results-header         /* Encabezado de resultados */
+.badge                  /* Badge de conteo */
+.view-controls          /* Controles de alternancia */
+.btn-view               /* Botón de vista (lista/mapa) */
+.btn-view.active        /* Vista activa */
+.view-container         /* Contenedor de vista */
+.view-container.active  /* Vista visible */
+.hechos-grid            /* Grid de tarjetas */
+.hecho-card             /* Tarjeta de hecho */
+.hecho-header           /* Encabezado de tarjeta */
+.categoria-badge        /* Badge de categoría */
+.hecho-descripcion      /* Descripción del hecho */
+.hecho-details          /* Detalles del hecho */
+.detail-item            /* Item de detalle */
+.hecho-footer           /* Footer de tarjeta */
+.btn-small              /* Botón pequeño */
+#map                    /* Contenedor del mapa */
+.mapa-leyenda           /* Leyenda del mapa */
+.popup-content          /* Contenido de popup */
+.no-results             /* Mensaje sin resultados */
+```
+
+**Integración con Leaflet:**
+- Carga automática de mapa al cambiar a vista de mapa
+- Marcadores con popups informativos
+- Centrado automático basado en resultados
+- Estilos personalizados para popups
+
+---
+
+### 5. **mapa-hechos.css** - Estilos para Vista de Mapa Dedicada
+**Ubicación:** `/src/main/resources/assets/mapa-hechos.css`  
+**Uso:** Vista de mapa completa (uso independiente)
+
+**Características:**
+- ✅ Mapa de pantalla completa optimizado
+- ✅ Controles y estadísticas del mapa
+- ✅ Leyenda y tarjetas de información
+- ✅ Popups estilizados para Leaflet
+- ✅ Grid de estadísticas con gradientes
+- ✅ Responsivo para móviles
+
+**Clases principales:**
+```css
+.mapa-container         /* Contenedor del mapa */
+#map                    /* Mapa Leaflet */
+.mapa-controles         /* Controles superiores */
+.mapa-info              /* Información del mapa */
+.btn                    /* Botones de acción */
+.mapa-leyenda           /* Leyenda del mapa */
+.mapa-estadisticas      /* Grid de estadísticas */
+.stat-card              /* Tarjeta de estadística */
+.stat-value             /* Valor numérico */
+.popup-content          /* Contenido de popup */
+.categoria-badge        /* Badge de categoría */
+```
+
+---
+
+### 6. **dashboard.css** - Estilos para Panel Administrativo
 **Ubicación:** `/src/main/resources/assets/dashboard.css`  
 **Uso:** Todas las vistas del dashboard administrativo
 
@@ -207,7 +291,8 @@ Todos los archivos CSS incluyen breakpoints responsivos:
 |-------|-----------|-----------|
 | Login/Registro | `style.css` | (ninguna) |
 | Home | `main.css` | (ninguna) |
-| Búsqueda de Hechos | `main.css` | (ninguna) |
+| **Búsqueda de Hechos (Lista/Mapa)** | **`busqueda-hechos.css`** | **(ninguna)** |
+| **Mapa de Hechos Dedicado** | **`mapa-hechos.css`** | **(ninguna)** |
 | Crear Hecho/Colección | `creacion.css` | (ninguna) |
 | Dashboard Admin | `dashboard.css` | `dashboard-body` |
 | Estadísticas | `dashboard.css` | `dashboard-body` |
@@ -261,6 +346,54 @@ Todos los archivos CSS incluyen breakpoints responsivos:
 </form>
 ```
 
+### Vista Dual (Lista/Mapa)
+```html
+<!-- Controles de vista -->
+<div class="view-controls">
+  <button class="btn-view active" data-view="lista" onclick="cambiarVista('lista')">
+    📋 Lista
+  </button>
+  <button class="btn-view" data-view="mapa" onclick="cambiarVista('mapa')">
+    🗺️ Mapa
+  </button>
+</div>
+
+<!-- Vista de Lista -->
+<div id="vista-lista" class="view-container active">
+  <div class="hechos-grid">
+    <!-- Tarjetas de hechos -->
+  </div>
+</div>
+
+<!-- Vista de Mapa -->
+<div id="vista-mapa" class="view-container">
+  <div id="map"></div>
+</div>
+```
+
+### JavaScript para Cambiar Vistas
+```javascript
+function cambiarVista(vista) {
+  // Actualizar botones activos
+  document.querySelectorAll('.btn-view').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  document.querySelector(`[data-view="${vista}"]`).classList.add('active');
+
+  // Cambiar contenedores
+  document.querySelectorAll('.view-container').forEach(container => {
+    container.classList.remove('active');
+  });
+  
+  if (vista === 'lista') {
+    document.getElementById('vista-lista').classList.add('active');
+  } else if (vista === 'mapa') {
+    document.getElementById('vista-mapa').classList.add('active');
+    inicializarMapa(); // Inicializar mapa solo cuando se necesite
+  }
+}
+```
+
 ---
 
 ## ✅ Mejoras Implementadas
@@ -268,11 +401,16 @@ Todos los archivos CSS incluyen breakpoints responsivos:
 1. ✅ **Creado `style.css`** - Archivo base que faltaba con estilos globales completos
 2. ✅ **Actualizado `main.css`** - Estilos modernos para búsqueda y home
 3. ✅ **Actualizado `creacion.css`** - Estilos completos para formularios de creación
-4. ✅ **Actualizado `dashboard.css`** - Sistema completo para el dashboard administrativo
-5. ✅ **Consistencia visual** - Paleta de colores unificada
-6. ✅ **Efectos modernos** - Hover, focus, animations
-7. ✅ **Responsive design** - Funciona en todos los dispositivos
-8. ✅ **Actualizado vistas HTML** - Eliminado estilos inline, usando clases CSS
+4. ✅ **Creado `busqueda-hechos.css`** - Sistema de vista dual (lista/mapa) con controles de alternancia
+5. ✅ **Creado `mapa-hechos.css`** - Estilos especializados para vista de mapa dedicada
+6. ✅ **Actualizado `dashboard.css`** - Sistema completo para el dashboard administrativo
+7. ✅ **Vista dual interactiva** - Permite cambiar entre lista de tarjetas y mapa sin recargar
+8. ✅ **Integración con Leaflet** - Mapa interactivo con marcadores y popups personalizados
+9. ✅ **Consistencia visual** - Paleta de colores unificada en todas las vistas
+10. ✅ **Efectos modernos** - Hover, focus, animations y transiciones suaves
+11. ✅ **Responsive design** - Funciona perfectamente en todos los dispositivos
+12. ✅ **Actualizado vistas HTML** - Eliminado estilos inline, usando clases CSS
+13. ✅ **Documentación actualizada** - ESTILOS_CSS.md con ejemplos y guías de uso
 
 ---
 
@@ -280,11 +418,13 @@ Todos los archivos CSS incluyen breakpoints responsivos:
 
 - [ ] Revisar todas las vistas restantes para eliminar estilos inline
 - [ ] Agregar iconos con Font Awesome o similar
+- [ ] Implementar filtros en tiempo real en la búsqueda
+- [ ] Agregar clustering de marcadores para grandes cantidades de datos
 - [ ] Implementar modo oscuro (opcional)
 - [ ] Agregar más animaciones de transición entre páginas
 
 ---
 
-**Fecha de actualización:** 2025-01-07  
-**Estado:** ✅ Completado
+**Fecha de actualización:** 2025-11-07  
+**Estado:** ✅ Completado - Incluye vista dual (Lista/Mapa)
 
