@@ -170,7 +170,7 @@ public class ColeccionController implements WithSimplePersistenceUnit {
     var todosLosAlgoritmos = Stream.of(AlgoritmoDeConsenso.values())
         .map(algoritmo -> Map.of(
             "name", algoritmo.name(),
-            "seleccionado", algoritmo.equals(coleccionAEditar.getAlgoritmo())
+            "seleccionado", algoritmo.equals(coleccionAeditar.getAlgoritmo())
         ))
         .toList();
 
