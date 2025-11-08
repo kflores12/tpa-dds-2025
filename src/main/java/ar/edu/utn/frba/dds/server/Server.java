@@ -57,7 +57,7 @@ public class Server {
       boolean isProtected = protectedPaths.stream().anyMatch(requestPath::startsWith);
 
       if (isProtected) {
-        boolean hasPermission = (userRole == AppRole.USER || userRole == AppRole.ADMIN);
+        boolean hasPermission = (userRole == AppRole.ADMIN);
 
         if (!hasPermission) {
           ctx.redirect("/login");
