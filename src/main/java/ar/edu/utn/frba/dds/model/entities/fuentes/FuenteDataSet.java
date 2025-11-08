@@ -2,8 +2,8 @@ package ar.edu.utn.frba.dds.model.entities.fuentes;
 
 import static java.util.Objects.requireNonNull;
 
-import ar.edu.utn.frba.dds.model.entities.Hecho;
 import ar.edu.utn.frba.dds.model.dtos.HechoDto;
+import ar.edu.utn.frba.dds.model.entities.Hecho;
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;

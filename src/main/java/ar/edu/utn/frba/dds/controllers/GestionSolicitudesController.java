@@ -1,8 +1,7 @@
 package ar.edu.utn.frba.dds.controllers;
 
-
-import ar.edu.utn.frba.dds.model.entities.solicitudes.SolicitudDeEliminacion;
 import ar.edu.utn.frba.dds.model.entities.solicitudes.SolicitudDeCarga;
+import ar.edu.utn.frba.dds.model.entities.solicitudes.SolicitudDeEliminacion;
 import ar.edu.utn.frba.dds.repositories.RepositorioSolicitudesDeCarga;
 import ar.edu.utn.frba.dds.repositories.RepositorioSolicitudesEliminacion;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;

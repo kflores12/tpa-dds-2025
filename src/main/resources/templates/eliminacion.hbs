@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>{{titulo}}</title>
-  <link rel="stylesheet" href="/assets/style.css">
+    <meta charset="UTF-8">
+    <title>{{titulo}}</title>
+    <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
   <div class="container">
     <h1>{{titulo}}</h1>
 
     {{#if flash_error}}
-      <div style="background-color: #ffdddd; color: #a00; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+      <div class="alert alert-error">
         ⚠️ {{flash_error}}
       </div>
     {{/if}}
@@ -19,32 +19,34 @@
       Estás solicitando la eliminación del siguiente hecho:
     </p>
 
-    <div style="border: 1px solid #ccc; padding: 10px; border-radius: 6px; margin-bottom: 20px;">
-      <strong>ID:</strong> {{hecho.id}}<br>
-      <strong>Título:</strong> {{hecho.titulo}}<br>
-      <strong>Categoría:</strong> {{hecho.categoria}}<br>
-      <strong>Descripción:</strong> {{hecho.descripcion}}<br>
-      <strong>Fecha de acontecimiento:</strong> {{hecho.fechaAcontecimiento}}<br>
+    <div class="hecho-card">
+      <p><strong>ID:</strong> {{hecho.id}}</p>
+      <p><strong>Título:</strong> {{hecho.titulo}}</p>
+      <p><strong>Categoría:</strong> {{hecho.categoria}}</p>
+      <p><strong>Descripción:</strong> {{hecho.descripcion}}</p>
+      <p><strong>Fecha de acontecimiento:</strong> {{hecho.fechaAcontecimiento}}</p>
     </div>
 
-    <form action="/solicitudes" method="post" style="display: flex; flex-direction: column; width: 60%;">
+    <form action="/solicitudes" method="post">
       <input type="hidden" name="hechoId" value="{{hechoId}}">
 
-      <label for="motivo"><strong>Motivo de la solicitud:</strong></label>
-      <textarea id="motivo" name="motivo" rows="5" maxlength="500" required
-                placeholder="Explica brevemente por qué debería eliminarse este hecho..."></textarea>
+      <div class="form-group">
+        <label for="motivo"><strong>Motivo de la solicitud:</strong></label>
+        <textarea id="motivo" name="motivo" rows="5" maxlength="500" required
+                  placeholder="Explica brevemente por qué debería eliminarse este hecho..."></textarea>
+      </div>
 
-      <div style="margin-top: 10px;">
+      <div class="form-group">
         <label>
           <input type="checkbox" name="esSpam" value="true">
           Marcar como SPAM (reportar contenido inapropiado o falso)
         </label>
       </div>
 
-      <button type="submit" style="margin-top: 20px;">Enviar Solicitud</button>
+      <button type="submit" class="btn">Enviar Solicitud</button>
     </form>
 
-    <p style="margin-top: 20px;">
+    <p class="mt-2">
       <a href="/home">⬅️ Volver al inicio</a>
     </p>
   </div>

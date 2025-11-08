@@ -3,8 +3,9 @@ package ar.edu.utn.frba.dds.service;
 import ar.edu.utn.frba.dds.model.entities.User;
 import ar.edu.utn.frba.dds.repositories.RepositorioUsuarios;
 import ar.edu.utn.frba.dds.server.AppRole;
-import org.mindrot.jbcrypt.BCrypt;
 import java.util.Optional;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 public class ServicioAutenticacion {
 

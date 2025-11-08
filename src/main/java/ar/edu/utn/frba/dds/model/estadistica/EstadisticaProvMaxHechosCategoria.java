@@ -20,43 +20,62 @@ import java.util.Map;
 
 public class EstadisticaProvMaxHechosCategoria implements Estadistica, WithSimplePersistenceUnit {
 
-  List<EstadisticaProvMaxHechosCategoria.EstPMHCategoriaDTO> reporte = new ArrayList<EstadisticaProvMaxHechosCategoria.EstPMHCategoriaDTO>();
+  List<EstadisticaProvMaxHechosCategoria.Estpmhcategoriadto> reporte =
+      new ArrayList<EstadisticaProvMaxHechosCategoria.Estpmhcategoriadto>();
 
-  public record EstPMHCategoriaDTO(String categoria, String provincia, BigInteger cantidad) {}
+  public record Estpmhcategoriadto(String categoria, String provincia, BigInteger cantidad) {}
 
   public EstadisticaProvMaxHechosCategoria() {}
 
   @Override
   public void calcularEstadistica() {
 
-    List<Object[]> listaDTO = entityManager()
+    List<Object[]> listaDto = entityManager()
         .createNativeQuery(
-            "SELECT a.categoria, a.provincia, a.cantidad\n" +
-                "FROM (\n" +
-                "  SELECT categoria, provincia, COUNT(*) AS cantidad\n" +
-                "  FROM hechos\n" +
-                "  GROUP BY categoria, provincia\n" +
-                ") a\n" +
-                "LEFT JOIN (\n" +
-                "  SELECT categoria, provincia, COUNT(*) AS cantidad\n" +
-                "  FROM hechos\n" +
-                "  GROUP BY categoria, provincia\n" +
-                ") b\n" +
-                "  ON a.categoria = b.categoria\n" +
-                " AND b.cantidad > a.cantidad\n" +
+            "SELECT a.categoria, a.provincia, a.cantidad\n"
+                +
+                "FROM (\n"
+                +
+                "  SELECT categoria, provincia, COUNT(*) AS cantidad\n"
+                +
+                "  FROM hechos\n"
+                +
+                "  GROUP BY categoria, provincia\n"
+                +
+                ") a\n"
+                +
+                "LEFT JOIN (\n"
+                +
+                "  SELECT categoria, provincia, COUNT(*) AS cantidad\n"
+                +
+                "  FROM hechos\n"
+                +
+                "  GROUP BY categoria, provincia\n"
+                +
+                ") b\n"
+                +
+                "  ON a.categoria = b.categoria\n"
+                +
+                " AND b.cantidad > a.cantidad\n"
+                +
                 "WHERE b.categoria IS NULL;")
         .getResultList();
 
-    List<EstadisticaProvMaxHechosCategoria.EstPMHCategoriaDTO> lista = new ArrayList<>();
-
-    for (Object[] r : listaDTO) {
+    for (Object[] r : listaDto) {
       String categoria = (String) r[0];
       String provincia = (String) r[1];
       BigInteger cantidad = (BigInteger) r[2];
-      reporte.add(new EstadisticaProvMaxHechosCategoria.EstPMHCategoriaDTO(categoria,provincia,cantidad));
+      reporte.add(new EstadisticaProvMaxHechosCategoria.Estpmhcategoriadto(
+          categoria,
+          provincia,
+          cantidad));
     }
 
-    reporte.forEach(dto -> System.out.printf("Categoria: %s | Provincia: %s | Cantidad %d%n", dto.categoria(), dto.provincia(), dto.cantidad()));
+    reporte.forEach(dto -> System.out.printf(
+        "Categoria: %s | Provincia: %s | Cantidad %d%n",
+        dto.categoria(),
+        dto.provincia(),
+        dto.cantidad()));
 
   }
 
@@ -82,8 +101,8 @@ public class EstadisticaProvMaxHechosCategoria implements Estadistica, WithSimpl
     }
   }
 
-  public List<EstadisticaProvMaxHechosCategoria.EstPMHCategoriaDTO> getReporte() {
-    return reporte;
+  public List<EstadisticaProvMaxHechosCategoria.Estpmhcategoriadto> getReporte() {
+    return new ArrayList<>(reporte);
   }
 
 }

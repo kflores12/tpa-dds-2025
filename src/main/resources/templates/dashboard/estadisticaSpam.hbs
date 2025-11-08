@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <title>Cantidad de Solicitudes de Spam</title>
     <link rel="stylesheet" href="/assets/dashboard.css">
-
-    <style>
-        .solicitud-botones form {
-            display: inline-block;
-        }
-    </style>
 </head>
 <body class="dashboard-body">
 
@@ -24,15 +18,14 @@
         <section class="solicitudes-lista">
 
             <h2>Cantidad de Solicitudes</h2>
-            <style> table, th, td {border: 1px solid black;} table { border-collapse: collapse; } </style>
-            <table class="tabla">
+            <table class="tabla tabla-bordered">
             <thead><tr><th>Fecha</th><th>Cantidad de Solicitudes</th></tr></thead>
             <tbody>
             {{#each cantidadSpam}}
                 {{#if @first}}
                         <tr>
-                            <td style="text-align: center;">{{fecha}}</td>
-                            <td style="text-align: center;">{{cantidadSpam}}</td>
+                            <td class="text-center">{{fecha}}</td>
+                            <td class="text-center">{{cantidadSpam}}</td>
                         </tr>
                 {{/if }}
             {{/each}}

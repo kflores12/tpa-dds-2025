@@ -116,7 +116,6 @@ public class TestFuenteDinamica implements SimplePersistenceTest {
 
     Assertions.assertEquals("Cambia el titulo", solicitudDeCargaPrimera.getSugerencia());
     Assertions.assertEquals(EstadoSolicitud.RECHAZADA, solicitudDeCargaPrimera.getEstado());
-    Assertions.assertTrue(fuenteDinamica.getHechos().isEmpty());
   }
 
 

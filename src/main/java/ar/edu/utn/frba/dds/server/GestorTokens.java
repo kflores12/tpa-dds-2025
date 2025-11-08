@@ -1,12 +1,11 @@
 package ar.edu.utn.frba.dds.server;
 
+import ar.edu.utn.frba.dds.model.entities.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import ar.edu.utn.frba.dds.model.entities.User;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 

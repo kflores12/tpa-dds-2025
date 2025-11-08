@@ -44,7 +44,9 @@ public class Server {
             String roleString = jwt.getClaim("role").asString();
             userRole = AppRole.valueOf(roleString);
             ctx.attribute("username", jwt.getSubject());
-          } catch (Exception e) {  }
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
         } else {
           ctx.removeCookie("jwt_token", "/");
         }
@@ -57,7 +59,7 @@ public class Server {
       boolean isProtected = protectedPaths.stream().anyMatch(requestPath::startsWith);
 
       if (isProtected) {
-        boolean hasPermission = (userRole == AppRole.USER || userRole == AppRole.ADMIN);
+        boolean hasPermission = (userRole == AppRole.ADMIN);
 
         if (!hasPermission) {
           ctx.redirect("/login");

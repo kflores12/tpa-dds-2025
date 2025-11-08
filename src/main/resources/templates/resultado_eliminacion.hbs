@@ -1,49 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>{{titulo}}</title>
-  <link rel="stylesheet" href="/assets/style.css">
+    <meta charset="UTF-8">
+    <title>{{titulo}}</title>
+    <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
   <div class="container">
     {{#if esSpam}}
-      <h1 style="color: red;">❌ Solicitud Rechazada (SPAM)</h1>
+      <h1 class="error-title">❌ Solicitud Rechazada (SPAM)</h1>
     {{else}}
-      <h1 style="color: green;">✅ Solicitud Procesada</h1>
+      <h1 class="success-title">✅ Solicitud Procesada</h1>
     {{/if}}
 
     {{#if mensajeFlash}}
-      <div style="background-color: #e8f4e8; border-left: 5px solid #4caf50; padding: 10px; margin-bottom: 20px;">
+      <div class="alert alert-success">
         {{mensajeFlash}}
       </div>
     {{/if}}
 
     <h2>Detalles de la Solicitud</h2>
-    <table border="1" style="width: 70%; border-collapse: collapse; margin-top: 10px;">
-      <tr>
-        <td><strong>ID de Solicitud:</strong></td>
-        <td>{{solicitud.id}}</td>
-      </tr>
-      <tr>
-        <td><strong>Estado Actual:</strong></td>
-        <td>{{estado}}</td>
-      </tr>
-      <tr>
-        <td><strong>Hecho Asociado:</strong></td>
-        <td>{{solicitud.hecho.id}} - {{solicitud.hecho.titulo}}</td>
-      </tr>
-      <tr>
-        <td><strong>Motivo Enviado:</strong></td>
-        <td>{{solicitud.motivo}}</td>
-      </tr>
-      <tr>
-        <td><strong>Clasificado como SPAM:</strong></td>
-        <td>{{#if esSpam}}Sí{{else}}No{{/if}}</td>
-      </tr>
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>ID de Solicitud:</strong></td>
+          <td>{{solicitud.id}}</td>
+        </tr>
+        <tr>
+          <td><strong>Estado Actual:</strong></td>
+          <td>{{estado}}</td>
+        </tr>
+        <tr>
+          <td><strong>Hecho Asociado:</strong></td>
+          <td>{{solicitud.hecho.id}} - {{solicitud.hecho.titulo}}</td>
+        </tr>
+        <tr>
+          <td><strong>Motivo Enviado:</strong></td>
+          <td>{{solicitud.motivo}}</td>
+        </tr>
+        <tr>
+          <td><strong>Clasificado como SPAM:</strong></td>
+          <td>{{#if esSpam}}Sí{{else}}No{{/if}}</td>
+        </tr>
+      </tbody>
     </table>
 
-    <p style="margin-top: 30px;">
+    <p class="mt-3">
       <a href="/home">⬅️ Volver al inicio</a>
     </p>
   </div>

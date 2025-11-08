@@ -22,47 +22,74 @@ import java.util.Map;
 
 public class EstadisticaHoraHechosCategoria implements Estadistica, WithSimplePersistenceUnit {
 
-  List<EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO> reporte = new ArrayList<EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO>();
+  List<EstadisticaHoraHechosCategoria.Categoriahorapicodto> reporte =
+      new ArrayList<EstadisticaHoraHechosCategoria.Categoriahorapicodto>();
 
-  public record categoriaHoraPicoDTO(String categoria, String hora_pico, BigInteger cantidad) {}
+  public record Categoriahorapicodto(String categoria, String horapico, BigInteger cantidad) {}
 
   @Override
   public void calcularEstadistica() {
 
-    List<Object[]> listaDTO = entityManager()
-        .createNativeQuery("SELECT subq.categoria, subq.fechaAcontecimiento as hora_pico, subq.cantidad\n" +
-            "                        FROM (\n" +
-            "                          SELECT\n" +
-            "                            h.categoria,\n" +
-            "                            'hora pico' as fechaAcontecimiento,\n" +
-            "                            COUNT(*) AS cantidad \n" +
-            "                          FROM hechos h\n" +
-            "                          GROUP BY h.categoria, h.fechaAcontecimiento\n" +
-            "                        ) subq\n" +
-            "                        LEFT JOIN (\n" +
-            "                          SELECT\n" +
-            "                            h.categoria,\n" +
-            "                            'hora pico' as fechaAcontecimiento,\n" +
-            "                            COUNT(*) AS cantidad \n" +
-            "                          FROM hechos h\n" +
-            "                          GROUP BY h.categoria, h.fechaAcontecimiento\n" +
-            "                        ) subq2\n" +
-            "                        ON subq.categoria = subq2.categoria\n" +
-            "                AND subq2.cantidad > subq.cantidad\n" +
-            "                WHERE subq2.categoria IS NULL;"
+    List<Object[]> listaDto = entityManager()
+        .createNativeQuery("SELECT subq.categoria, subq.fechaAcontecimiento as hora_pico, "
+            +
+            "subq.cantidad\n"
+            +
+            "FROM (\n"
+            +
+            "SELECT\n"
+            +
+            "h.categoria,\n"
+            +
+            "'hora pico' as fechaAcontecimiento,\n"
+            +
+            "COUNT(*) AS cantidad \n"
+            +
+            "FROM hechos h\n"
+            +
+            "GROUP BY h.categoria, h.fechaAcontecimiento\n"
+            +
+            ") subq\n"
+            +
+            "LEFT JOIN (\n"
+            +
+            "SELECT\n"
+            +
+            "h.categoria,\n"
+            +
+            "'hora pico' as fechaAcontecimiento,\n"
+            +
+            "COUNT(*) AS cantidad \n"
+            +
+            "FROM hechos h\n"
+            +
+            "GROUP BY h.categoria, h.fechaAcontecimiento\n"
+            +
+            ") subq2\n"
+            +
+            "ON subq.categoria = subq2.categoria\n"
+            +
+            "AND subq2.cantidad > subq.cantidad\n"
+            +
+            "WHERE subq2.categoria IS NULL;"
         )
         .getResultList();
 
-    List<EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO> lista = new ArrayList<>();
-
-    for (Object[] r : listaDTO) {
+    for (Object[] r : listaDto) {
       String categoria = (String) r[0];
-      String hora_pico  = (String) r[1];
+      String horapico  = (String) r[1];
       BigInteger cantidad  = (BigInteger) r[2];
-      reporte.add(new EstadisticaHoraHechosCategoria.categoriaHoraPicoDTO(categoria, hora_pico, cantidad));
+      reporte.add(new EstadisticaHoraHechosCategoria.Categoriahorapicodto(
+          categoria,
+          horapico,
+          cantidad));
     }
 
-    reporte.forEach(dto -> System.out.printf("Categoria: %s | Hora: %s | Cantidad: %d%n", dto.categoria(), dto.hora_pico(), dto.cantidad()));
+    reporte.forEach(dto -> System.out.printf(
+        "Categoria: %s | Hora: %s | Cantidad: %d%n",
+        dto.categoria(),
+        dto.horapico(),
+        dto.cantidad()));
   }
 
 
@@ -84,14 +111,14 @@ public class EstadisticaHoraHechosCategoria implements Estadistica, WithSimplePe
       reporte.forEach(dto ->
           writer.writeNext(new String[]{LocalDateTime.now().toString(),
               dto.categoria() != null ? dto.categoria() : "N/A",
-              dto.hora_pico != null ? dto.hora_pico() : "N/A"}));
+              dto.horapico != null ? dto.horapico() : "N/A"}));
 
 
     }
 
   }
 
-  public List<categoriaHoraPicoDTO> getReporte() {
-    return reporte;
+  public List<Categoriahorapicodto> getReporte() {
+    return new ArrayList<>(reporte);
   }
 }

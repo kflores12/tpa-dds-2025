@@ -142,7 +142,7 @@ public class SolicitudDeCarga {
   }
 
   public Hecho getHechoCreado() {
-    return hechoCreado;
+    return new Hecho(hechoCreado);
   }
 
   public boolean esRegistrado() {

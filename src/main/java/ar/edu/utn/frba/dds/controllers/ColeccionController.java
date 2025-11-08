@@ -11,7 +11,6 @@ import ar.edu.utn.frba.dds.repositories.RepositorioCriterios;
 import ar.edu.utn.frba.dds.repositories.RepositorioFuentes;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,36 +70,49 @@ public class ColeccionController implements WithSimplePersistenceUnit {
         List<Criterio> criterios = new ArrayList<>();
 
         // --- Criterios de pertenencia seleccionados ---
+
         if (ctx.formParam("criterioTitulo") != null) {
           String valor = ctx.formParam("criterioTituloValor");
-          if (valor != null && !valor.isEmpty()) criterios.add(new CriterioTitulo(valor));
+          if (valor != null && !valor.isEmpty()) {
+            criterios.add(new CriterioTitulo(valor));
+
+          }
         }
 
         if (ctx.formParam("criterioCategoria") != null) {
           String valor = ctx.formParam("criterioCategoriaValor");
-          if (valor != null && !valor.isEmpty()) criterios.add(new CriterioCategoria(valor));
+          if (valor != null && !valor.isEmpty()) {
+            criterios.add(new CriterioCategoria(valor));
+          }
         }
 
         if (ctx.formParam("criterioDescripcion") != null) {
           String valor = ctx.formParam("criterioDescripcionValor");
-          if (valor != null && !valor.isEmpty()) criterios.add(new CriterioDescripcion(valor));
+          if (valor != null && !valor.isEmpty()) {
+            criterios.add(new CriterioDescripcion(valor));
+          }
         }
 
         if (ctx.formParam("criterioFecha") != null) {
           String valor = ctx.formParam("criterioFechaValor");
-          if (valor != null && !valor.isEmpty()) criterios.add(new CriterioFecha(LocalDate.parse(valor)));
+          if (valor != null && !valor.isEmpty()) {
+            criterios.add(new CriterioFecha(LocalDate.parse(valor)));
+          }
         }
 
         if (ctx.formParam("criterioFechaCarga") != null) {
           String valor = ctx.formParam("criterioFechaCargaValor");
-          if (valor != null && !valor.isEmpty()) criterios.add(new CriterioFechaCarga(LocalDate.parse(valor)));
+          if (valor != null && !valor.isEmpty()) {
+            criterios.add(new CriterioFechaCarga(LocalDate.parse(valor)));
+          }
         }
 
         if (ctx.formParam("criterioRango") != null) {
           String desdeStr = ctx.formParam("criterioRangoDesde");
           String hastaStr = ctx.formParam("criterioRangoHasta");
           if (desdeStr != null && hastaStr != null && !desdeStr.isEmpty() && !hastaStr.isEmpty()) {
-            criterios.add(new CriterioRangoFechas(LocalDate.parse(desdeStr), LocalDate.parse(hastaStr)));
+            criterios.add(new CriterioRangoFechas(LocalDate.parse(desdeStr),
+                LocalDate.parse(hastaStr)));
           }
         }
 
@@ -108,7 +120,9 @@ public class ColeccionController implements WithSimplePersistenceUnit {
           String latStr = ctx.formParam("criterioLatitudValor");
           String lonStr = ctx.formParam("criterioLongitudValor");
           if (latStr != null && lonStr != null && !latStr.isEmpty() && !lonStr.isEmpty()) {
-            criterios.add(new CriterioUbicacion(Double.parseDouble(latStr), Double.parseDouble(lonStr)));
+            criterios.add(
+                new CriterioUbicacion(Double.parseDouble(latStr), Double.parseDouble(lonStr))
+            );
           }
         }
 
@@ -128,36 +142,27 @@ public class ColeccionController implements WithSimplePersistenceUnit {
     ctx.redirect("/dashboard/colecciones/crear");
   }
 
-  private String getHardcodedNombreCriterio(Long id) {
-    switch (id.intValue()) {
-      case 1: return "Por Categoría";
-      case 2: return "Por Descripción";
-      case 3: return "Por Fecha";
-      case 4: return "Por Fecha de Carga";
-      case 5: return "Por Rango de Fechas";
-      case 6: return "Por Ubicación";
-      case 7: return "Por Título";
-      default: return "Criterio Desconocido (ID: " + id + ")";
-    }
-  }
 
   public void mostrarColecciones(Context ctx) {
     var colecciones = repoColecciones.getColecciones();
+
     Map<String, Object> model = new HashMap<>();
     model.put("colecciones", colecciones);
+
     String flashMessage = ctx.sessionAttribute("flash_message");
     if (flashMessage != null) {
       model.put("flash_message", flashMessage);
       ctx.sessionAttribute("flash_message", null);
     }
+
     ctx.render("/dashboard/listado-colecciones.hbs", model);
   }
 
   public void mostrarFormularioEdicion(Context ctx) {
     Long id = ctx.pathParamAsClass("id", Long.class).get();
-    Coleccion coleccionAEditar = repoColecciones.getColeccionById(id);
+    Coleccion coleccionAeditar = repoColecciones.getColeccionById(id);
 
-    if (coleccionAEditar == null) {
+    if (coleccionAeditar == null) {
       ctx.status(404).result("Colección no encontrada");
       return;
     }
@@ -170,7 +175,7 @@ public class ColeccionController implements WithSimplePersistenceUnit {
         .toList();
 
     Map<String, Object> model = Map.of(
-        "coleccion", coleccionAEditar,
+        "coleccion", coleccionAeditar,
         "todosLosAlgoritmos", todosLosAlgoritmos
     );
 
@@ -197,4 +202,16 @@ public class ColeccionController implements WithSimplePersistenceUnit {
     ctx.redirect("/dashboard/colecciones/modificar");
   }
 
+  private String getHardcodedNombreCriterio(Long id) {
+    switch (id.intValue()) {
+      case 1: return "Por Categoría";
+      case 2: return "Por Descripción";
+      case 3: return "Por Fecha";
+      case 4: return "Por Fecha de Carga";
+      case 5: return "Por Rango de Fechas";
+      case 6: return "Por Ubicación";
+      case 7: return "Por Título";
+      default: return "Criterio Desconocido (ID: " + id + ")";
+    }
+  }
 }

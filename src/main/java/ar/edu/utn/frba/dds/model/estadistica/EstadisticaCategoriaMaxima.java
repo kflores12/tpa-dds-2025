@@ -12,30 +12,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstadisticaCategoriaMaxima implements Estadistica, WithSimplePersistenceUnit {
-  List<categoriaMaxDTO> reporte = new ArrayList<categoriaMaxDTO>();
+  List<Categoriamaxdto> reporte = new ArrayList<Categoriamaxdto>();
 
-  public record categoriaMaxDTO(String categoria, Integer cantidad_hechos) {}
+  public record Categoriamaxdto(String categoria, Integer cantidadHechos) {}
 
   @Override public void calcularEstadistica() {
-    List<Object[]> listaDTO = entityManager()
-        .createQuery("SELECT " +
-            "h.categoria," +
-            "COUNT(h) as cantidad_hechos " +
-            "FROM Hecho h " +
-            "GROUP BY h.categoria " +
+    List<Object[]> listaDto = entityManager()
+        .createQuery("SELECT "
+                +
+            "h.categoria,"
+                +
+            "COUNT(h) as cantidad_hechos "
+                +
+            "FROM Hecho h "
+                +
+            "GROUP BY h.categoria "
+                +
             "ORDER BY COUNT(h) DESC",
             Object[].class
         ).getResultList();
 
-    List<categoriaMaxDTO> lista = new ArrayList<>();
-
-    for (Object[] r : listaDTO) {
+    for (Object[] r : listaDto) {
       String categoria = (String) r[0];
-      int cantidad_hechos  = ((Number) r[1]).intValue();
-      reporte.add(new categoriaMaxDTO(categoria, cantidad_hechos));
+      int cantidadhechos  = ((Number) r[1]).intValue();
+      reporte.add(new Categoriamaxdto(categoria, cantidadhechos));
     }
 
-    reporte.forEach(dto -> System.out.printf("Nombre: %s | Cantidad: %d%n", dto.categoria(), dto.cantidad_hechos()));
+    reporte.forEach(dto -> System.out.printf("Nombre: %s | Cantidad: %d%n",
+        dto.categoria(), dto.cantidadHechos()));
   }
 
   @Override
@@ -57,13 +61,13 @@ public class EstadisticaCategoriaMaxima implements Estadistica, WithSimplePersis
       reporte.forEach(dto ->
           writer.writeNext(new String[]{LocalDateTime.now().toString(),
               dto.categoria() != null ? dto.categoria() : "N/A",
-              String.valueOf(dto.cantidad_hechos() != null ? dto.cantidad_hechos() : 0)}));
+              String.valueOf(dto.cantidadHechos() != null ? dto.cantidadHechos() : 0)}));
 
     }
   }
 
-  public List<categoriaMaxDTO> getReporte() {
-    return reporte;
+  public List<Categoriamaxdto> getReporte() {
+    return new ArrayList<>(reporte);
   }
 
 }

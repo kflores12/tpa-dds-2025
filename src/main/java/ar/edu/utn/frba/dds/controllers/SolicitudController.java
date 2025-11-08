@@ -7,10 +7,11 @@ import ar.edu.utn.frba.dds.repositories.RepositorioHechos;
 import ar.edu.utn.frba.dds.repositories.RepositorioSolicitudesEliminacion;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+
+
 
 
 public class SolicitudController implements WithSimplePersistenceUnit {
@@ -69,7 +70,6 @@ public class SolicitudController implements WithSimplePersistenceUnit {
 
       hechoId = Long.parseLong(hechoIdStr);
       String motivo = ctx.formParam("motivo");
-      boolean esSpam = Boolean.parseBoolean(ctx.formParam("esSpam"));
 
       if (motivo == null || motivo.isBlank()) {
         ctx.sessionAttribute("flash_error", "Debe ingresar un motivo para la solicitud.");
@@ -93,11 +93,14 @@ public class SolicitudController implements WithSimplePersistenceUnit {
         return;
       }
 
+      boolean esSpam = Boolean.parseBoolean(ctx.formParam("esSpam"));
       // --- Estado inicial según si es spam ---
-      EstadoSolicitud estadoInicial = esSpam ? EstadoSolicitud.RECHAZADA : EstadoSolicitud.PENDIENTE;
+      EstadoSolicitud estadoInicial = esSpam
+          ? EstadoSolicitud.RECHAZADA : EstadoSolicitud.PENDIENTE;
 
       // --- Crear y persistir la solicitud ---
-      SolicitudDeEliminacion solicitud = new SolicitudDeEliminacion(hecho, motivo, estadoInicial, esSpam);
+      SolicitudDeEliminacion solicitud = new SolicitudDeEliminacion(hecho, motivo,
+          estadoInicial, esSpam);
       withTransaction(() -> repoSolicitudes.cargarSolicitudEliminacion(solicitud));
 
       // --- Feedback para el usuario ---
@@ -119,7 +122,8 @@ public class SolicitudController implements WithSimplePersistenceUnit {
       ctx.redirect("/home");
 
     } catch (Exception e) {
-      ctx.sessionAttribute("flash_error", "Error inesperado al procesar la solicitud: " + e.getMessage());
+      ctx.sessionAttribute("flash_error", "Error inesperado al procesar la solicitud: "
+          + e.getMessage());
       ctx.status(500);
       ctx.redirect("/home");
     }

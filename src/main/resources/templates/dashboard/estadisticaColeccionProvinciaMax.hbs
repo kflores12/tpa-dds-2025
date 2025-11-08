@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <title>Provincia maxima de cada Coleccion</title>
     <link rel="stylesheet" href="/assets/dashboard.css">
-
-    <style>
-        .solicitud-botones form {
-            display: inline-block;
-        }
-    </style>
 </head>
 <body class="dashboard-body">
 
@@ -24,16 +18,15 @@
         <section class="solicitudes-lista">
 
             <h2>Coleccion Provincia Maxima</h2>
-            <style> table, th, td {border: 1px solid black;} table { border-collapse: collapse; } </style>
-            <table class="tabla">
+            <table class="tabla tabla-bordered">
             <thead><tr><th>Fecha</th><th>Coleccion</th><th>Provincia</th><th>Cantidad de hechos</th></tr></thead>
             <tbody>
             {{#each reporte}}
                         <tr>
-                            <td style="text-align: center;">{{fecha}}</td>
-                            <td style="text-align: center;">{{this.coleccion}}</td>
-                            <td style="text-align: center;">{{this.provincia}}</td>
-                            <td style="text-align: center;">{{this.cantidad}}</td>
+                            <td class="text-center">{{fecha}}</td>
+                            <td class="text-center">{{this.coleccion}}</td>
+                            <td class="text-center">{{this.provincia}}</td>
+                            <td class="text-center">{{this.cantidad}}</td>
                         </tr>
             {{/each}}
             </tbody>
