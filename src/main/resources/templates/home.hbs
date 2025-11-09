@@ -1,48 +1,81 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>{{titulo}}</title>
-    <link rel="stylesheet" href="/assets/main.css">
-</head>
-<body>
-<div class="container">
-    <header class="page-header">
-      <h1>{{titulo}}</h1>
-      <nav>
-        {{#if esRegistrado}}
-          <span>👤 {{username}}</span>
-            {{#if esAdmin}}
-                | <a href="/dashboard">Panel de Admin</a>
-            {{/if}}
-          <a href="/logout">Cerrar sesión</a>
-        {{else}}
-          <a href="/login">Iniciar sesión</a> |
-          <a href="/register">Registrarse</a>
-        {{/if}}
-      </nav>
-    </header>
+{{#partial "contenido-header"}}
+  {{#if esRegistrado}}
+    <span>👤 {{username}}</span>
+    {{#if esAdmin}}
+      | <a href="/dashboard" class="link-primary">Panel Admin</a>
+    {{/if}}
+    <a href="/logout" class="link-danger">Cerrar sesión</a>
+  {{else}}
+    <a href="/login" class="link-primary">Iniciar sesión</a> |
+    <a href="/register" class="link-primary">Registrarse</a>
+  {{/if}}
+{{/partial}}
 
-    <p>{{mensaje}}</p>
+{{#partial "contenido"}}
+  <div class="text-center mb-4">
+    <p class="lead">{{mensaje}}</p>
 
-    <hr>
+    <div class="d-flex flex-wrap justify-content-center gap-3 my-3">
+      <a href="/hechos/buscar" class="btn btn-primary">🔍 Buscar Hechos</a>
+      <a href="/hechos/nuevo" class="btn btn-success">📝 Cargar Nuevo Hecho</a>
+    </div>
 
     {{#if esAdmin}}
-    <div class="admin-section">
-        <h3>🛡️ Panel de Administrador</h3>
-        <p>Accede a todas las funciones administrativas: gestión de solicitudes, estadísticas, colecciones y más.</p>
-        <a href="/dashboard" class="btn btn-admin">⚙️ Ir al Panel de Administración</a>
-    </div>
-    <hr>
+      <div class="alert alert-warning shadow-sm mt-3">
+        🛡️ <strong>Panel de Administrador:</strong> Gestioná solicitudes, estadísticas y colecciones.
+        <br><a href="/dashboard" class="btn btn-warning mt-2">Ir al Panel</a>
+      </div>
     {{/if}}
+  </div>
 
-    <div class="user-section">
-        <a href="/hechos/buscar" class="btn">🔍 Buscar Hechos</a>
-        <a href="/hechos/nuevo" class="btn">📝 Cargar Nuevo Hecho</a>
+  <section class="map-section my-4">
+    <h2 class="text-primary mb-3 text-center">🗺️ Mapa de Hechos Disponibles</h2>
+    <div id="map" class="rounded shadow" style="height:65vh;"></div>
+    <div class="mapa-leyenda mt-2 text-muted text-center">
+      📍 Haz clic en un marcador para ver detalles del hecho.
     </div>
+  </section>
 
-    <hr>
-    <p><a href="/home">🔄 Actualizar página</a></p>
-</div>
-</body>
-</html>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const hechos = [
+        {{#each hechos}}
+        {
+          titulo: "{{this.titulo}}",
+          descripcion: "{{this.descripcion}}",
+          categoria: "{{this.categoria}}",
+          latitud: {{this.latitud}},
+          longitud: {{this.longitud}},
+          fechaAcontecimiento: "{{this.fechaAcontecimiento}}",
+          id: {{this.id}}
+        }{{#unless @last}},{{/unless}}
+        {{/each}}
+      ];
+
+      if (hechos.length === 0) return;
+
+      const latProm = hechos.reduce((sum, h) => sum + h.latitud, 0) / hechos.length;
+      const lonProm = hechos.reduce((sum, h) => sum + h.longitud, 0) / hechos.length;
+
+      const mapa = L.map('map').setView([latProm, lonProm], 10);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18
+      }).addTo(mapa);
+
+      hechos.forEach(hecho => {
+        const marker = L.marker([hecho.latitud, hecho.longitud]).addTo(mapa);
+        const popup = `
+          <div style="max-width:200px;">
+            <h6>${hecho.titulo}</h6>
+            <p><strong>Categoría:</strong> ${hecho.categoria}</p>
+            <p>${hecho.descripcion}</p>
+            <a href="/hechos/${hecho.id}/solicitud" class="btn btn-sm btn-outline-danger">Eliminar</a>
+          </div>`;
+        marker.bindPopup(popup);
+      });
+    });
+  </script>
+{{/partial}}
+
+{{>templates/layout}}
