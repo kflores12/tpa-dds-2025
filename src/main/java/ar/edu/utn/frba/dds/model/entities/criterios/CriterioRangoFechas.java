@@ -20,6 +20,16 @@ public class CriterioRangoFechas extends Criterio {
   }
 
   public CriterioRangoFechas() {
+    this.desde = LocalDate.now().minusDays(7);
+    this.hasta = LocalDate.now();
+  }
+
+  public void setDesde(LocalDate desde) {
+    this.desde = desde;
+  }
+
+  public void setHasta(LocalDate hasta) {
+    this.hasta = hasta;
   }
 
   @Override

@@ -13,6 +13,11 @@ public class CriterioFecha extends Criterio {
   LocalDate fechaAcontecimiento;
 
   public CriterioFecha() {
+    this.fechaAcontecimiento = LocalDate.now();
+  }
+
+  public void setFechaAcontecimiento(LocalDate fechaAcontecimiento) {
+    this.fechaAcontecimiento = fechaAcontecimiento;
   }
 
   public boolean aplicarFiltro(Hecho hecho) {

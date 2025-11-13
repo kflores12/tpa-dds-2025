@@ -13,6 +13,11 @@ public class CriterioFechaCarga extends Criterio {
   LocalDate fechaCarga;
 
   public CriterioFechaCarga() {
+    this.fechaCarga = LocalDate.now();
+  }
+
+  public void setFechaCarga(LocalDate fechaCarga) {
+    this.fechaCarga = fechaCarga;
   }
 
   @Override

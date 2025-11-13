@@ -25,6 +25,8 @@ import ar.edu.utn.frba.dds.repositories.RepositorioSolicitudesDeCarga;
 import ar.edu.utn.frba.dds.server.AppRole;
 import ar.edu.utn.frba.dds.service.ServicioAutenticacion;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,18 +123,21 @@ public class Bootstrap implements WithSimplePersistenceUnit {
       CriterioCategoria criterioCategoria = new CriterioCategoria();
       CriterioDescripcion criterioDescripcion = new CriterioDescripcion();
       CriterioFecha criterioFecha = new CriterioFecha();
+      criterioFecha.setFechaAcontecimiento(LocalDate.now());
       repositorioCriterios.cargarCriterio(criterioCategoria);
       repositorioCriterios.cargarCriterio(criterioDescripcion);
       repositorioCriterios.cargarCriterio(criterioFecha);
       CriterioFechaCarga criterioFechaCarga = new CriterioFechaCarga();
+      criterioFechaCarga.setFechaCarga(LocalDate.now());
       CriterioRangoFechas criterioRangoFechas = new CriterioRangoFechas();
+      criterioRangoFechas.setDesde(LocalDate.now());
+      criterioRangoFechas.setHasta(LocalDate.now());
       CriterioUbicacion criterioUbicacion = new CriterioUbicacion();
       CriterioTitulo criterioTitulo = new CriterioTitulo();
       repositorioCriterios.cargarCriterio(criterioRangoFechas);
       repositorioCriterios.cargarCriterio(criterioUbicacion);
       repositorioCriterios.cargarCriterio(criterioTitulo);
       repositorioCriterios.cargarCriterio(criterioFechaCarga);
-
       EstadisticaCategoriaMaxima estadisticaCm = new EstadisticaCategoriaMaxima();
       EstadisticaCantidadSpam estadisticaCs = new EstadisticaCantidadSpam();
       EstadisticaProvMaxHechosCategoria estadisticaPmhcat = new EstadisticaProvMaxHechosCategoria();

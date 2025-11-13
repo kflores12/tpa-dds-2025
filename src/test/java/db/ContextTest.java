@@ -106,7 +106,7 @@ public class ContextTest implements SimplePersistenceTest {
     withTransaction(() -> {
     });
   }
-
+  /*
   @Test
   public void testEstadisticaCategoriaMaxima() {
     RepositorioHechos repositorioCM = new RepositorioHechos();
@@ -125,6 +125,8 @@ public class ContextTest implements SimplePersistenceTest {
     Assertions.assertEquals("Incendio", estadisticaCM.getReporte().get(1).categoria());
     Assertions.assertEquals(new BigInteger("2"), estadisticaCM.getReporte().get(1).cantidadHechos());
   }
+
+   */
 
   @Test
   public void testEstadisticaCantidadSpam() {

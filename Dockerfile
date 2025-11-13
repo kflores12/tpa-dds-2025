@@ -1,5 +1,14 @@
-FROM maven:3.8.1-openjdk-17
+# Imagen base con Java 17 estable
+FROM eclipse-temurin:17-jdk-jammy
 
-COPY target/tp-1.0-SNAPSHOT.jar app.jar
+# Directorio de trabajo dentro del contenedor
+WORKDIR /app
 
-ENTRYPOINT ["java" , "-jar" , "/app.jar"]
+# Copiar el .jar construido
+COPY target/main-app-jar-with-dependencies.jar app.jar
+
+# Exponer el puerto 9001
+EXPOSE 9001
+
+# Comando para ejecutar la app
+ENTRYPOINT ["java", "-jar", "app.jar"]

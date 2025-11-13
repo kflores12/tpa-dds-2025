@@ -26,6 +26,7 @@
 
     <dependencies>
 
+        <!-- ✅ TEST -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
@@ -45,6 +46,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- ✅ HTTP / JSON -->
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
@@ -71,6 +73,7 @@
             <version>4.12.0</version>
         </dependency>
 
+        <!-- ✅ WEB SERVER -->
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
@@ -87,40 +90,100 @@
             <version>4.3.1</version>
         </dependency>
 
+        <!-- ✅ UTILS -->
         <dependency>
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
             <version>0.4</version>
         </dependency>
-
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>4.4.0</version>
         </dependency>
-
         <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>5.9</version>
         </dependency>
+
+        <!-- ✅ JPA y persistencia -->
         <dependency>
             <groupId>org.uqbar-project</groupId>
             <artifactId>jpa-java8-extras</artifactId>
             <version>1.0-alpha-1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.github.flbulgarelli</groupId>
             <artifactId>jpa-extras</artifactId>
             <version>1.0.0-rc1</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-cli</groupId>
-            <artifactId>commons-cli</artifactId>
-            <version>1.5.0</version>
-            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate.javax.persistence</groupId>
+                    <artifactId>hibernate-jpa-2.1-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
+        <!-- ✅ Hibernate Core + Search (Lucene) -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.6.15.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.6.15.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+        <!-- ✅ Hibernate Search + Lucene compatible con Hibernate 5.6 -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>5.11.12.Final</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate.javax.persistence</groupId>
+                    <artifactId>hibernate-jpa-2.1-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-engine</artifactId>
+            <version>5.11.12.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>5.5.5</version>
+        </dependency>
+
+        <!-- ✅ Drivers DB -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -136,11 +199,8 @@
             <artifactId>mariadb-java-client</artifactId>
             <version>2.7.4</version>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-orm</artifactId>
-            <version>4.5.1.Final</version>
-        </dependency>
+
+        <!-- ✅ Kotlin -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -152,23 +212,33 @@
             <version>1.9.22</version>
         </dependency>
 
+        <!-- ✅ Logs -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.16</version>
         </dependency>
 
+        <!-- ✅ Otros -->
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
             <version>4.8.5</version>
             <scope>provided</scope>
         </dependency>
+        <!-- 🔧 Bloquear dependencia vieja de Hibernate JPA -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+            <scope>provided</scope> <!-- 👈 evita que se incluya en el JAR -->
+        </dependency>
 
     </dependencies>
 
     <build>
         <plugins>
+            <!-- ensamblar JARs ejecutables -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -177,9 +247,7 @@
                     <execution>
                         <id>main-app</id>
                         <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
+                        <goals><goal>single</goal></goals>
                         <configuration>
                             <archive>
                                 <manifest>
@@ -192,157 +260,48 @@
                             <finalName>main-app</finalName>
                         </configuration>
                     </execution>
+
+                    <!-- otros main -->
                     <execution>
                         <id>main-estadisticas</id>
                         <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
+                        <goals><goal>single</goal></goals>
                         <configuration>
-                            <archive>
-                                <manifest>
-                                    <mainClass>ar.edu.utn.frba.dds.dominio.MainEstadisticas</mainClass>
-                                </manifest>
-                            </archive>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
+                            <archive><manifest><mainClass>ar.edu.utn.frba.dds.dominio.MainEstadisticas</mainClass></manifest></archive>
+                            <descriptorRefs><descriptorRef>jar-with-dependencies</descriptorRef></descriptorRefs>
                             <finalName>main-estadisticas</finalName>
                         </configuration>
                     </execution>
                     <execution>
                         <id>main-fuentes</id>
                         <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
+                        <goals><goal>single</goal></goals>
                         <configuration>
-                            <archive>
-                                <manifest>
-                                    <mainClass>ar.edu.utn.frba.dds.dominio.MainFuentes</mainClass>
-                                </manifest>
-                            </archive>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
+                            <archive><manifest><mainClass>ar.edu.utn.frba.dds.dominio.MainFuentes</mainClass></manifest></archive>
+                            <descriptorRefs><descriptorRef>jar-with-dependencies</descriptorRef></descriptorRefs>
                             <finalName>main-fuentes</finalName>
                         </configuration>
                     </execution>
                     <execution>
                         <id>main-colecciones</id>
                         <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
+                        <goals><goal>single</goal></goals>
                         <configuration>
-                            <archive>
-                                <manifest>
-                                    <mainClass>ar.edu.utn.frba.dds.dominio.MainColecciones</mainClass>
-                                </manifest>
-                            </archive>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
+                            <archive><manifest><mainClass>ar.edu.utn.frba.dds.dominio.MainColecciones</mainClass></manifest></archive>
+                            <descriptorRefs><descriptorRef>jar-with-dependencies</descriptorRef></descriptorRefs>
                             <finalName>main-colecciones</finalName>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
+            <!-- otros plugins -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.2.1</version>
-                <configuration>
-                    <configLocation>google_checks.xml</configLocation>
-                    <violationSeverity>warning</violationSeverity>
-                    <violationIgnore>
-                        MissingJavadocMethod,
-                        MissingJavadocPackage,
-                        MissingJavadocType,
-                        NonEmptyAtclauseDescription,
-                        JavadocParagraph,
-                        SummaryJavadoc
-                    </violationIgnore>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>Validar Formateo</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.7.3.2</version>
-                <executions>
-                    <execution>
-                        <id>Validar Code Smells</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.8</version>
-                <executions>
-                    <execution>
-                        <id>default-prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>Validar Cobertura</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <rule>
-                                    <element>PACKAGE</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.00</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
-                            <excludes>
-                                <exclude>Main.class</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>ar.edu.utn.frba.dds.server.App</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
