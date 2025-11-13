@@ -1,12 +1,7 @@
 package ar.edu.utn.frba.dds.model.estadistica;
 
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.groupingBy;
-
 import ar.edu.utn.frba.dds.model.entities.Hecho;
 import com.opencsv.CSVWriter;
-import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,113 +9,129 @@ import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class EstadisticaHoraHechosCategoria implements Estadistica, WithSimplePersistenceUnit {
+public class EstadisticaHoraHechosCategoria implements Estadistica {
 
-  List<EstadisticaHoraHechosCategoria.Categoriahorapicodto> reporte =
-      new ArrayList<EstadisticaHoraHechosCategoria.Categoriahorapicodto>();
+  /** Mapa de conteo: categoría -> (hora -> cantidad de hechos) */
+  private final Map<String, Map<Integer, Long>> conteoPorCategoriaYhora = new ConcurrentHashMap<>();
 
-  public record Categoriahorapicodto(String categoria, String horapico, BigInteger cantidad) {}
+  /** Resultado precomputado: categoría -> DTO con hora pico actual */
+  private final Map<String, CategoriaHoraPicoDto> horaPicoPorCategoria = new ConcurrentHashMap<>();
+
+  /** DTO equivalente al record anterior */
+  public record CategoriaHoraPicoDto(String categoria, String horapico, BigInteger cantidad) {}
+
+  // ============================
+  // Métodos públicos del contrato
+  // ============================
 
   @Override
-  public void calcularEstadistica() {
-
-    List<Object[]> listaDto = entityManager()
-        .createNativeQuery("SELECT subq.categoria, subq.fechaAcontecimiento as hora_pico, "
-            +
-            "subq.cantidad\n"
-            +
-            "FROM (\n"
-            +
-            "SELECT\n"
-            +
-            "h.categoria,\n"
-            +
-            "'hora pico' as fechaAcontecimiento,\n"
-            +
-            "COUNT(*) AS cantidad \n"
-            +
-            "FROM hechos h\n"
-            +
-            "GROUP BY h.categoria, h.fechaAcontecimiento\n"
-            +
-            ") subq\n"
-            +
-            "LEFT JOIN (\n"
-            +
-            "SELECT\n"
-            +
-            "h.categoria,\n"
-            +
-            "'hora pico' as fechaAcontecimiento,\n"
-            +
-            "COUNT(*) AS cantidad \n"
-            +
-            "FROM hechos h\n"
-            +
-            "GROUP BY h.categoria, h.fechaAcontecimiento\n"
-            +
-            ") subq2\n"
-            +
-            "ON subq.categoria = subq2.categoria\n"
-            +
-            "AND subq2.cantidad > subq.cantidad\n"
-            +
-            "WHERE subq2.categoria IS NULL;"
-        )
-        .getResultList();
-
-    reporte.clear();
-
-    for (Object[] r : listaDto) {
-      String categoria = (String) r[0];
-      String horapico  = (String) r[1];
-      BigInteger cantidad  = (BigInteger) r[2];
-      reporte.add(new EstadisticaHoraHechosCategoria.Categoriahorapicodto(
-          categoria,
-          horapico,
-          cantidad));
-    }
-
-    reporte.forEach(dto -> System.out.printf(
-        "Categoria: %s | Hora: %s | Cantidad: %d%n",
-        dto.categoria(),
-        dto.horapico(),
-        dto.cantidad()));
+  public synchronized void calcularEstadistica() {
+    System.out.println("📊 Estadística de hora pico (en memoria):");
+    horaPicoPorCategoria.values().forEach(dto ->
+        System.out.printf("Categoría: %-20s | Hora pico: %s | Cantidad: %d%n",
+            dto.categoria(), dto.horapico(), dto.cantidad())
+    );
   }
 
-
   @Override
-  public void exportarEstadistica(String path) throws IOException {
+  public synchronized void exportarEstadistica(String path) throws IOException {
     File file = new File(path);
 
     if (file.exists()) {
       boolean eliminado = file.delete();
+      if (!eliminado) {
+        System.err.println("⚠️ No se pudo eliminar el archivo existente: " + path);
+      }
     }
+
     try (CSVWriter writer = new CSVWriter(
         new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8))) {
-      String[] header = {"Fecha", "Categoria", "HoraPico", "Cantidad"};
 
-      if (file.length() == 0) {
-        writer.writeNext(header);
+      writer.writeNext(new String[]{"FechaExportacion", "Categoria", "HoraPico", "Cantidad"});
+
+      for (CategoriaHoraPicoDto dto : horaPicoPorCategoria.values()) {
+        writer.writeNext(new String[]{
+            LocalDateTime.now().toString(),
+            dto.categoria(),
+            dto.horapico(),
+            dto.cantidad().toString()
+        });
       }
-
-      reporte.forEach(dto ->
-          writer.writeNext(new String[]{LocalDateTime.now().toString(),
-              dto.categoria() != null ? dto.categoria() : "N/A",
-              dto.horapico != null ? dto.horapico() : "N/A"}));
-
-
     }
-
   }
 
-  public List<Categoriahorapicodto> getReporte() {
-    return new ArrayList<>(reporte);
+  // ============================
+  // Métodos adicionales para integración
+  // ============================
+
+  /** Llamar a este método cuando se crea un nuevo Hecho */
+  public synchronized void registrarHecho(Hecho hecho) {
+    if (hecho == null || hecho.getCategoria() == null || hecho.getFechaAcontecimiento() == null) {
+      return;
+    }
+
+    String categoria = hecho.getCategoria();
+    int hora = hecho.getFechaAcontecimiento().getHour();
+
+    conteoPorCategoriaYhora
+        .computeIfAbsent(categoria, c -> new ConcurrentHashMap<>())
+        .merge(hora, 1L, Long::sum);
+
+    recalcularHoraPico(categoria);
+  }
+
+  /** Llamar cuando se elimina un Hecho */
+  public synchronized void eliminarHecho(Hecho hecho) {
+    if (hecho == null || hecho.getCategoria() == null || hecho.getFechaAcontecimiento() == null) {
+      return;
+    }
+
+    String categoria = hecho.getCategoria();
+    int hora = hecho.getFechaAcontecimiento().getHour();
+
+    Map<Integer, Long> conteoHoras = conteoPorCategoriaYhora.get(categoria);
+    if (conteoHoras == null) {
+      return;
+    }
+
+    conteoHoras.computeIfPresent(hora, (h, count) -> (count > 1) ? count - 1 : null);
+    if (conteoHoras.isEmpty()) {
+      conteoPorCategoriaYhora.remove(categoria);
+      horaPicoPorCategoria.remove(categoria);
+    } else {
+      recalcularHoraPico(categoria);
+    }
+  }
+
+  /** Retorna una copia inmutable del reporte actual */
+  public synchronized List<CategoriaHoraPicoDto> getReporte() {
+    return new ArrayList<>(horaPicoPorCategoria.values());
+  }
+
+  // ============================
+  // Métodos internos
+  // ============================
+
+  private void recalcularHoraPico(String categoria) {
+    Map<Integer, Long> conteoHoras = conteoPorCategoriaYhora.get(categoria);
+    if (conteoHoras == null || conteoHoras.isEmpty()) {
+      return;
+    }
+
+    Map.Entry<Integer, Long> max = conteoHoras.entrySet().stream()
+        .max(Map.Entry.comparingByValue())
+        .orElseThrow();
+
+    horaPicoPorCategoria.put(categoria,
+        new CategoriaHoraPicoDto(
+            categoria,
+            String.format("%02d:00", max.getKey()),
+            BigInteger.valueOf(max.getValue()))
+    );
   }
 }

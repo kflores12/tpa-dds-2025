@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.model.entities.Hecho;
 import ar.edu.utn.frba.dds.model.entities.criterios.Criterio;
 import ar.edu.utn.frba.dds.model.entities.criterios.CriterioBase;
 import ar.edu.utn.frba.dds.model.entities.fuentes.*;
+import ar.edu.utn.frba.dds.model.estadistica.*;
 import ar.edu.utn.frba.dds.repositories.RepositorioFuentes;
 import ar.edu.utn.frba.dds.repositories.RepositorioHechos;
 import ar.edu.utn.frba.dds.repositories.RepositorioSolicitudesDeCarga;
@@ -60,6 +61,13 @@ public class TestAgregador implements SimplePersistenceTest {
 
   @BeforeEach
   public void setUp() throws Exception {
+    List<Estadistica> estadisticas = new ArrayList<>();
+    estadisticas.add(new EstadisticaCategoriaMaxima());
+    estadisticas.add(new EstadisticaCantidadSpam());
+    estadisticas.add(new EstadisticaProvMaxHechosCategoria());
+    estadisticas.add(new EstadisticaProvMaxHechosColeccion());
+    estadisticas.add(new EstadisticaHoraHechosCategoria());
+    ComponenteEstadistico.inicializar(estadisticas);
     //CRITERIOS
     cBase = new CriterioBase();
     criterios = new ArrayList<>(Arrays.asList(cBase));
@@ -98,6 +106,7 @@ public class TestAgregador implements SimplePersistenceTest {
         21.2,
         12.8,
         LocalDateTime.of(2025, 1, 1,00,00),
+        LocalDateTime.now(),
         "", Boolean.TRUE);
 
 

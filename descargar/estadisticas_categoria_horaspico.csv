@@ -1,4 +1,2 @@
-"Fecha","Categoria","HoraPico","Cantidad"
-"2025-11-12T03:09:05.221463300","Incendio","hora pico"
-"2025-11-12T03:09:05.221463300","Accidente Vial","hora pico"
-"2025-11-12T03:09:05.221463300","Contaminación","hora pico"
+"FechaExportacion","Categoria","HoraPico","Cantidad"
+"2025-11-12T22:05:32.641978","abc","22:00","1"

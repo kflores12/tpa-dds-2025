@@ -4,21 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ComponenteEstadistico {
-  public static final ComponenteEstadistico INSTANCE = new ComponenteEstadistico();
+  private static ComponenteEstadistico INSTANCE;
 
-  public EstadisticaCantidadSpam estadisticaSpam = new EstadisticaCantidadSpam();
-  public EstadisticaHoraHechosCategoria estadisticaHhc = new EstadisticaHoraHechosCategoria();
-  public EstadisticaCategoriaMaxima estadisticaCm = new EstadisticaCategoriaMaxima();
-  public EstadisticaProvMaxHechosCategoria estadisticaPmhCat =
-      new EstadisticaProvMaxHechosCategoria();
-  public EstadisticaProvMaxHechosColeccion estadisticaPmhCol =
-      new EstadisticaProvMaxHechosColeccion();
+  private List<Estadistica> estadisticas = new ArrayList<>();
 
-  public List<Estadistica> estadisticas = new ArrayList<>(List.of(
-      estadisticaSpam, estadisticaHhc, estadisticaCm, estadisticaPmhCat, estadisticaPmhCol
-  ));
+  // 🔸 Constructor privado para control de singleton
+  private ComponenteEstadistico(List<Estadistica> estadisticas) {
+    this.estadisticas = new ArrayList<>(estadisticas);
+  }
 
+  /** 🔹 Inicializa la instancia global una sola vez */
+  public static void inicializar(List<Estadistica> estadisticas) {
+    if (INSTANCE == null) {
+      INSTANCE = new ComponenteEstadistico(estadisticas);
+    }
+  }
+
+  /** 🔹 Acceso global al componente */
   public static ComponenteEstadistico getInstance() {
+    if (INSTANCE == null) {
+      throw new IllegalStateException("ComponenteEstadistico no fue inicializado.");
+    }
     return INSTANCE;
   }
 
@@ -30,27 +36,11 @@ public class ComponenteEstadistico {
     return new ArrayList<>(estadisticas);
   }
 
-  public void setEstadisticas(List<Estadistica> estadisticas) {
-    this.estadisticas = estadisticas;
-  }
-
-  public EstadisticaCantidadSpam getEstadisticaSpam() {
-    return estadisticaSpam;
-  }
-
-  public EstadisticaHoraHechosCategoria getEstadisticaHhc() {
-    return estadisticaHhc;
-  }
-
-  public EstadisticaCategoriaMaxima getEstadisticaCm() {
-    return estadisticaCm;
-  }
-
-  public EstadisticaProvMaxHechosCategoria getEstadisticaPmhCat() {
-    return estadisticaPmhCat;
-  }
-
-  public EstadisticaProvMaxHechosColeccion getEstadisticaPmhCol() {
-    return estadisticaPmhCol;
+  public <T extends Estadistica> T getEstadistica(Class<T> tipo) {
+    return estadisticas.stream()
+        .filter(tipo::isInstance)
+        .map(tipo::cast)
+        .findFirst()
+        .orElse(null);
   }
 }

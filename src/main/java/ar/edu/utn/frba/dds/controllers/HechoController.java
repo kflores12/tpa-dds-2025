@@ -104,6 +104,7 @@ public class HechoController implements WithSimplePersistenceUnit {
           latitud,
           longitud,
           fechaAcontecimiento,
+          LocalDateTime.now(),
           multimediaUrl,
           esRegistrado
       );

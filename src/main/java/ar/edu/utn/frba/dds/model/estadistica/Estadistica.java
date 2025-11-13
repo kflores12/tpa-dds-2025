@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.model.estadistica;
 
-
 import java.io.IOException;
 
 public interface Estadistica {

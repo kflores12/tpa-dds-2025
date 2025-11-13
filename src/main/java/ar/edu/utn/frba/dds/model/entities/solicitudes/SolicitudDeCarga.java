@@ -2,6 +2,8 @@ package ar.edu.utn.frba.dds.model.entities.solicitudes;
 
 import ar.edu.utn.frba.dds.model.entities.Hecho;
 import ar.edu.utn.frba.dds.model.entities.fuentes.TipoFuente;
+import ar.edu.utn.frba.dds.model.estadistica.ComponenteEstadistico;
+import ar.edu.utn.frba.dds.model.estadistica.EstadisticaHoraHechosCategoria;
 import ar.edu.utn.frba.dds.repositories.RepositorioHechos;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -60,6 +62,7 @@ public class SolicitudDeCarga {
                           Double latitud,
                           Double longitud,
                           LocalDateTime fechaAcontecimiento,
+                          LocalDateTime fechaCargaOriginal,
                           String multimedia,
                           boolean registerBoolean) {
     this.hechoCreado = null;
@@ -69,6 +72,7 @@ public class SolicitudDeCarga {
     this.latitud = latitud;
     this.longitud = longitud;
     this.fechaAcontecimiento = fechaAcontecimiento;
+    this.fechaCargaOriginal = fechaCargaOriginal;
     this.origen = TipoFuente.DINAMICA;
     this.multimedia = multimedia;
     this.registrado = registerBoolean;
@@ -169,6 +173,11 @@ public class SolicitudDeCarga {
 
     RepositorioHechos repo = RepositorioHechos.getInstance();
     repo.cargarHecho(this.hechoCreado);
+    ComponenteEstadistico.getInstance()
+        .getEstadistica(EstadisticaHoraHechosCategoria.class)
+        .registrarHecho(hechoCreado);
+
+
   }
 
   public void rechazar() {
