@@ -11,7 +11,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.nar
 *.ear
@@ -30,6 +30,7 @@ target/generated-test-sources
 target/maven-archiver
 target/maven-archiver
 target/surefire-reports
+target/test-classes
 
 # IJ files
 *.iml
