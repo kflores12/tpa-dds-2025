@@ -8,7 +8,7 @@ RUN mvn dependency:go-offline
 COPY src/ /app/src/
 RUN mvn clean package -DskipTests
 
-FROM openjdk:8-jre-slim
+FROM openjdk:8-jre-alpine
 
 
 WORKDIR /app
