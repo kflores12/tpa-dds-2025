@@ -31,7 +31,7 @@ target/maven-archiver
 target/maven-archiver
 target/surefire-reports
 target/test-classes
-
+*/
 # IJ files
 *.iml
 .idea/**
@@ -39,3 +39,6 @@ target/test-classes
 # Excluir carpetas indexes
 indexes/
 **/indexes/
+
+
+target/
